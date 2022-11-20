@@ -19,8 +19,8 @@ class SupplierAuthenticate
 
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('suppiler')->guest()) {
-            return redirect(route('suppiler-login'));
+        if (Auth::guard('supplier')->guest()) {
+            return redirect(route('supplier-login'));
         }
         $response = $next($request);
         $response->headers->set('Access-Control-Allow-Origin' , '*');

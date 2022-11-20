@@ -1,0 +1,8 @@
+div.error {
+	color: red;
+	font-size: 14px;
+	margin: 3px 5px;
+}
+.ck-editor__editable {
+	min-height: 200px !important;
+}
