@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $nav = '';
+        $nav = 'dashboard';
         $sub_nav = '';
         $data['page_title'] = 'Dashboard';
         return view('admin.dashboard.index', compact('nav', 'sub_nav'), $data);

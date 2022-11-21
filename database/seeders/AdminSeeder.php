@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
     {
         if (Admin::where('email', 'info@qalaqs.ae')->doesntExist()) {
             $admin = new Admin;
-            $admin->name = 'Aalaqs Admin';
+            $admin->name = 'Qalaqs Admin';
             $admin->email = 'info@qalaqs.ae';
             $admin->username = 'admin';
             $admin->password = Hash::make('admin@12345');
