@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('verification_code')->unique();
             $table->boolean('email_verified')->default(0)->comment('0 = not verified, 1 = verified');
             $table->boolean('status')->default(1)->comment('0 = inactive, 1 = active');
+            $table->enum('user_type', ['N', 'T'])->default('N')->comment('N = Normal, T = Trader');
             $table->rememberToken();
             $table->timestamps();
         });

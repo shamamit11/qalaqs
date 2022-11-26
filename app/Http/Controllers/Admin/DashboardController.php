@@ -10,7 +10,7 @@ class DashboardController extends Controller
     {
         $nav = 'dashboard';
         $sub_nav = '';
-        $data['page_title'] = 'Dashboard';
-        return view('admin.dashboard.index', compact('nav', 'sub_nav'), $data);
+        $page_title = 'Dashboard';
+        return view('admin.dashboard.index', compact('nav', 'sub_nav', 'page_title'));
     }
 }

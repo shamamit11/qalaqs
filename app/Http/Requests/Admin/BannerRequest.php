@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Requests\Admin;
-use App\Http\Requests\WebRequest;
+use App\Http\Requests\ApiRequest;
 
-class BannerRequest extends WebRequest
+class BannerRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,10 @@ class BannerRequest extends WebRequest
     public function rules()
     {
         return [
-            'id' => 'integer|nullable',
+            'id' => 'numeric|nullable',
             'name' => 'required',
-            'sub_title' => '',
-            'description' => '',
-            'image' => 'image|mimes:jpeg,png,jpg',
-            'old_image' => '',
-            'website' => 'url|nullable',
-            'orders' => 'integer',
+            'image' => 'nullable',
+            'order' => 'required|numeric',
             'status' => 'nullable',
         ];
     }
