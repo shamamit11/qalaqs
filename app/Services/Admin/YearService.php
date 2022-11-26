@@ -1,6 +1,8 @@
 <?php
 namespace App\Services\Admin;
 
+use App\Models\ProductMake;
+use App\Models\ProductModel;
 use App\Models\ProductYear;
 
 class YearService
@@ -8,9 +10,18 @@ class YearService
     function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = ProductYear::select('*');
+            $query = ProductYear::select('*')->with('make')->with('model');
             if ($q) {
-                $query->where('name', 'LIKE', '%' . $q . '%');
+                $search_key = $q;
+                $query->where(function ($qry) use ($search_key) {
+                    $qry->where('name', 'LIKE', '%' . $search_key . '%');
+                    $qry->orWhereHas('make', function ($qry1) use ($search_key) {
+                        $qry1->where('name', 'LIKE', '%' . $search_key . '%');
+                    });
+                    $qry->orWhereHas('model', function ($qry2) use ($search_key) {
+                        $qry2->where('name', 'LIKE', '%' . $search_key . '%');
+                    });
+                });
             }
             $data['years'] = $query->orderBy('name', 'asc')->paginate($per_page);
             $data['years']->appends(array('q' => $q));
@@ -57,6 +68,8 @@ class YearService
                 $message = "Data added";
             }
             $year->name = $request['name'];
+            $year->prouct_make_id = $request['make_id'];
+            $year->prouct_model_id = $request['model_id'];
             $year->status = isset($request['status']) ? 1 : 0;
             $year->save();
             $response['message'] = $message;

@@ -4,13 +4,14 @@ namespace App\Services\Admin;
 use App\Models\ProductEngine;
 use App\Models\ProductMake;
 use App\Models\ProductModel;
+use App\Models\ProductYear;
 
 class EngineService
 {
     function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = ProductEngine::select('*')->with('make')->with('model');
+            $query = ProductEngine::select('*')->with('make')->with('model')->with('year');
             if ($q) {
                 $search_key = $q;
                 $query->where(function ($qry) use ($search_key) {
@@ -21,9 +22,12 @@ class EngineService
                     $qry->orWhereHas('model', function ($qry2) use ($search_key) {
                         $qry2->where('name', 'LIKE', '%' . $search_key . '%');
                     });
+                    $qry->orWhereHas('year', function ($qry3) use ($search_key) {
+                        $qry3->where('name', 'LIKE', '%' . $search_key . '%');
+                    });
                 });
             }
-            $data['engines'] = $query->orderBy('prouct_make_id', 'asc')->orderBy('prouct_model_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
+            $data['engines'] = $query->orderBy('prouct_make_id', 'asc')->orderBy('prouct_model_id', 'asc')->orderBy('prouct_year_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
             $data['engines']->appends(array('q' => $q));
             if ($page != 1) {
                 $data['total_data'] = $data['engines']->total();
@@ -69,6 +73,8 @@ class EngineService
             }
             $engine->prouct_make_id = $request['make_id'];
             $engine->prouct_model_id = $request['model_id'];
+            $engine->prouct_make_id = $request['make_id'];
+            $engine->prouct_year_id = $request['year_id'];
             $engine->name = $request['name'];
             $engine->status = isset($request['status']) ? 1 : 0;
             $engine->save();

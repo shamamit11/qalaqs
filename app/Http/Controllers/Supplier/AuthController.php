@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Supplier\AuthRequest;
 use App\Http\Requests\Supplier\RegisterRequest;
 use App\Http\Requests\Supplier\VerifyRequest;
-use App\Models\Country;
 use App\Services\Supplier\AuthService;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\Country;
 
 class AuthController extends Controller
 {

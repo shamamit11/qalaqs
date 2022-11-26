@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductEngine;
 use App\Models\ProductMake;
 use App\Models\ProductModel;
+use App\Models\ProductYear;
 
 class EngineController extends Controller
 {
@@ -47,6 +48,7 @@ class EngineController extends Controller
         $data['action'] = route('admin-engine-addaction');
         $data['makes'] = ProductMake::where('status', 1)->orderBy('name', 'asc')->get();
         $data['models'] = ProductModel::where('status', 1)->orderBy('name', 'asc')->get();
+        $data['years'] = ProductYear::where('status', 1)->orderBy('name', 'asc')->get();
         $data['row'] = ProductEngine::where('id', $id)->first();
         return view('admin.engine.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }

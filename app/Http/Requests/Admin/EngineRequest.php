@@ -26,6 +26,7 @@ class EngineRequest extends ApiRequest
             'id' => 'numeric|nullable',
             'make_id' => 'required|exists:product_makes,id',
             'model_id' => 'required|exists:product_models,id',
+            'year_id' => 'required|exists:product_years,id',
             'name' => 'required',
             'status' => 'nullable',
         ];

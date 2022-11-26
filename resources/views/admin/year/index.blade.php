@@ -29,6 +29,8 @@
                                         <tr>
                                             <th width="50">#</th>
                                             <th>Year</th>
+                                            <th>Make</th>
+                                            <th>Model</th> 
                                             <th width="200">Status</th>
                                             <th style="text-align:center" width="120">Action</th>
                                         </tr>
@@ -38,6 +40,8 @@
                                         <tr id="tr{{ $year->id }}">
                                             <td>{{ $count++ }}</td>
                                             <td>{{ $year->name }}</td>
+                                            <td>{{ $year->make->name }}</td>
+                                            <td>{{ $year->model->name }}</td>
                                             <td><label class="switch" style="margin: 0 auto">
                                                     <input class="switch-input switch-status" type="checkbox"
                                                         data-id="{{ $year->id }}"

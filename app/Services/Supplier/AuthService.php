@@ -1,10 +1,11 @@
 <?php
-namespace App\Services\supplier;
+namespace App\Services\Supplier;
 
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Mail;
+
 
 class AuthService
 {

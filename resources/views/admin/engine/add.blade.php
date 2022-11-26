@@ -12,7 +12,6 @@
                                     @csrf
                                     <input type="hidden" class="form-control" name="id"
                                         value="{{ isset($row->id)? $row->id : '' }}">
-
                                         <div class="mb-3">
                                         <label class="form-label">Make Name</label>
                                         <select name="make_id" id="make_id" class="select2 form-control">
@@ -36,6 +35,18 @@
                                             @endif
                                         </select>
                                         <div class="error" id='error_model_id'></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Year</label>
+                                        <select name="year_id" id="year_id"  class="select2 form-control">
+                                            @if ($years->count() > 0)
+                                            @foreach ($years as $year)
+                                            <option value="{{ $year->id }}"  data-chained="{{ $year->prouct_model_id }}" @if (@$row->prouct_year_id ==
+                                                $year->id) selected @endif>{{ $year->name }}</option>
+                                            @endforeach
+                                            @endif
+                                        </select>
+                                        <div class="error" id='error_year_id'></div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label"> Engine</label>
@@ -63,7 +74,7 @@
     </div>
     @endsection
     @section('footer-scripts')
-    <script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script> 
     <script src="{{ asset('assets/admin/js/engine/add.js') }}"></script>
 
     @endsection

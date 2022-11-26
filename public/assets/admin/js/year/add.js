@@ -1,5 +1,7 @@
 
 $(document).ready(function () {
+    $('.select2').select2();
+    $("#model_id").chained("#make_id");
     $("#form").submit(function (e) {
         e.preventDefault();
         $('.btn-loading').prop('disabled', true)

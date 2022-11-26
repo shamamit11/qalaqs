@@ -30,7 +30,8 @@
                                             <th width="50">#</th>
                                             <th>Engine</th>
                                             <th>Make</th>
-                                            <th>Model</th>
+                                            <th>Model</th> 
+                                            <th>Year</th> 
                                             <th width="200">Status</th>
                                             <th style="text-align:center" width="120">Action</th>
                                         </tr>
@@ -42,6 +43,7 @@
                                             <td>{{ $engine->name }}</td>
                                             <td>{{ $engine->make->name }}</td>
                                             <td>{{ $engine->model->name }}</td>
+                                            <td>{{ $engine->year->name }}</td>
                                             <td><label class="switch" style="margin: 0 auto">
                                                     <input class="switch-input switch-status" type="checkbox"
                                                         data-id="{{ $engine->id }}"

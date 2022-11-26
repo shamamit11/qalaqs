@@ -17,12 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('prouct_make_id')->nullable();
             $table->unsignedBigInteger('prouct_model_id')->nullable();
+            $table->unsignedBigInteger('prouct_year_id')->nullable();
             $table->string('name')->nullable();
             $table->boolean('status')->nullable()->default(1)->comment('0 = hide, 1 = show');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('prouct_make_id')->references('id')->on('product_makes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('prouct_model_id')->references('id')->on('product_models')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('prouct_year_id')->references('id')->on('product_years')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

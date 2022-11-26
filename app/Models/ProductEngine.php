@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductEngine extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['prouct_make_id', 'prouct_model_id', 'name', 'status'];
+    protected $fillable = ['prouct_make_id', 'prouct_model_id', 'product_year_id', 'name', 'status'];
 
     public function make()
     {
@@ -19,5 +19,10 @@ class ProductEngine extends Model
     public function model()
     {
         return $this->belongsTo(ProductModel::class, 'prouct_model_id', 'id');
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(ProductYear::class, 'prouct_year_id', 'id');
     }
 }
