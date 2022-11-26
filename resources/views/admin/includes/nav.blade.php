@@ -12,12 +12,12 @@
                 </li>
 
                 <li class="menu-title mt-2">Sales</li>
-                <li> <a href="apps-calendar.html"> <i class="mdi mdi-cart"></i> <span> Orders </span> </a> </li>
-                <li> <a href="apps-calendar.html"> <i class="mdi mdi-autorenew"></i> <span> Returns </span> </a> </li>
+                <li> <a href="#"> <i class="mdi mdi-cart"></i> <span> Orders </span> </a> </li>
+                <li> <a href="#"> <i class="mdi mdi-autorenew"></i> <span> Returns </span> </a> </li>
 
                 <li class="menu-title mt-2">Products</li>
                 <li>
-                    <a href="apps-calendar.html"> <i class="mdi mdi-cube"></i>
+                    <a href="#"> <i class="mdi mdi-cube"></i>
                         <span class="badge bg-success rounded-pill float-end">9</span>
                         <span> Products </span>
                     </a>
@@ -78,11 +78,11 @@
                         <span> Suppliers </span>
                     </a>
                 </li>
-                <li> <a href="apps-calendar.html"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
+                <li> <a href="#"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
                     </a> </li>
 
                 <li class="menu-title mt-2">Customers</li>
-                <li> <a href="apps-calendar.html"> <i class="mdi mdi-account-group"></i> <span> Customers </span> </a>
+                <li> <a href="#"> <i class="mdi mdi-account-group"></i> <span> Customers </span> </a>
                 </li>
 
                 <li class="menu-title mt-2">App Configuration</li>
@@ -93,7 +93,7 @@
                     </a>
                 </li>
                 <li class="menu-title mt-2">General Configuration</li>
-                <li> <a href="apps-calendar.html"> <i class="mdi mdi-cogs"></i> <span> Site Settings </span> </a> </li>
+                <li> <a href="#"> <i class="mdi mdi-cogs"></i> <span> Site Settings </span> </a> </li>
 
             </ul>
         </div>
