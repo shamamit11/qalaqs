@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
        $this->call([
             AdminSeeder::class,
             CountriesSeeder::class,
+            ProductPartSeeder::class,  
+            ProductTypeSeeder::class,  
         ]);
     }
 }
