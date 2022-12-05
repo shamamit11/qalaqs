@@ -16,8 +16,8 @@
                 <li> <a href="#"> <i class="mdi mdi-autorenew"></i> <span> Returns </span> </a> </li>
 
                 <li class="menu-title mt-2">Products</li>
-                <li>
-                    <a href="#"> <i class="mdi mdi-cube"></i>
+                <li class="{{ $nav == 'product' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-product') }}" class="{{ $nav == 'product' ? 'active' : '' }}"> <i class="mdi mdi-cube"></i>
                         <span class="badge bg-success rounded-pill float-end">9</span>
                         <span> Products </span>
                     </a>

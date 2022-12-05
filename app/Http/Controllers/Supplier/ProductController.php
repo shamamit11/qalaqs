@@ -21,6 +21,7 @@ use App\Models\ProductModel;
 use App\Models\ProductPart;
 use App\Models\ProductSubCategory;
 use App\Models\ProductSpecification;
+use App\Models\ProductType;
 use App\Models\ProductYear;
 
 class ProductController extends Controller
@@ -63,6 +64,7 @@ class ProductController extends Controller
         $data['makes'] = ProductMake::where('status', 1)->orderBy('name', 'asc')->get();
         $data['models'] = ProductModel::where('status', 1)->orderBy('name', 'asc')->get();
         $data['parts'] = ProductPart::orderBy('name', 'asc')->get();
+        $data['product_types'] = ProductType::orderBy('name', 'asc')->get();
         $data['years'] = ProductYear::where('status', 1)->orderBy('name', 'asc')->get();
         $data['engines'] = ProductEngine::where('status', 1)->orderBy('name', 'asc')->get();
         $data['row'] = Product::where('id', $id)->first();

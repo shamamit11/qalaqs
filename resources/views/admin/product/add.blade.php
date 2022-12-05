@@ -129,21 +129,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                    <div class="col-md-3 col-sm-3 col-xs-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Product Type</label>
-                                                <select name="product_type" class="form-control">
-                                                    @if ($product_types->count() > 0)
-                                                    @foreach ($product_types as $product_type)
-                                                    <option value="{{ $product_type->name }}" @if (@$row->product_type ==
-                                                        $product_type->name) selected @endif>{{ $product_type->name }}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                                <div class="error" id='error_product_type'></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="col-md-4 col-sm-4 col-xs-4">
                                             <div class="mb-3">
                                                 <label class="form-label"> SKU</label>
                                                 <input type="text" class="form-control" name="sku"
@@ -151,7 +137,7 @@
                                                 <div class="error" id='error_sku'></div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-md-8 col-sm-8 col-xs-8">
                                             <div class="mb-3">
                                                 <label class="form-label"> Product Name</label>
                                                 <input type="text" class="form-control" name="name"

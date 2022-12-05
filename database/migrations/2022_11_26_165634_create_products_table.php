@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('warranty')->nullable();
             $table->decimal('price', 12, 2)->nullable();
             $table->boolean('status')->nullable()->default(1)->comment('0 = hide, 1 = show');
-            $table->boolean('admin_approved')->nullable()->default(1)->comment('0 = No, 1 = Yes');
+            $table->boolean('admin_approved')->nullable()->default(0)->comment('0 = No, 1 = Yes');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->cascadeOnUpdate()->cascadeOnDelete();

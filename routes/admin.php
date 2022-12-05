@@ -94,12 +94,18 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::get('/engine/add', 'addEdit')->name('admin-engine-add');
         Route::post('/engine/addaction', 'addAction')->name('admin-engine-addaction');
         Route::post('/engine/delete', 'delete')->name('admin-engine-delete');
-    });
+    }); 
 
     Route::controller('SupplierController')->group(function () {
         Route::get('/supplier', 'index')->name('admin-supplier');
         Route::post('/supplier/status', 'status')->name('admin-supplier-status');
         Route::post('/supplier/delete', 'delete')->name('admin-supplier-delete');
+    });
+
+    Route::controller('ProductController')->group(function () {
+        Route::get('/product', 'index')->name('admin-product');
+        Route::post('/product/status', 'status')->name('admin-product-status');
+        Route::post('/product/delete', 'delete')->name('admin-product-delete');
     });
 
 });

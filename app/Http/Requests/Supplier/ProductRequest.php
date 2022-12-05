@@ -28,6 +28,7 @@ class ProductRequest extends ApiRequest
             'sku' => 'required',
             'part_type' => 'required',
             'part_number' => 'required',
+            'product_type' => 'required',
             'manufacturer' => 'required',
             'name' => 'required',
             'image' => 'sometimes',

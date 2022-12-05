@@ -88,6 +88,7 @@ class ProductService
             $product->part_type = $request['part_type'];
             $product->part_number = $request['part_number'];
             $product->manufacturer = $request['manufacturer'];
+            $product->product_type = $request['product_type'];
             $product->name = $request['name'];
             $product->image = $image;
             $product->product_category_id = $request['category_id'];
