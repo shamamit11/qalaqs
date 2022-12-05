@@ -5,7 +5,7 @@ use App\Models\Supplier;
 
 class SupplierService
 {
-    function list($per_page, $page, $q) {
+    public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = Supplier::select('*');

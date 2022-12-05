@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class SubcategoryService
 {
     use StoreImageTrait;
-    function list($per_page, $page, $q) {
+    public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = ProductSubCategory::select('*')->with('category');

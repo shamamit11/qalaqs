@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class BannerService
 {
     use StoreImageTrait;
-    function list($per_page, $page, $q) {
+    public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = Banner::select('*');
@@ -64,7 +64,7 @@ class BannerService
                 $image = $this->StoreBase64Image($request['image'], '/banner/');
             } else {
                 $image = ($banner) ? $banner->image : '';
-            }
+            } 
             $banner->name = $request['name'];
             $banner->order = $request['order'];
             $banner->status = isset($request['status']) ? 1 : 0;

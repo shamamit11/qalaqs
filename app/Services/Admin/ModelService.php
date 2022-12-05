@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class ModelService
 {
     use StoreImageTrait;
-    function list($per_page, $page, $q) {
+    public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = ProductModel::select('*')->with('make');
@@ -22,7 +22,7 @@ class ModelService
                     });
                 });
             }
-            $data['models'] = $query->orderBy('prouct_make_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
+            $data['models'] = $query->orderBy('product_make_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
             $data['models']->appends(array('q' => $q));
             if ($page != 1) {
                 $data['total_data'] = $data['models']->total();
@@ -66,7 +66,7 @@ class ModelService
                 $model = new ProductModel;
                 $message = "Data added";
             }
-            $model->prouct_make_id = $request['make_id'];
+            $model->product_make_id = $request['make_id'];
             $model->name = $request['name'];
             $model->status = isset($request['status']) ? 1 : 0;
             $model->save();

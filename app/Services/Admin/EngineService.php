@@ -8,7 +8,7 @@ use App\Models\ProductYear;
 
 class EngineService
 {
-    function list($per_page, $page, $q) {
+    public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = ProductEngine::select('*')->with('make')->with('model')->with('year');
@@ -27,7 +27,7 @@ class EngineService
                     });
                 });
             }
-            $data['engines'] = $query->orderBy('prouct_make_id', 'asc')->orderBy('prouct_model_id', 'asc')->orderBy('prouct_year_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
+            $data['engines'] = $query->orderBy('product_make_id', 'asc')->orderBy('product_model_id', 'asc')->orderBy('product_year_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
             $data['engines']->appends(array('q' => $q));
             if ($page != 1) {
                 $data['total_data'] = $data['engines']->total();
@@ -71,10 +71,10 @@ class EngineService
                 $engine = new ProductEngine;
                 $message = "Data added";
             }
-            $engine->prouct_make_id = $request['make_id'];
-            $engine->prouct_model_id = $request['model_id'];
-            $engine->prouct_make_id = $request['make_id'];
-            $engine->prouct_year_id = $request['year_id'];
+            $engine->product_make_id = $request['make_id'];
+            $engine->product_model_id = $request['model_id'];
+            $engine->product_make_id = $request['make_id'];
+            $engine->product_year_id = $request['year_id'];
             $engine->name = $request['name'];
             $engine->status = isset($request['status']) ? 1 : 0;
             $engine->save();

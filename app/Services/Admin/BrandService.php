@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class BrandService
 {
     use StoreImageTrait;
-    function list($per_page, $page, $q) {
+    public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = ProductBrand::select('*');

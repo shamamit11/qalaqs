@@ -17,7 +17,7 @@
 
                 <li class="menu-title mt-2">Products</li>
                 <li>
-                    <a href="#"> <i class="mdi mdi-cube"></i>
+                    <a href="{{route('supplier-product')}}"> <i class="mdi mdi-cube"></i>
                         <span> Products </span>
                     </a>
                 </li>

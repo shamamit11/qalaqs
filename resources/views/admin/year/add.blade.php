@@ -17,7 +17,7 @@
                                         <select name="make_id" id="make_id" class="select2 form-control">
                                             @if ($makes->count() > 0)
                                             @foreach ($makes as $make)
-                                            <option value="{{ $make->id }}" @if (@$row->prouct_make_id ==
+                                            <option value="{{ $make->id }}" @if (@$row->product_make_id ==
                                                 $make->id) selected @endif>{{ $make->name }}</option>
                                             @endforeach
                                             @endif
@@ -29,7 +29,7 @@
                                         <select name="model_id" id="model_id"  class="select2 form-control">
                                             @if ($models->count() > 0)
                                             @foreach ($models as $model)
-                                            <option value="{{ $model->id }}"  data-chained="{{ $model->prouct_make_id }}" @if (@$row->prouct_model_id ==
+                                            <option value="{{ $model->id }}"  data-chained="{{ $model->product_make_id }}" @if (@$row->product_model_id ==
                                                 $model->id) selected @endif>{{ $model->name }}</option>
                                             @endforeach
                                             @endif

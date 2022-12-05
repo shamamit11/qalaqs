@@ -7,7 +7,7 @@ use App\Models\ProductYear;
 
 class YearService
 {
-    function list($per_page, $page, $q) {
+    public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = ProductYear::select('*')->with('make')->with('model');
@@ -68,8 +68,8 @@ class YearService
                 $message = "Data added";
             }
             $year->name = $request['name'];
-            $year->prouct_make_id = $request['make_id'];
-            $year->prouct_model_id = $request['model_id'];
+            $year->product_make_id = $request['make_id'];
+            $year->product_model_id = $request['model_id'];
             $year->status = isset($request['status']) ? 1 : 0;
             $year->save();
             $response['message'] = $message;

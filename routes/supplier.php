@@ -25,5 +25,24 @@ Route::post('verify-supplier', 'AuthController@verifySupplier')->name('verify-su
 
 Route::group(['middleware' => 'supplierauth'], function () {
 	Route::get('/', 'DashboardController@index')->name('supplier-dashboard');
-	Route::get('logout', 'AuthController@logout')->name('supplier-logout');;
+	Route::get('logout', 'AuthController@logout')->name('supplier-logout');
+
+	Route::controller('ProductController')->group(function () {
+        Route::get('/product', 'index')->name('supplier-product');
+        Route::post('/product/status', 'status')->name('supplier-product-status');
+        Route::get('/product/add', 'addEdit')->name('supplier-product-add');
+        Route::post('/product/addaction', 'addAction')->name('supplier-product-addaction');
+        Route::post('/product/imagedelete', 'imageDelete')->name('supplier-product-imagedelete');
+        Route::post('/product/delete', 'delete')->name('supplier-product-delete');
+        Route::post('/product/specification', 'specification')->name('supplier-product-specification');
+        Route::post('/product/addspecification', 'addSpecification')->name('supplier-product-addspecification');
+        Route::post('/product/match', 'match')->name('supplier-product-match');
+        Route::post('/product/addmatch', 'addMatch')->name('supplier-product-addmatch');
+        Route::post('/product/images', 'images')->name('supplier-product-images');
+        Route::post('/product/addimages', 'addImages')->name('supplier-product-addimages');
+        Route::post('/product/imagesdelete', 'imagesDelete')->name('supplier-product-imagesdelete');
+
+        
+    });
+
 });

@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductMatch extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['product_id', 'prouct_make_id', 'prouct_model_id', 'prouct_year_id', 'product_engine_id'];
+    protected $fillable = ['product_id', 'product_make_id', 'product_model_id', 'product_year_id', 'product_engine_id'];
 }

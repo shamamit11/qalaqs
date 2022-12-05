@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Supplier;
+
 use App\Http\Requests\ApiRequest;
 
-class BannerRequest extends ApiRequest
+class MatchRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +24,8 @@ class BannerRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
-            'name' => 'required',
-            'image' => 'sometimes',
-            'order' => 'required|numeric',
-            'status' => 'nullable',
+            'product_id' => 'numeric|required',
+            'engine_id' => 'required|exists:product_engines,id',
         ];
     }
 }
