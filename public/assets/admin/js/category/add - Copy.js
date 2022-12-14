@@ -1,9 +1,9 @@
-function encodeImgtoBase64(file) {
-    var img = file;
+
+ function encodeImgtoBase64(element) {
+    var img = element.files[0];
     var reader = new FileReader();
     reader.onloadend = function() {
         $("#btn_image_delete").removeClass('d-none');
-        $("#displayImg").removeClass('d-none');
         $("#image").val(reader.result);
         $("#displayImg").attr("src", reader.result);
     }
@@ -11,34 +11,6 @@ function encodeImgtoBase64(file) {
 }
 
 $(document).ready(function () {
-	
-    var dropArea = document.querySelector('.drag-area');
-    var input = dropArea.querySelector('input');
-    dropArea.onclick = () => {
-        input.click();
-    };
-    // when browse
-    input.addEventListener('change', function() {
-        file = this.files[0];
-        dropArea.classList.add('active');
-        encodeImgtoBase64(file);
-    });
-    // when file is inside drag area
-    dropArea.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        dropArea.classList.add('active');
-        encodeImgtoBase64(file);
-    });
-    // when file leave the drag area
-    dropArea.addEventListener('dragleave', () => {
-        dropArea.classList.remove('active');
-    });
-    // when file is dropped
-    dropArea.addEventListener('drop', (event) => {
-        event.preventDefault();
-        file = event.dataTransfer.files[0]; // grab single file even of user selects multiple files
-        encodeImgtoBase64(file);
-    });
     $("#form").submit(function (e) {
         e.preventDefault();
         $('.btn-loading').prop('disabled', true)
