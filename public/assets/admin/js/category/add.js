@@ -6,6 +6,7 @@ function encodeImgtoBase64(file) {
         $("#displayImg").removeClass('d-none');
         $("#image").val(reader.result);
         $("#displayImg").attr("src", reader.result);
+        $(".dropify-message").removeClass('d-block').addClass('d-none');
     }
     reader.readAsDataURL(img);
 }
@@ -20,23 +21,18 @@ $(document).ready(function () {
     // when browse
     input.addEventListener('change', function() {
         file = this.files[0];
-        dropArea.classList.add('active');
         encodeImgtoBase64(file);
     });
     // when file is inside drag area
-    dropArea.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        dropArea.classList.add('active');
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
         encodeImgtoBase64(file);
     });
-    // when file leave the drag area
-    dropArea.addEventListener('dragleave', () => {
-        dropArea.classList.remove('active');
-    });
+
     // when file is dropped
-    dropArea.addEventListener('drop', (event) => {
-        event.preventDefault();
-        file = event.dataTransfer.files[0]; // grab single file even of user selects multiple files
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        file = e.dataTransfer.files[0]; // grab single file even of user selects multiple files
         encodeImgtoBase64(file);
     });
     $("#form").submit(function (e) {

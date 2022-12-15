@@ -24,7 +24,7 @@
                                             <button type="button" class="btn btn-xs btn-danger {{ ($row && $row->image) ? 'd-block' : 'd-none' }}"
                                                 Onclick="confirmDelete('image')" id="btn_image_delete">Remove</button>
                                             <div class="drag-area">
-                                                <div class="dropify-message"><svg xmlns="http://www.w3.org/2000/svg"
+                                                <div class="dropify-message {{ ($row && $row->image) ? 'd-none' : 'd-block' }}"><svg xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
                                                         id="Layer_1" x="0px" y="0px" width="64px" height="64px"
                                                         viewBox="0 0 64 64" enable-background="new 0 0 64 64"
@@ -45,36 +45,14 @@
                                                 </div>
                                                 <input type="file" hidden="" />
                                                 <input name="image" type="hidden" id="image" />
-                                                <div class="image-preview"> @if($row && $row->image) <img
-                                                        src="{{ asset('/storage/category/'.$row->image)}}"
+                                                <div class="image-preview"> @if($row && $row->image)  <img
+                                                        src="{{ Storage::disk('public')->url('category/'.$row->image)}}"
                                                         id="displayImg"> @else <img src="" id="displayImg"
                                                         class="d-none">
                                                     @endif
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <br>
-                                        <input type="file" name="file_image" onchange="encodeImgtoBase64(this)">
-                                        <input name="image" type="hidden" id="image" />
-                                        <div>
-                                            @if($row && $row->image)
-                                            <div style="margin:5px 0 0 0;"> <img
-                                                    src="{{ asset('/storage/category/'.$row->image)}}" id="displayImg"
-                                                    height="150">
-                                            </div>
-                                            @else
-                                            <div style="margin:5px 0 0 0;"> <img
-                                                    src="{{ asset('/assets/admin/images/browser.png')}}" id="displayImg"
-                                                    height="150">
-                                            </div>
-                                            @endif
-                                            <div style="margin:5px 0 0 0;"
-                                                class="{{ ($row && $row->image) ? 'd-block' : 'd-none' }}"
-                                                id='btn_image_delete'>
-                                                <button type="button" class="btn btn-xs btn-danger"
-                                                    Onclick="confirmDelete('image')">Delete Image</button>
-                                            </div>
-                                        </div> -->
                                     </div>
                                     <div class="mb-3">
                                         <div class="row">
@@ -139,13 +117,9 @@
                         success: function() {
                             $("#btn_image_delete").addClass('d-none');
                             $("#displayImg").addClass('d-none');
-                            $(".dropify-message").removeClass('d-none');
+                            $(".dropify-message").removeClass('d-none').addClass('d-block');
                             $("#displayImg").attr("src", '');
                             $("#image").val('');
-                            /*  $("#displayImg").attr("src",
-                                  "{{ asset('/assets/admin/images/browser.png')}}");
-                              $("#btn_image_delete").addClass('d-none');
-                              $("#image").val('');*/
                             swalWithBootstrapButtons.fire(
                                 'Deleted!',
                                 'Your data has been deleted.',

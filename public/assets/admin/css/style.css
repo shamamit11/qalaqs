@@ -129,6 +129,8 @@ div.error {
 	top: 50%;
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
+	font-weight: bold;
+	font-size: 24px;
 }
 .drag-container .image-preview {
 	position: absolute;
