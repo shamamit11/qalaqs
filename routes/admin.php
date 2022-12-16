@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', 'AuthController@login')->name('admin-login');
 Route::post('check/login', 'AuthController@checkLogin')->name('admin-checkLogin');
 Route::get('forgot-password', 'AuthController@forgotPassword')->name('admin-forgot-password');
+Route::post('forget-password', 'AuthController@forgetPassword')->name('admin-forget-password'); 
+Route::get('reset-password/{token}', 'AuthController@resetPassword')->name('admin-reset-password');
+Route::post('reset-password', 'AuthController@savePassword')->name('admin-save-password');
+
 Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/', 'DashboardController@index')->name('admin-dashboard');
     Route::get('logout', 'AuthController@logout')->name('admin-logout');

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Admin :: Qalaqs</title>
+<title>{{$page_title}} :: Qalaqs</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="Qalaqs" name="description" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />

@@ -9,30 +9,35 @@
                 <div class="col-md-8 col-lg-6 col-xl-4">
                     <div class="text-center">
                         <img src="{{ asset('assets/admin/images/logo-dark.png')}}" alt="" height="22" class="mx-auto">
-                        <p class="text-muted mt-2 mb-4">Responsive Admin Dashboard</p>
 
                     </div>
-                    <div class="card">
+                    <div class="card mt-4">
                         <div class="card-body p-4">
                             <div class="text-center mb-4">
                                 <h4 class="text-uppercase mt-0">Sign In</h4>
                             </div>
-                            <div id='login_error' class="alert alert-danger alert-dismissible fade show d-none" role="alert">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                            Username or Password Not Matched!
-                                        </div>
+                            <div id='login_error' class="alert alert-danger alert-dismissible fade show d-none"
+                                role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                                Username or Password Not Matched!
+                            </div>
                             <form id="frm_login" method="post" action="{{ route('admin-checkLogin') }}">
                                 @csrf
                                 <div class="mb-3">
-                                    <label class="form-label">Email address</label>
-                                    <input class="form-control" name="email" type="text"
-                                        placeholder="Enter your email">
+                                    <label class="form-label">Email / Username</label>
+                                    <input class="form-control" name="email" type="text" placeholder="Enter your email / username">
                                     <div class="error" id='error_email'></div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password</label>
-                                    <input class="form-control" name="password" type="password"
-                                        placeholder="Enter your password">
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" name="password" class="form-control"
+                                            placeholder="Enter your password">
+                                        <div class="input-group-text" data-password="false">
+                                            <span class="password-eye"></span>
+                                        </div>
+                                    </div>
                                     <div class="error" id='error_password'></div>
                                 </div>
                                 <div class="mb-3">
@@ -49,8 +54,8 @@
 
                         <div class="row mb-3">
                             <div class="col-12 text-center">
-                                <p> <a href="javascript:;" class="text-muted ms-1"><i class="fa fa-lock me-1"></i>Forgot
-                                        your password?</a></p>
+                                <p> <a href="{{route('admin-forgot-password')}}" class="text-muted ms-1"><i
+                                            class="fa fa-lock me-1"></i>Forgot your password?</a></p>
                             </div>
                         </div>
                     </div>
@@ -59,5 +64,5 @@
         </div>
     </div>
     @include('admin.includes.scripts')
-    <script src="{{ asset('assets/admin/js/auth/login.js') }}"></script>
+    @include('admin.auth.js.login')
     </html>

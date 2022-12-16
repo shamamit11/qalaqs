@@ -1,3 +1,4 @@
+<script>
 $(document).ready(function () {
     $("#frm_login").submit(function (e) {
         e.preventDefault();
@@ -40,3 +41,4 @@ $(document).ready(function () {
         });
     });
 });
+</script>

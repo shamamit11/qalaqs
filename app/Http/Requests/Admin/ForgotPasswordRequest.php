@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Admin;
 use App\Http\Requests\ApiRequest;
 
-class AuthRequest extends ApiRequest
+class ForgotPasswordRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,7 @@ class AuthRequest extends ApiRequest
     public function rules()
     {
         return [
-            'email' => 'required',
-            'password' => 'required',
-            'remember_me' => 'sometimes',
+            'email' => 'required|email|exists:admins,email',
         ];
     }
 }
