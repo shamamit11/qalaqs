@@ -7,7 +7,7 @@
         <div class="dropdown-header noti-title">
           <h6 class="text-overflow m-0">Welcome !</h6>
         </div>
-        <a href="contacts-profile.html" class="dropdown-item notify-item"> <i class="fe-user"></i> <span>My Account</span> </a> 
+        <a href="{{ route('supplier-account-setting')}}" class="dropdown-item notify-item"> <i class="fe-user"></i> <span>My Account</span> </a> 
         <div class="dropdown-divider"></div>
         <a href="{{ route('supplier-logout')}}" class="dropdown-item notify-item"> <i class="fe-log-out"></i> <span>Logout</span> </a> </div>
     </li>

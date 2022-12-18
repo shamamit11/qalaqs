@@ -9,6 +9,7 @@ use App\Http\Requests\Supplier\MatchRequest;
 use App\Http\Requests\Supplier\ImagesRequest;
 use App\Services\Supplier\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -30,6 +31,11 @@ class ProductController extends Controller
 
     public function __construct(ProductService $ProductService)
     {
+        $this->middleware(function ($request, $next) {
+            if(Auth::guard('supplier')->user()->admin_approved == 0) {
+                return  redirect(route('supplier-dashboard'));
+            } else  return $next($request);
+        });
         $this->product = $ProductService;
     }
 

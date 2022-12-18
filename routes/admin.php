@@ -26,6 +26,13 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/', 'DashboardController@index')->name('admin-dashboard');
     Route::get('logout', 'AuthController@logout')->name('admin-logout');
 
+    Route::controller('AccountController')->group(function () {
+        Route::get('/account', 'index')->name('admin-account-setting');
+        Route::post('/account/addaction', 'addAction')->name('admin-account-addaction');
+        Route::get('/account/change-password', 'changePassword')->name('admin-account-change-password');
+        Route::post('/account/update-password', 'updatePassword')->name('admin-account-update-password');
+    });
+
     Route::controller('SupplierController')->group(function () {
         Route::get('/supplier', 'index')->name('admin-supplier');
         Route::post('/supplier/status', 'status')->name('admin-supplier-status');

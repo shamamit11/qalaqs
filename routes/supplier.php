@@ -31,6 +31,14 @@ Route::group(['middleware' => 'supplierauth'], function () {
     Route::get('/', 'DashboardController@index')->name('supplier-dashboard');
     Route::get('logout', 'AuthController@logout')->name('supplier-logout');
 
+    
+    Route::controller('AccountController')->group(function () {
+        Route::get('/account', 'index')->name('supplier-account-setting');
+        Route::post('/account/addaction', 'addAction')->name('supplier-account-addaction');
+        Route::get('/account/change-password', 'changePassword')->name('supplier-account-change-password');
+        Route::post('/account/update-password', 'updatePassword')->name('supplier-account-update-password');
+    });
+
     Route::controller('ProductController')->group(function () {
         Route::get('/product', 'index')->name('supplier-product');
         Route::post('/product/status', 'status')->name('supplier-product-status');

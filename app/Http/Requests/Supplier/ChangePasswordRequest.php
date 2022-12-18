@@ -24,7 +24,8 @@ class ChangePasswordRequest extends ApiRequest
     {
         return [
             'old_password' => 'required',
-            'new_password' => 'required|confirmed',
+            'new_password' => 'required',
+            'confirm_password' => 'required|same:new_password',
         ];
     }
 }

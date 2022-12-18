@@ -1,14 +1,15 @@
 <?php
 namespace App\Services\Supplier;
 
+use App\Traits\StoreImageTrait;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 use App\Models\Product;
 use App\Models\ProductEngine;
 use App\Models\ProductImage;
 use App\Models\ProductMatch;
 use App\Models\ProductSpecification;
-use App\Traits\StoreImageTrait;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {

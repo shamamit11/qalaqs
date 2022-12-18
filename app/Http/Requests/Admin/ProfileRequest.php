@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Admin;
 use App\Http\Requests\ApiRequest;
 
-class ChangePasswordRequest extends ApiRequest
+class ProfileRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,7 @@ class ChangePasswordRequest extends ApiRequest
     public function rules()
     {
         return [
-            'old_password' => 'required',
-            'new_password' => 'required',
-            'confirm_password' => 'required|same:new_password',
+            'name' => 'required',
         ];
     }
 }
