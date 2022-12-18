@@ -21,7 +21,7 @@
               <tr>
                 <td align="center" valign="top">
                   <!-- Body -->
-                  <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_body">
+                  <table border="0" cellpadding="0" cellspacing="0" width="600">
                     <tr>
                       <td valign="top" id="body_content" style="background-color: #ffffff;">
                         <!-- Content -->

@@ -9,10 +9,8 @@
                 <div class="col-md-8 col-lg-6 col-xl-4">
                     <div class="text-center">
                         <img src="{{ asset('assets/supplier/images/logo-dark.png')}}" alt="" height="22" class="mx-auto">
-         
-
                     </div>
-                    <div class="card">
+                    <div class="card mt-4">
                         <div class="card-body p-4">
                             <div class="text-center mb-4">
                                 <h4 class="text-uppercase mt-0">Verification</h4>
@@ -46,5 +44,5 @@
         </div>
     </div>
     @include('supplier.includes.scripts')
-    <script src="{{ asset('assets/supplier/js/auth/verify.js') }}"></script>
+    @include('supplier.auth.js.verify')
     </html>

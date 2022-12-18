@@ -3,11 +3,11 @@ namespace App\Services\Admin;
 
 use App\Models\Admin;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Mail;
+use DB;
 
 class AuthService
 {
@@ -34,25 +34,23 @@ class AuthService
         }
     }
 
-    public function updatePassword($request)
-    {
-        if (Hash::check($request['old_password'], Auth::guard('admin')->user()->password)) {
-            Admin::whereId(Auth::guard('admin')->id())->update([
-                'password' => Hash::make($request['new_password']),
-            ]);
-            $response['data'] = true;
-            $response['errors'] = false;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-            //return $message = 'success';
-        } else {
-            $response['data'] = false;
-            $response['errors'] = false;
-            $response['status_code'] = 401;
-            return response()->json($response, 401);
-            //return $message = 'error';
-        }
-    }
+    // public function updatePassword($request)
+    // {
+    //     if (Hash::check($request['old_password'], Auth::guard('admin')->user()->password)) {
+    //         Admin::whereId(Auth::guard('admin')->id())->update([
+    //             'password' => Hash::make($request['new_password']),
+    //         ]);
+    //         $response['data'] = true;
+    //         $response['errors'] = false;
+    //         $response['status_code'] = 200;
+    //         return response()->json($response, 200);
+    //     } else {
+    //         $response['data'] = false;
+    //         $response['errors'] = false;
+    //         $response['status_code'] = 401;
+    //         return response()->json($response, 401);
+    //     }
+    // }
 
     public function forgetPassword($request)
     {

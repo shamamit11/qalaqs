@@ -11,23 +11,27 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
+Route::controller('AuthController')->group(function () {
+    Route::get('login', 'login')->name('supplier-login');
+    Route::post('check/login', 'checkLogin')->name('supplier-checkLogin');
+    Route::get('forgot-password', 'forgotPassword')->name('supplier-forgot-password');
+    Route::get('register', 'register')->name('supplier-register');
+    Route::post('register', 'registerSupplier')->name('supplier-register');
+    Route::get('verify/{email}', 'verify')->name('supplier-verify');
+    Route::post('verify-supplier', 'verifySupplier')->name('verify-supplier');
 
-Route::get('login', 'AuthController@login')->name('supplier-login');
-Route::post('check/login', 'AuthController@checkLogin')->name('supplier-checkLogin');
-Route::get('forgot-password', 'AuthController@forgotPassword')->name('supplier-forgot-password');
-Route::get('register', 'AuthController@register')->name('supplier-register');
-Route::post('register', 'AuthController@registerSupplier')->name('supplier-register');
-Route::get('verify/{email}', 'AuthController@verify')->name('supplier-verify');
-Route::post('verify-supplier', 'AuthController@verifySupplier')->name('verify-supplier');
-
-
+    Route::get('forgot-password', 'forgotPassword')->name('supplier-forgot-password');
+    Route::post('forget-password', 'forgetPassword')->name('supplier-forget-password');
+    Route::get('reset-password/{token}', 'resetPassword')->name('supplier-reset-password');
+    Route::post('reset-password', 'savePassword')->name('supplier-save-password');
+});
 
 Route::group(['middleware' => 'supplierauth'], function () {
-	Route::get('/', 'DashboardController@index')->name('supplier-dashboard');
-	Route::get('logout', 'AuthController@logout')->name('supplier-logout');
+    Route::get('/', 'DashboardController@index')->name('supplier-dashboard');
+    Route::get('logout', 'AuthController@logout')->name('supplier-logout');
 
-	Route::controller('ProductController')->group(function () {
+    Route::controller('ProductController')->group(function () {
         Route::get('/product', 'index')->name('supplier-product');
         Route::post('/product/status', 'status')->name('supplier-product-status');
         Route::get('/product/add', 'addEdit')->name('supplier-product-add');
@@ -42,7 +46,6 @@ Route::group(['middleware' => 'supplierauth'], function () {
         Route::post('/product/addimages', 'addImages')->name('supplier-product-addimages');
         Route::post('/product/imagesdelete', 'imagesDelete')->name('supplier-product-imagesdelete');
 
-        
     });
 
 });

@@ -1,7 +1,7 @@
 <div class="navbar-custom">
   <ul class="list-unstyled topnav-menu float-end mb-0">
     <li class="dropdown notification-list topbar-dropdown"> <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown"
-                    href="#" role="button" aria-haspopup="false" aria-expanded="false"> <img src="{{ asset('assets/supplier/images/users/user-1.jpg')}}" alt="user-image" class="rounded-circle"> <span class="pro-user-name ms-1"> Supplier <i class="mdi mdi-chevron-down"></i> </span> </a>
+                    href="#" role="button" aria-haspopup="false" aria-expanded="false"> <img src="{{ asset('assets/supplier/images/user.png')}}" alt="user-image" class="rounded-circle"> <span class="pro-user-name ms-1">  {{ Session::get('user_name')}} <i class="mdi mdi-chevron-down"></i> </span> </a>
       <div class="dropdown-menu dropdown-menu-end profile-dropdown "> 
         <!-- item-->
         <div class="dropdown-header noti-title">

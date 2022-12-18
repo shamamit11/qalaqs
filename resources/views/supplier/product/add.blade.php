@@ -129,14 +129,16 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="col-md-3 col-sm-3 col-xs-3">
                                             <div class="mb-3">
                                                 <label class="form-label">Product Type</label>
                                                 <select name="product_type" class="form-control">
                                                     @if ($product_types->count() > 0)
                                                     @foreach ($product_types as $product_type)
-                                                    <option value="{{ $product_type->name }}" @if (@$row->product_type ==
-                                                        $product_type->name) selected @endif>{{ $product_type->name }}</option>
+                                                    <option value="{{ $product_type->name }}" @if (@$row->product_type
+                                                        ==
+                                                        $product_type->name) selected @endif>{{ $product_type->name }}
+                                                    </option>
                                                     @endforeach
                                                     @endif
                                                 </select>
@@ -211,28 +213,43 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+
+                                    <div class="mb-3 col-4">
                                         <label class="form-label"> Image</label>
-                                        <br>
-                                        <input type="file" name="file_image" onchange="encodeImgtoBase64(this)">
-                                        <input name="image" type="hidden" id="image" />
-                                        <div>
-                                            @if($row && $row->image)
-                                            <div style="margin:5px 0 0 0;"> <img
-                                                    src="{{ asset('/storage/product/'.$row->image)}}" id="displayImg"
-                                                    height="150">
-                                            </div>
-                                            @else
-                                            <div style="margin:5px 0 0 0;"> <img
-                                                    src="{{ asset('/assets/supplier/images/browser.png')}}"
-                                                    id="displayImg" height="150">
-                                            </div>
-                                            @endif
-                                            <div style="margin:5px 0 0 0;"
-                                                class="{{ ($row && $row->image) ? 'd-block' : 'd-none' }}"
-                                                id='btn_image_delete'>
-                                                <button type="button" class="btn btn-xs btn-danger"
-                                                    Onclick="confirmDelete('image')">Delete Image</button>
+                                        <div class="drag-container">
+                                            <button type="button"
+                                                class="btn btn-xs btn-danger {{ ($row && $row->image) ? 'd-block' : 'd-none' }}"
+                                                Onclick="confirmDelete('image')" id="btn_image_delete">Remove</button>
+                                            <div class="drag-area">
+                                                <div
+                                                    class="dropify-message {{ ($row && $row->image) ? 'd-none' : 'd-block' }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+                                                        id="Layer_1" x="0px" y="0px" width="64px" height="64px"
+                                                        viewBox="0 0 64 64" enable-background="new 0 0 64 64"
+                                                        xml:space="preserve">
+                                                        <path fill="none" stroke="#8a8a8a" stroke-width="2"
+                                                            stroke-miterlimit="10"
+                                                            d="M41,50h14c4.565,0,8-3.582,8-8s-3.435-8-8-8  c0-11.046-9.52-20-20.934-20C23.966,14,14.8,20.732,13,30c0,0-0.831,0-1.667,0C5.626,30,1,34.477,1,40s4.293,10,10,10H41" />
+                                                        <polyline fill="none" stroke="#8a8a8a" stroke-width="2"
+                                                            stroke-linejoin="bevel" stroke-miterlimit="10"
+                                                            points="23.998,34   31.998,26 39.998,34 " />
+                                                        <g>
+                                                            <line fill="none" stroke="#8a8a8a" stroke-width="2"
+                                                                stroke-miterlimit="10" x1="31.998" y1="26" x2="31.998"
+                                                                y2="46" />
+                                                        </g>
+                                                    </svg>
+                                                    <p>Drag and drop a file here or click</p>
+                                                </div>
+                                                <input type="file" hidden="" />
+                                                <input name="image" type="hidden" id="image" />
+                                                <div class="image-preview"> @if($row && $row->image) <img
+                                                        src="{{ Storage::disk('public')->url('product/'.$row->image)}}"
+                                                        id="displayImg"> @else <img src="" id="displayImg"
+                                                        class="d-none">
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -257,60 +274,5 @@
     @endsection
     @section('footer-scripts')
     <script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
-    <script src="{{ asset('assets/supplier/js/product/add.js') }}"></script>
-    <script>
-    $().ready(function() {
-        //to delete
-        confirmDelete = function(field_name) {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                reverseButtons: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route("supplier-product-imagedelete")}}',
-                        type: 'POST',
-                        data: {
-                            'id': '{{ @$row->id }}',
-                            'field_name': field_name,
-                            '_token': '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            $("#displayImg").attr("src",
-                                "{{ asset('/assets/supplier/images/browser.png')}}");
-                            $("#btn_image_delete").addClass('d-none');
-                            $("#image").val('');
-                            swalWithBootstrapButtons.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
-                                'success'
-                            );
-                        }
-                    });
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        '',
-                        'error'
-                    )
-                }
-            })
-        }
-
-    });
-    </script>
+    @include('supplier.product.js.add')
     @endsection

@@ -2,10 +2,13 @@
 namespace App\Services\Supplier;
 
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Mail;
-
+use DB;
+use Session;
 
 class AuthService
 {
@@ -14,7 +17,10 @@ class AuthService
         $check_data = array('email' => $request['email'], 'password' => $request['password']);
         $remember_me = isset($request['remember_me']) ? true : false;
         if (Auth::guard('supplier')->attempt($check_data, $remember_me)) {
-            $response['data'] = true;
+            $supplier = Supplier::where('id', Auth::guard('supplier')->id())->first();
+            session(['user_name' => $supplier->name,
+                     'admin_approved' => $supplier->admin_approved]);
+            $response['data'] = true ;
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
@@ -94,5 +100,66 @@ class AuthService
             return response()->json(['errors' => $e->getMessage()], 401);
         }
     }
+
+    public function forgetPassword($request)
+    {
+        $token = Str::random(64);
+        DB::table('password_resets')->insert([
+            'email' => $request['email'],
+            'token' => $token,
+            'created_at' => Carbon::now(),
+        ]);
+
+        Mail::send('email.supplier.forgot_password', ['token' => $token], function ($message) use ($request) {
+            $message->to($request['email']);
+            $message->subject('Reset Password');
+        });
+
+        $response['data'] = true;
+        $response['errors'] = false;
+        $response['status_code'] = 200;
+        return response()->json($response, 200);
+
+    }
+
+    public function savePassword($request)
+    {
+        $updatePassword = DB::table('password_resets')->where('token', $request['token'])->first();
+
+        if ($updatePassword) {
+            Supplier::where('email', $updatePassword->email)->update(['password' => Hash::make($request['new_password'])]);
+            DB::table('password_resets')->where(array('email' => $updatePassword->email, 'token' => $updatePassword->token))->delete();
+            $response['data'] = true;
+            $response['errors'] = false;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } else {
+            $response['data'] = false;
+            $response['errors'] = false;
+            $response['status_code'] = 401;
+            return response()->json($response, 401);
+
+        }
+    }
+
+    // public function updatePassword($request)
+    // {
+    //     if (Hash::check($request['old_password'], Auth::guard('supplier')->user()->password)) {
+    //         Supplier::whereId(Auth::guard('supplier')->id())->update([
+    //             'password' => Hash::make($request['new_password']),
+    //         ]);
+    //         $response['data'] = true;
+    //         $response['errors'] = false;
+    //         $response['status_code'] = 200;
+    //         return response()->json($response, 200);
+    //         //return $message = 'success';
+    //     } else {
+    //         $response['data'] = false;
+    //         $response['errors'] = false;
+    //         $response['status_code'] = 401;
+    //         return response()->json($response, 401);
+    //         //return $message = 'error';
+    //     }
+    // }
 
 }

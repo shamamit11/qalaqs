@@ -8,17 +8,20 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-4">
                     <div class="text-center mb-4">
-                        <img src="{{ asset('assets/supplier/images/logo-dark.png')}}" alt="" height="22" class="mx-auto">
+                        <img src="{{ asset('assets/supplier/images/logo-dark.png')}}" alt="" height="22"
+                            class="mx-auto">
                     </div>
                     <div class="card">
                         <div class="card-body p-4">
                             <div class="text-center mb-4">
                                 <h4 class="text-uppercase mt-0">Register</h4>
                             </div>
-                            <div id='register_error' class="alert alert-danger alert-dismissible fade show d-none" role="alert">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                           Email is already registered.
-                                        </div>
+                            <div id='register_error' class="alert alert-danger alert-dismissible fade show d-none"
+                                role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                                Email is already registered.
+                            </div>
                             <form id="frm_register" method="post" action="{{ route('supplier-register') }}">
                                 @csrf
                                 <div class="mb-3">
@@ -51,7 +54,7 @@
                                     <select class="form-control select2" name="country_id">
                                         @foreach($countries as $country)
                                         <option value="{{ $country->id}}">{{ $country->name}}</value>
-                                        @endforeach
+                                            @endforeach
                                     </select>
                                     <div class="error" id='error_zipcode'></div>
                                 </div>
@@ -84,7 +87,7 @@
 
                         <div class="row mb-3">
                             <div class="col-12 text-center">
-                                        <p class="text-muted">Already have account? <a href="{{route('supplier-login')}}"
+                                <p class="text-muted">Already have account? <a href="{{route('supplier-login')}}"
                                         class="text-dark ms-1"><b>Sign In</b></a></p>
                             </div>
                         </div>
@@ -94,5 +97,5 @@
         </div>
     </div>
     @include('supplier.includes.scripts')
-    <script src="{{ asset('assets/supplier/js/auth/register.js') }}"></script>
+    @include('supplier.auth.js.register')
     </html>

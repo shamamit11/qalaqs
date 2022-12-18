@@ -9,10 +9,8 @@ $(document).ready(function() {
             url: $('#frm_forgot').attr('action'),
             data: $("#frm_forgot").serialize(),
             success: function(data) {
-                
-                alert('asdf');
                 $('.btn-loading').prop('disabled', false);
-                $('.btn-loading').html('Reset Password ');
+                $('.btn-loading').html('Reset Password');
                 if (data.status_code == 200) {
                     toastr["success"]("We have emailed your password reset link!.");
                     window.location.href = app_url + '/admin/login';
@@ -20,7 +18,7 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 $('.btn-loading').prop('disabled', false);
-                $('.btn-loading').html('Reset Password ');
+                $('.btn-loading').html('Reset Password');
                 if (xhr.status == 422) {
                     var res = jQuery.parseJSON(xhr.responseText);
                     if (res.error == 'validation') {

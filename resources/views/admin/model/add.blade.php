@@ -50,5 +50,5 @@
     </div>
     @endsection
     @section('footer-scripts')
-    <script src="{{ asset('assets/admin/js/model/add.js') }}"></script>
+    @include('admin.model.js.add')
     @endsection

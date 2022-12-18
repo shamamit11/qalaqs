@@ -12,12 +12,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-Route::get('login', 'AuthController@login')->name('admin-login');
-Route::post('check/login', 'AuthController@checkLogin')->name('admin-checkLogin');
-Route::get('forgot-password', 'AuthController@forgotPassword')->name('admin-forgot-password');
-Route::post('forget-password', 'AuthController@forgetPassword')->name('admin-forget-password'); 
-Route::get('reset-password/{token}', 'AuthController@resetPassword')->name('admin-reset-password');
-Route::post('reset-password', 'AuthController@savePassword')->name('admin-save-password');
+
+Route::controller('AuthController')->group(function () {
+    Route::get('login', 'login')->name('admin-login');
+    Route::post('check/login', 'checkLogin')->name('admin-checkLogin');
+    Route::get('forgot-password', 'forgotPassword')->name('admin-forgot-password');
+    Route::post('forget-password', 'forgetPassword')->name('admin-forget-password');
+    Route::get('reset-password/{token}', 'resetPassword')->name('admin-reset-password');
+    Route::post('reset-password', 'savePassword')->name('admin-save-password');
+});
 
 Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/', 'DashboardController@index')->name('admin-dashboard');
@@ -98,7 +101,7 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::get('/engine/add', 'addEdit')->name('admin-engine-add');
         Route::post('/engine/addaction', 'addAction')->name('admin-engine-addaction');
         Route::post('/engine/delete', 'delete')->name('admin-engine-delete');
-    }); 
+    });
 
     Route::controller('SupplierController')->group(function () {
         Route::get('/supplier', 'index')->name('admin-supplier');

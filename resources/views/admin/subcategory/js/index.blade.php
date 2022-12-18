@@ -14,7 +14,7 @@
                 data: {
                     'id': id,
                     'val': val,
-                    'field_name': 'status',
+                    'field_name': 'admin_approved',
                     '_token': '{{ csrf_token() }}'
                 },
             });

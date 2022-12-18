@@ -40,7 +40,7 @@ class ProductController extends Controller
         $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = 'Product Products';
+        $page_title = 'Products';
         $result = $this->product->List($per_page, $page, $q);
         return view('supplier.product.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
@@ -130,9 +130,4 @@ class ProductController extends Controller
     {
         echo $this->product->imagesDelete($request);
     }
-
-
-    
-
-    
 }

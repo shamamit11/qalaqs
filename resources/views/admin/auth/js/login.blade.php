@@ -1,14 +1,16 @@
 <script>
-$(document).ready(function () {
-    $("#frm_login").submit(function (e) {
+$(document).ready(function() {
+    $("#frm_login").submit(function(e) {
         e.preventDefault();
         $('.btn-loading').prop('disabled', true)
-        $('.btn-loading').html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...');
+        $('.btn-loading').html(
+            '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...'
+            );
         $.ajax({
             type: 'post',
             url: $('#frm_login').attr('action'),
             data: $("#frm_login").serialize(),
-            success: function (data) {
+            success: function(data) {
                 $('#login_error').addClass('d-none');
                 $('.btn-loading').prop('disabled', false);
                 $('.btn-loading').html('Log In');
@@ -17,7 +19,7 @@ $(document).ready(function () {
                     window.location.href = app_url + '/admin';
                 }
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 $('.btn-loading').prop('disabled', false);
                 $('.btn-loading').html('Log In');
                 if (xhr.status == 401) {

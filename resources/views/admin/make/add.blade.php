@@ -21,10 +21,13 @@
                                     <div class="mb-3 col-4">
                                         <label class="form-label"> Image</label>
                                         <div class="drag-container">
-                                            <button type="button" class="btn btn-xs btn-danger {{ ($row && $row->image) ? 'd-block' : 'd-none' }}"
+                                            <button type="button"
+                                                class="btn btn-xs btn-danger {{ ($row && $row->image) ? 'd-block' : 'd-none' }}"
                                                 Onclick="confirmDelete('image')" id="btn_image_delete">Remove</button>
                                             <div class="drag-area">
-                                                <div class="dropify-message {{ ($row && $row->image) ? 'd-none' : 'd-block' }}"><svg xmlns="http://www.w3.org/2000/svg"
+                                                <div
+                                                    class="dropify-message {{ ($row && $row->image) ? 'd-none' : 'd-block' }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
                                                         id="Layer_1" x="0px" y="0px" width="64px" height="64px"
                                                         viewBox="0 0 64 64" enable-background="new 0 0 64 64"
@@ -45,7 +48,7 @@
                                                 </div>
                                                 <input type="file" hidden="" />
                                                 <input name="image" type="hidden" id="image" />
-                                                <div class="image-preview"> @if($row && $row->image)  <img
+                                                <div class="image-preview"> @if($row && $row->image) <img
                                                         src="{{ Storage::disk('public')->url('make/'.$row->image)}}"
                                                         id="displayImg"> @else <img src="" id="displayImg"
                                                         class="d-none">
@@ -55,12 +58,12 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                                <label class="switch">
-                                                    <input type="checkbox" class="switch-input" name="status" value="1" {{ ((isset($row->
+                                        <label class="form-label">Status</label>
+                                        <label class="switch">
+                                            <input type="checkbox" class="switch-input" name="status" value="1" {{ ((isset($row->
                 status) && $row->status == 1) ||  !isset($row->status))? 'checked' : '' }} /> <span
-                                                        class="switch-label" data-on="Show" data-off="Hide"></span>
-                                                    <span class="switch-handle"></span> </label>
+                                                class="switch-label" data-on="Show" data-off="Hide"></span>
+                                            <span class="switch-handle"></span> </label>
                                     </div>
                                     <button type="submit" class="btn btn-primary  btn-loading">Submit</button>
                                 </form>
@@ -74,62 +77,5 @@
     </div>
     @endsection
     @section('footer-scripts')
-
-    <script src="{{ asset('assets/admin/js/make/add.js') }}"></script>
-    <script>
-    $().ready(function() {
-        //to delete
-        confirmDelete = function(field_name) {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                reverseButtons: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route("admin-make-imagedelete")}}',
-                        type: 'POST',
-                        data: {
-                            'id': '{{ @$row->id }}',
-                            'field_name': field_name,
-                            '_token': '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            $("#btn_image_delete").addClass('d-none');
-                            $("#displayImg").addClass('d-none');
-                            $(".dropify-message").removeClass('d-none').addClass('d-block');
-                            $("#displayImg").attr("src", '');
-                            $("#image").val('');
-                            swalWithBootstrapButtons.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
-                                'success'
-                            );
-                        }
-                    });
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        '',
-                        'error'
-                    )
-                }
-            })
-        }
-
-    });
-    </script>
+    @include('admin.make.js.add')
     @endsection

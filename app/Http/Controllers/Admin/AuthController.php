@@ -50,31 +50,15 @@ class AuthController extends Controller
     public function savePassword(ResetPasswordRequest $request)
     {
         return $this->auth->savePassword($request->validated());
-        // if ($message == 'success') {
-        //     return redirect(route('admin-login'))->withMessage('Password changed successfully!');
-        // } else {
-        //     return back()->withErrors(['error' => "Invalid token!"]);
-        // }
     }
 
     public function changePassword()
     {
         $nav = 'setting';
         $sub_nav = '';
-        $title = "Change Password";
+        $page_title = "Change Password";
         $data['action'] = route('admin-password');
-        return view('admin.auth.change_password', compact('nav', 'sub_nav', 'title'), $data);
-    }
-
-    public function updatePassword(ChangePasswordRequest $request)
-    {
-        $message = $this->auth->updatePassword($request->validated());
-        if ($message == 'success') {
-            return back()->withMessage('Password changed successfully!');
-        } else {
-            return back()->withErrors(['error' => "Old Password Doesn't match!"]);
-        }
-
+        return view('admin.auth.change_password', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
     public function logout()
@@ -82,5 +66,16 @@ class AuthController extends Controller
         Auth::guard('admin')->logout();
         return redirect(route('admin-login'));
     }
+
+    // public function updatePassword(ChangePasswordRequest $request)
+    // {
+    //     $message = $this->auth->updatePassword($request->validated());
+    //     if ($message == 'success') {
+    //         return back()->withMessage('Password changed successfully!');
+    //     } else {
+    //         return back()->withErrors(['error' => "Old Password Doesn't match!"]);
+    //     }
+
+    // }
 
 }

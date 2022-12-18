@@ -22,7 +22,7 @@ class BannerController extends Controller
     {
         $nav = 'banner';
         $sub_nav = '';
-        $per_page = 2;
+        $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Banner';
@@ -40,7 +40,7 @@ class BannerController extends Controller
         $nav = 'banner';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = ' Banner';
+        $page_title = 'Banner';
         $data['title'] = ($id == 0) ? "Add Banner" : "Edit Banner";
         $data['action'] = route('admin-banner-addaction');
         $data['order'] = getMax('banners', 'order');
