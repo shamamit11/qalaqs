@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('product_type')->nullable();
             $table->string('manufacturer')->nullable();
             $table->string('name')->nullable();
-            $table->string('image')->nullable();
+            $table->string('folder')->nullable();
             $table->unsignedBigInteger('product_category_id')->nullable();
             $table->unsignedBigInteger('product_sub_category_id')->nullable();
             $table->unsignedBigInteger('product_brand_id')->nullable();
@@ -32,6 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_engine_id')->nullable();
             $table->string('warranty')->nullable();
             $table->decimal('price', 12, 2)->nullable();
+            $table->integer('stock')->nullable();
             $table->boolean('status')->nullable()->default(1)->comment('0 = hide, 1 = show');
             $table->boolean('admin_approved')->nullable()->default(0)->comment('0 = No, 1 = Yes');
             $table->timestamps();

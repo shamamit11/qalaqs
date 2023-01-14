@@ -18,7 +18,7 @@
                                                     class="align-middle" data-feather="search"></i></button>
                                         </div>
                                     </form>
-                                    
+
                                 </nav>
                             </div>
                             <div class="card-body">
@@ -29,7 +29,7 @@
                                             <th width="50">#</th>
                                             <th>Sku</th>
                                             <th>Name</th>
-                                          
+
                                             <th width="200">Status</th>
                                             <th style="text-align:center" width="120">Action</th>
                                         </tr>
@@ -44,8 +44,9 @@
                                             <td><label class="switch" style="margin: 0 auto">
                                                     <input class="switch-input switch-status" type="checkbox"
                                                         data-id="{{ $product->id }}"
-                                                        data-status-value="{{ $product->admin_approved }}" @if($product->
-                                                        admin_approved == 1) checked @endif /> <span class="switch-label"
+                                                        data-status-value="{{ $product->admin_approved }}"
+                                                        @if($product->
+                                                    admin_approved == 1) checked @endif /> <span class="switch-label"
                                                         data-on="approved" data-off="Pending"></span> <span
                                                         class="switch-handle"></span> </label></td>
                                             <td style="text-align:center">
@@ -79,77 +80,7 @@
         </div>
         @include('admin.includes.footer')
     </div>
-
     @endsection
     @section('footer-scripts')
-    <script>
-    $(document).ready(function() {
-        
-        $('.switch-status').change(function() {
-            if ($(this).attr('data-status-value') == 0) {
-                var val = 1;
-            } else {
-                var val = 0;
-            }
-            $(this).attr("data-status-value", val);
-            var id = $(this).attr('data-id');
-            $.ajax({
-                url: '{{ route("admin-product-status")}}',
-                type: 'POST',
-                data: {
-                    'id': id,
-                    'val': val,
-                    'field_name': 'admin_approved',
-                    '_token': '{{ csrf_token() }}'
-                },
-            });
-        });
-        $('.delete-row-btn').click(function() {
-            var id = $(this).data("id");
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                reverseButtons: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route("admin-product-delete")}}',
-                        type: 'POST',
-                        data: {
-                            'id': id,
-                            '_token': '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            $("#tr" + id).remove();
-                            swalWithBootstrapButtons.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
-                                'success'
-                            );
-                        }
-                    });
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        '',
-                        'error'
-                    )
-                }
-            })
-        });
-    });
-    </script>
+    @include('admin.product.js.index')
     @endsection

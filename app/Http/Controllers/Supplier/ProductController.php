@@ -3,27 +3,25 @@
 namespace App\Http\Controllers\Supplier;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Supplier\MatchRequest;
+use App\Http\Requests\Supplier\ProductImageRequest;
+use App\Http\Requests\Supplier\ProductOrderImageRequest;
 use App\Http\Requests\Supplier\ProductRequest;
 use App\Http\Requests\Supplier\SpecificationRequest;
-use App\Http\Requests\Supplier\MatchRequest;
-use App\Http\Requests\Supplier\ImagesRequest;
-use App\Services\Supplier\ProductService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Models\Product;
-use App\Models\ProductCategory;
 use App\Models\ProductBrand;
+use App\Models\ProductCategory;
 use App\Models\ProductEngine;
-use App\Models\ProductImage;
 use App\Models\ProductMake;
 use App\Models\ProductMatch;
 use App\Models\ProductModel;
 use App\Models\ProductPart;
 use App\Models\ProductSubCategory;
-use App\Models\ProductSpecification;
 use App\Models\ProductType;
 use App\Models\ProductYear;
+use App\Services\Supplier\ProductService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -32,9 +30,12 @@ class ProductController extends Controller
     public function __construct(ProductService $ProductService)
     {
         $this->middleware(function ($request, $next) {
-            if(Auth::guard('supplier')->user()->admin_approved == 0) {
-                return  redirect(route('supplier-dashboard'));
-            } else  return $next($request);
+            if (Auth::guard('supplier')->user()->admin_approved == 0) {
+                return redirect(route('supplier-dashboard'));
+            } else {
+                return $next($request);
+            }
+
         });
         $this->product = $ProductService;
     }
@@ -86,54 +87,71 @@ class ProductController extends Controller
     {
         echo $this->product->delete($request);
     }
-    
-    public function imageDelete(Request $request)
-    {
-        echo $this->product->imageDelete($request);
-    }
 
     public function specification(Request $request)
     {
-        $data['specifications'] = ProductSpecification::where('product_id', $request->product_id)->get();
-        $data['product_id'] = $request->product_id;
+        $data['product'] = Product::with('specifications')->where('id', $request->id)->first();
+        $data['cnt'] = 1;
         return view('supplier.product.specification', $data);
     }
 
     public function addSpecification(SpecificationRequest $request)
     {
-        $message = $this->product->addSpecification($request->validated());
-        return redirect()->route('supplier-product')->withMessage($message);
+        return $this->product->addSpecification($request->validated());
     }
 
-    public function match(Request $request)
+    public function deleteSpecification(Request $request)
     {
-        $data['matches'] = ProductMatch::where('product_id', $request->product_id)->get();
+        echo $this->product->deleteSpecification($request);
+    }
+
+    function match(Request $request) {
+        $data['cnt'] = 1;
+        $data['product'] = Product::with('matches')->where('id', $request->id)->first();
         $data['engines'] = ProductEngine::with('make')->with('model')->with('year')->where('status', 1)->orderBy('name', 'asc')->get();
-        $data['product_id'] = $request->product_id;
         return view('supplier.product.match', $data);
     }
 
     public function addMatch(MatchRequest $request)
     {
-        $message = $this->product->addMatch($request->validated());
-        return redirect()->route('supplier-product')->withMessage($message);
+        return $this->product->addMatch($request->validated());
     }
+
+    public function deleteMatch(Request $request)
+    {
+        echo $this->product->deleteMatch($request);
+    }
+
+    // public function addMatch(MatchRequest $request)
+    // {
+    //     $message = $this->product->addMatch($request->validated());
+    //     return redirect()->route('supplier-product')->withMessage($message);
+    // }
 
     public function images(Request $request)
     {
-        $data['images'] = ProductImage::where('product_id', $request->product_id)->get();
-        $data['product_id'] = $request->product_id;
-        return view('supplier.product.images', $data);
+        $data['cnt'] = 1;
+        $data['product'] = Product::with('images')->where('id', $request->id)->first();
+        return view('supplier.product.image', $data);
     }
 
-    public function addImages(ImagesRequest $request)
+    public function saveImage(ProductImageRequest $request)
     {
-        $message = $this->product->addImages($request->validated());
-        return redirect()->route('supplier-product')->withMessage($message);
+        return $this->product->saveImage($request->validated());
     }
-    
-    public function imagesDelete(Request $request)
+
+    public function orderImage(ProductOrderImageRequest $request)
     {
-        echo $this->product->imagesDelete($request);
+        return $this->product->orderImage($request->validated());
+    }
+
+    public function imageStatus(Request $request)
+    {
+        $this->product->imageStatus($request);
+    }
+
+    public function imageDelete(Request $request)
+    {
+        echo $this->product->imageDelete($request);
     }
 }

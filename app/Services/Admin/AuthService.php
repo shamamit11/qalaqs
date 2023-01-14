@@ -17,7 +17,7 @@ class AuthService
         try {
             $fieldType = filter_var($request['email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
             $check_data = array($fieldType => $request['email'], 'password' => $request['password']);
-            // $check_data = array('email' => $request['email'], 'password' => $request['password']);
+            // $check_data = array('email' => $request['email'], 'password' => $request['password']); 
             $remember_me = isset($request['remember_me']) ? true : false;
             if (Auth::guard('admin')->attempt($check_data, $remember_me)) {
                 session(array('user_name' => Auth::guard('admin')->user()->name));
@@ -32,7 +32,7 @@ class AuthService
                 return response()->json($response, 401);
             }
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -56,7 +56,7 @@ class AuthService
             $response['status_code'] = 200;
             return response()->json($response, 200);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
 
     }
@@ -65,7 +65,6 @@ class AuthService
     {
         try {
             $updatePassword = DB::table('password_resets')->where('token', $request['token'])->first();
-
             if ($updatePassword) {
                 Admin::where('email', $updatePassword->email)->update(['password' => Hash::make($request['new_password'])]);
                 DB::table('password_resets')->where(array('email' => $updatePassword->email, 'token' => $updatePassword->token))->delete();
@@ -78,10 +77,9 @@ class AuthService
                 $response['errors'] = false;
                 $response['status_code'] = 401;
                 return response()->json($response, 401);
-
             }
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 }

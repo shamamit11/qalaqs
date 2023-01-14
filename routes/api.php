@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/banner', 'BannerController@list');
+Route::controller('ProductController')->group(function () {
+    Route::get('/make', 'make');
+    Route::get('/model', 'model');
+    Route::get('/year', 'year');
+    Route::get('/engine', 'engine');
+    Route::get('/category', 'category');
+    Route::get('/subcategory', 'subcategory');
+    Route::get('/product', 'product');
 });
+
+
+

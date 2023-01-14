@@ -24,7 +24,9 @@ class MatchRequest extends ApiRequest
     public function rules()
     {
         return [
-            'product_id' => 'numeric|required',
+            'product_id' => 'integer|required',
+            'match_id' => 'required',
+            'match_id.*' => 'required',
             'engine_id' => 'required|exists:product_engines,id',
         ];
     }

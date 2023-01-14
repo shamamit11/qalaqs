@@ -31,7 +31,7 @@ class AuthService
                 return response()->json($response, 401);
             }
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -66,7 +66,7 @@ class AuthService
             return response()->json($response, 201);
 
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -100,7 +100,7 @@ class AuthService
                 return response()->json($response, 401);
             }
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -124,7 +124,7 @@ class AuthService
             $response['status_code'] = 200;
             return response()->json($response, 200);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
 
     }
@@ -149,7 +149,7 @@ class AuthService
 
             }
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 

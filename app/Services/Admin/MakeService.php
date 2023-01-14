@@ -31,7 +31,7 @@ class MakeService
             }
             return $data;
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -43,7 +43,7 @@ class MakeService
                     $request->field_name => $request->val,
                 ]);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -74,7 +74,7 @@ class MakeService
             $response['status_code'] = 201;
             return response()->json($response, 201);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -87,7 +87,7 @@ class MakeService
             ProductMake::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -104,7 +104,7 @@ class MakeService
             }
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 }

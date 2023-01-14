@@ -44,16 +44,18 @@
                                             <td>{{ $count++ }}</td>
                                             <td>{{ $product->sku }}</td>
                                             <td>{{ $product->name }}</td>
-                                            <td><a type="button" class="btn btn-primary" data-id=" {{ $product->id}}"
-                                                    data-bs-toggle="modal" data-bs-target="#specificationModal">
-                                                    {{ count($product->specifications) }} Specification</a></td>
-                                            <td><a type="button" class="btn btn-primary" data-id=" {{ $product->id}}"
-                                                    data-bs-toggle="modal" data-bs-target="#matchModal">
-                                                    {{ count($product->matches) }} Matches</a></td>
-                                            <td><a type="button" class="btn btn-primary" data-id=" {{ $product->id}}"
-                                                    data-bs-toggle="modal" data-bs-target="#imagesModal">
-                                                    {{ count($product->images) }} Images</a></td>
-
+                                            <td><button type="button" class="btn btn-primary"
+                                                    data-id="{{ $product->id}}" data-bs-toggle="modal"
+                                                    data-bs-target="#specificationModal">
+                                                    {{ count($product->specifications) }} Specification</button></td>
+                                            <td><button type="button" class="btn btn-primary"
+                                                    data-id="{{ $product->id}}" data-bs-toggle="modal"
+                                                    data-bs-target="#matchModal">
+                                                    {{ count($product->matches) }} Matches</button></td>
+                                            <td><button type="button" class="btn btn-primary"
+                                                    data-id="{{$product->id }}" data-bs-toggle="modal"
+                                                    data-bs-target="#imageModal">
+                                                    {{ count($product->images) }} Images</button></td>
                                             <td><label class="switch" style="margin: 0 auto">
                                                     <input class="switch-input switch-status" type="checkbox"
                                                         data-id="{{ $product->id }}"
@@ -95,27 +97,48 @@
         </div>
         @include('supplier.includes.footer')
     </div>
-    <div class="modal fade" id="specificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-
-        <form enctype="multipart/form-data" method="post" action="{{route('supplier-product-addspecification')}}">
-            <div class="modal-dialog  modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Product Specification</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="specification">
-                        Loading
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+    
+    <div class="modal" tabindex="-1" id="specificationModal" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg" id="specification-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage Product Specification </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <strong>Loading...</strong>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-    <div class="modal fade" id="matchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 
+    <div class="modal" tabindex="-1" id="matchModal" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg" id="match-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage Product Matches </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <strong>Loading...</strong>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <!-- <div class="modal fade" id="matchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <form enctype="multipart/form-data" method="post" action="{{route('supplier-product-addmatch')}}">
             <div class="modal-dialog  modal-lg">
                 <div class="modal-content">
@@ -132,26 +155,27 @@
                 </div>
             </div>
         </form>
-    </div>
-    <div class="modal fade" id="imagesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <form enctype="multipart/form-data" method="post" action="{{route('supplier-product-addimages')}}">
-            <div class="modal-dialog  modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Product Images</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="images">
-                        Loading
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+    </div> -->
+    <div class="modal" tabindex="-1" id="imageModal" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg" id="image-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage Product Image </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <strong>Loading...</strong>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-@endsection
-@section('footer-scripts')
-@include('supplier.product.js.index')
-@endsection
+    @endsection
+    @section('footer-scripts')
+    @include('supplier.product.js.index')
+    @endsection

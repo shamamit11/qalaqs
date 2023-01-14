@@ -24,7 +24,7 @@ class ImagesRequest extends ApiRequest
     public function rules()
     {
         return [
-            'product_id' => 'numeric|required',
+            'product_id' => 'integer|required',
             'image' => 'required|image',
         ];
     }

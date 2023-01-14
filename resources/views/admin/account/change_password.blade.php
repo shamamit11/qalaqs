@@ -10,7 +10,6 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h3>Change Password</h3>
                                 <nav class="navbar navbar-light">
-                                  
                                     <a href="{{route('admin-account-setting')}}"
                                         class="btn btn-primary my-2 my-sm-0 ms-1">
                                         My account</a>

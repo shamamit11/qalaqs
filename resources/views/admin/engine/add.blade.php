@@ -77,6 +77,5 @@
     </div>
     @endsection
     @section('footer-scripts')
-    <script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
     @include('admin.engine.js.add')
     @endsection

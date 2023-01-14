@@ -1,3 +1,4 @@
+<script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
 <script>
 $(document).ready(function() {
     $('.select2').select2();
@@ -7,7 +8,7 @@ $(document).ready(function() {
         $('.btn-loading').prop('disabled', true)
         $('.btn-loading').html(
             '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...'
-            );
+        );
         $.ajax({
             type: 'post',
             url: $('#form').attr('action'),

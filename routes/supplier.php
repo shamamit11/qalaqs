@@ -48,11 +48,19 @@ Route::group(['middleware' => 'supplierauth'], function () {
         Route::post('/product/delete', 'delete')->name('supplier-product-delete');
         Route::post('/product/specification', 'specification')->name('supplier-product-specification');
         Route::post('/product/addspecification', 'addSpecification')->name('supplier-product-addspecification');
+        Route::delete('/product/delete_specification', 'deleteSpecification')->name('supplier-product-specification-delete');
         Route::post('/product/match', 'match')->name('supplier-product-match');
         Route::post('/product/addmatch', 'addMatch')->name('supplier-product-addmatch');
+        Route::delete('/product/delete_smatch', 'deleteMatch')->name('supplier-product-match-delete');
+        
         Route::post('/product/images', 'images')->name('supplier-product-images');
-        Route::post('/product/addimages', 'addImages')->name('supplier-product-addimages');
-        Route::post('/product/imagesdelete', 'imagesDelete')->name('supplier-product-imagesdelete');
+        Route::post('/product/save-images', 'saveImage')->name('supplier-product-saveimage');
+        Route::post('/product/order-images', 'orderImage')->name('supplier-product-orderimage');
+        Route::post('/product/image-status', 'imageStatus')->name('supplier-image-status');
+        Route::post('/product/imagedelete', 'imageDelete')->name('supplier-product-imagedelete');
+        // Route::post('/product/images', 'images')->name('supplier-product-images');
+        // Route::post('/product/addimages', 'addImages')->name('supplier-product-addimages');
+        // Route::post('/product/imagesdelete', 'imagesDelete')->name('supplier-product-imagesdelete');
 
     });
 

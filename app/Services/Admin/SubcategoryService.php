@@ -37,7 +37,7 @@ class SubcategoryService
             }
             return $data;
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -49,7 +49,7 @@ class SubcategoryService
                     $request->field_name => $request->val,
                 ]);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -82,7 +82,7 @@ class SubcategoryService
             $response['status_code'] = 201;
             return response()->json($response, 201);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -95,7 +95,7 @@ class SubcategoryService
             ProductSubCategory::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -112,7 +112,7 @@ class SubcategoryService
             }
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 }

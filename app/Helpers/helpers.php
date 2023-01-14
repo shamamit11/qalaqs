@@ -41,24 +41,20 @@ if (!function_exists('youtube')) {
     }
 }
 
-if (!function_exists('convertArabic')) {
-    function convertArabic($number, $type = 'ar')
-    {
-
-        $english = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-        $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-        if ($type == 'ar') {
-            return str_replace($english, $arabic, $number);
-        }
-        if ($type == 'en') {
-            return str_replace($arabic, $english, $number);
-        }
-    }
-}
-
 if (!function_exists('getMax')) {
     function getMax($table_name, $field_name)
     {
         return DB::table($table_name)->max($field_name) + 1;
+    }
+}
+
+if (!function_exists('getSlug')) {
+    function getSlug($table_name, $field_name, $title, $id = 0, $id_name = 'id')
+    {
+        $slug_name = Str::slug($title);
+        $slug_name = ($slug_name) ? $slug_name : time();
+        $ras = DB::table($table_name)->where($id_name, '<>', $id)->where($field_name, $slug_name)->first();
+        $slug = ($ras) ? $slug_name . "-" . time() : $slug_name;
+        return $slug;
     }
 }

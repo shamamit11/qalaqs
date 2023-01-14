@@ -31,7 +31,7 @@ class BannerService
             }
             return $data;
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -43,7 +43,7 @@ class BannerService
                     $request->field_name => $request->val,
                 ]);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -75,7 +75,7 @@ class BannerService
             $response['status_code'] = 201;
             return response()->json($response, 201);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -88,7 +88,7 @@ class BannerService
             Banner::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -105,7 +105,7 @@ class BannerService
             }
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 }

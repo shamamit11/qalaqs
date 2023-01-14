@@ -1,3 +1,7 @@
+@php 
+use Illuminate\Support\Facades\Auth; 
+$user = Auth::guard('supplier')->user();
+@endphp
 <div class="left-side-menu">
     <div class="h-100" data-simplebar>
         <!--- Sidemenu -->
@@ -10,7 +14,7 @@
                         <span> Dashboard</span>
                     </a>
                 </li>
-                @if(Session::get('admin_approved') == 1)
+                @if($user->admin_approved == 1)
                 <li class="menu-title mt-2">Sales</li>
                 <li> <a href="#"> <i class="mdi mdi-cart"></i> <span> Orders </span> </a> </li>
                 <li> <a href="#"> <i class="mdi mdi-autorenew"></i> <span> Returns </span> </a> </li>

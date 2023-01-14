@@ -1,17 +1,20 @@
+<script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
 <script>
-$(document).ready(function () {
+$(document).ready(function() {
     $('.select2').select2();
     $("#model_id").chained("#make_id");
     $("#year_id").chained("#model_id");
-    $("#form").submit(function (e) {
+    $("#form").submit(function(e) {
         e.preventDefault();
         $('.btn-loading').prop('disabled', true)
-        $('.btn-loading').html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...');
+        $('.btn-loading').html(
+            '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...'
+            );
         $.ajax({
             type: 'post',
             url: $('#form').attr('action'),
             data: $("#form").serialize(),
-            success: function (data) {
+            success: function(data) {
                 $('.btn-loading').prop('disabled', false);
                 $('.btn-loading').html('Submit');
                 if (data.status_code == 201) {
@@ -19,7 +22,7 @@ $(document).ready(function () {
                     window.location.href = app_url + '/admin/engine';
                 }
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 $('.btn-loading').prop('disabled', false);
                 $('.btn-loading').html('Submit');
                 if (xhr.status == 422) {

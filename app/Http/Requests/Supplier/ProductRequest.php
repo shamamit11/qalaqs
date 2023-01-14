@@ -24,14 +24,14 @@ class ProductRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
+            'id' => 'integer|nullable',
             'sku' => 'required',
             'part_type' => 'required',
             'part_number' => 'required',
             'product_type' => 'required',
             'manufacturer' => 'required',
             'name' => 'required',
-            'image' => 'sometimes',
+            'folder' => 'sometimes',
             'category_id' => 'required|exists:product_categories,id',
             'subcategory_id' => 'required|exists:product_sub_categories,id',
             'brand_id' => 'required|exists:product_brands,id',
@@ -41,6 +41,7 @@ class ProductRequest extends ApiRequest
             'engine_id' => 'required|exists:product_engines,id',
             'warranty' => 'sometimes',
             'price' => 'required',
+            'stock' => 'integer|required',
             'status' => 'nullable',
         ];
     }

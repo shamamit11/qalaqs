@@ -3,6 +3,7 @@ div.error {
 	font-size: 14px;
 	margin: 3px 5px;
 }
+
 .switch {
 	position: relative;
 	display: block;
@@ -17,6 +18,7 @@ div.error {
 	cursor: pointer;
 	box-sizing: content-box;
 }
+
 .switch-input {
 	position: absolute;
 	top: 0;
@@ -24,6 +26,7 @@ div.error {
 	opacity: 0;
 	box-sizing: content-box;
 }
+
 .switch-label {
 	position: relative;
 	display: block;
@@ -34,7 +37,9 @@ div.error {
 	border-radius: inherit;
 	box-sizing: content-box;
 }
-.switch-label:after,  .switch-label:before {
+
+.switch-label:after,
+.switch-label:before {
 	position: absolute;
 	top: 50%;
 	margin-top: -0.5em;
@@ -45,26 +50,32 @@ div.error {
 	transition: inherit;
 	box-sizing: content-box;
 }
+
 .switch-label:before {
 	content: attr(data-off);
 	right: 11px;
 	color: #fff;
 }
+
 .switch-label:after {
 	content: attr(data-on);
 	left: 11px;
 	color: #fff;
 	opacity: 0;
 }
+
 .switch-input:checked~.switch-label {
 	background: #29b933;
 }
+
 .switch-input:checked~.switch-label:before {
 	opacity: 0;
 }
+
 .switch-input:checked~.switch-label:after {
 	opacity: 1;
 }
+
 .switch-handle {
 	position: absolute;
 	top: 4px;
@@ -75,6 +86,7 @@ div.error {
 	background-image: -webkit-linear-gradient(top, #fff 40%, #f0f0f0);
 	border-radius: 100%;
 }
+
 .switch-handle:before {
 	content: "";
 	position: absolute;
@@ -87,9 +99,11 @@ div.error {
 	background-image: -webkit-linear-gradient(top, #eee, #fff);
 	border-radius: 6px;
 }
+
 .switch-input:checked~.switch-handle {
 	left: 74px;
 }
+
 .ck-editor__editable {
 	min-height: 200px !important;
 }
@@ -103,6 +117,7 @@ div.error {
 	transition: border-color .15s linear;
 	position: relative;
 }
+
 .drag-container .drag-area {
 	display: block;
 	cursor: pointer;
@@ -115,6 +130,7 @@ div.error {
 	line-height: 22px;
 	color: #777;
 }
+
 .drag-container .btn {
 	position: absolute;
 	top: 0;
@@ -125,6 +141,7 @@ div.error {
 	font-size: 13px;
 	z-index: 88;
 }
+
 .drag-container .dropify-message {
 	position: relative;
 	top: 50%;
@@ -133,6 +150,7 @@ div.error {
 	font-weight: bold;
 	font-size: 24px;
 }
+
 .drag-container .image-preview {
 	position: absolute;
 	z-index: 1;
@@ -145,7 +163,48 @@ div.error {
 	left: 0;
 	overflow: hidden;
 	text-align: center;
-} 
+}
+
 .drag-container img {
 	height: 200px;
-} 
+}
+
+.select2-container .select2-selection--single {
+	height: 40px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+	height: 40px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+	line-height: 40px !important;
+}
+
+.select2-container {
+	width: 100% !important
+}
+
+#sidebar-menu .menu-title {
+	background-color: #777;
+	color:#fff;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice {
+	background-color: #71b6f9 !important;
+	border: 1px solid #3e66b6 !important;
+	border-radius: 4px;
+	cursor: default;
+	float: left;
+	margin-right: 5px;
+	margin-top: 5px;
+	padding: 0 5px;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+	color: #fff !important;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: bold;
+	margin-right: 2px;
+  }

@@ -26,7 +26,7 @@ class AccountService
             $response['status_code'] = 201;
             return response()->json($response, 201);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -48,7 +48,7 @@ class AccountService
                 return response()->json($response, 401);
             }
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 

@@ -12,7 +12,7 @@
                                     @csrf
                                     <input type="hidden" class="form-control" name="id"
                                         value="{{ isset($row->id)? $row->id : '' }}">
-                                        <div class="mb-3">
+                                    <div class="mb-3">
                                         <label class="form-label">Make Name</label>
                                         <select name="make_id" id="make_id" class="select2 form-control">
                                             @if ($makes->count() > 0)
@@ -26,10 +26,12 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label"> Model Name</label>
-                                        <select name="model_id" id="model_id"  class="select2 form-control">
+                                        <select name="model_id" id="model_id" class="select2 form-control">
                                             @if ($models->count() > 0)
                                             @foreach ($models as $model)
-                                            <option value="{{ $model->id }}"  data-chained="{{ $model->product_make_id }}" @if (@$row->product_model_id ==
+                                            <option value="{{ $model->id }}"
+                                                data-chained="{{ $model->product_make_id }}" @if (@$row->
+                                                product_model_id ==
                                                 $model->id) selected @endif>{{ $model->name }}</option>
                                             @endforeach
                                             @endif
@@ -43,12 +45,12 @@
                                         <div class="error" id='error_name'></div>
                                     </div>
                                     <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                                <label class="switch">
-                                                    <input type="checkbox" class="switch-input" name="status" value="1" {{ ((isset($row->
+                                        <label class="form-label">Status</label>
+                                        <label class="switch">
+                                            <input type="checkbox" class="switch-input" name="status" value="1" {{ ((isset($row->
                 status) && $row->status == 1) ||  !isset($row->status))? 'checked' : '' }} /> <span
-                                                        class="switch-label" data-on="Show" data-off="Hide"></span>
-                                                    <span class="switch-handle"></span> </label>
+                                                class="switch-label" data-on="Show" data-off="Hide"></span>
+                                            <span class="switch-handle"></span> </label>
                                     </div>
                                     <button type="submit" class="btn btn-primary  btn-loading">Submit</button>
                                 </form>
@@ -62,6 +64,5 @@
     </div>
     @endsection
     @section('footer-scripts')
-    <script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
-        @include('admin.year.js.add')
+    @include('admin.year.js.add')
     @endsection

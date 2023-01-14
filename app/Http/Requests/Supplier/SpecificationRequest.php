@@ -24,9 +24,24 @@ class SpecificationRequest extends ApiRequest
     public function rules()
     {
         return [
-            'product_id' => 'numeric|required',
+            'product_id' => 'integer|required',
+            'specification_id' => 'required',
+            'specification_id.*' => 'required',
             'specification_name' => 'required',
+            'specification_name.*' => 'required',
             'specification_value' => 'required',
+            'specification_value.*' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'specification_name.required' => 'The specification name field is required.',
+            'specification_name.*.required' => 'The specification name field is required.',
+            'specification_value.required' => 'The specification value field is required.',
+            'specification_value.*.required' => 'The specification value field is required.',
+        ];
+    }
+
 }

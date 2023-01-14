@@ -1,42 +1,6 @@
+<script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
 <script>
-function encodeImgtoBase64(file) {
-    var img = file;
-    var reader = new FileReader();
-    reader.onloadend = function() {
-        $("#btn_image_delete").removeClass('d-none');
-        $("#displayImg").removeClass('d-none');
-        $("#image").val(reader.result);
-        $("#displayImg").attr("src", reader.result);
-        $(".dropify-message").removeClass('d-block').addClass('d-none');
-    }
-    reader.readAsDataURL(img);
-}
-
 $(document).ready(function() {
-
-    var dropArea = document.querySelector('.drag-area');
-    var input = dropArea.querySelector('input');
-    dropArea.onclick = () => {
-        input.click();
-    };
-    // when browse
-    input.addEventListener('change', function() {
-        file = this.files[0];
-        encodeImgtoBase64(file);
-    });
-    // when file is inside drag area
-    dropArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        encodeImgtoBase64(file);
-    });
-
-    // when file is dropped
-    dropArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        file = e.dataTransfer.files[0]; // grab single file even of user selects multiple files
-        encodeImgtoBase64(file);
-    });
-    
     $('.select2').select2();
     $("#model_id").chained("#make_id");
     $("#year_id").chained("#model_id");
@@ -47,7 +11,7 @@ $(document).ready(function() {
         $('.btn-loading').prop('disabled', true)
         $('.btn-loading').html(
             '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...'
-            );
+        );
         $.ajax({
             type: 'post',
             url: $('#form').attr('action'),

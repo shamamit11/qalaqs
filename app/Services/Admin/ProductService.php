@@ -49,7 +49,7 @@ class ProductService
             }
             return $data;
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -61,7 +61,7 @@ class ProductService
                     $request->field_name => $request->val,
                 ]);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -74,7 +74,7 @@ class ProductService
             Product::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 }

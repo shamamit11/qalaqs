@@ -28,7 +28,7 @@ class SupplierService
             }
             return $data;
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -40,7 +40,7 @@ class SupplierService
                     $request->field_name => $request->val,
                 ]);
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -51,7 +51,7 @@ class SupplierService
             Supplier::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 401);
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 }
