@@ -1,7 +1,7 @@
 <?php
-namespace App\Services\Supplier;
+namespace App\Services\Vendor;
 
-use App\Models\Supplier;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,18 +10,17 @@ class AccountService
     public function addAction($request)
     {
         try {
-            $id = Auth::guard('supplier')->id();
-            $supplier = Supplier::findOrFail($id);
-            $supplier->name = $request['name'];
-            $supplier->address = $request['address'];
-            $supplier->city = $request['city'];
-            $supplier->state = $request['state'];
-            $supplier->zipcode = $request['zipcode'];
-            $supplier->country_id = $request['country_id'];
-            $supplier->phone = $request['phone'];
-            $supplier->mobile = $request['mobile'];
-            $supplier->save();
-            $response['data'] = $supplier;
+            $id = Auth::guard('vendor')->id();
+            $vendor = Vendor::findOrFail($id);
+            $vendor->name = $request['name'];
+            $vendor->address = $request['address'];
+            $vendor->city = $request['city'];
+            $vendor->state = $request['state'];
+            $vendor->zipcode = $request['zipcode'];
+            $vendor->phone = $request['phone'];
+            $vendor->mobile = $request['mobile'];
+            $vendor->save();
+            $response['data'] = $vendor;
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
@@ -33,8 +32,8 @@ class AccountService
     public function updatePassword($request)
     {
         try {
-            if (Hash::check($request['old_password'], Auth::guard('supplier')->user()->password)) {
-                Supplier::whereId(Auth::guard('supplier')->id())->update([
+            if (Hash::check($request['old_password'], Auth::guard('vendor')->user()->password)) {
+                Vendor::whereId(Auth::guard('vendor')->id())->update([
                     'password' => Hash::make($request['new_password']),
                 ]);
                 $response['data'] = true;

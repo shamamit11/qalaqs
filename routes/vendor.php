@@ -26,5 +26,5 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('AuthController')->group(function () {
         Route::get('logout', 'logout');
     });
-	Route::get('/banner', 'BannerController@list');
+    
 });
