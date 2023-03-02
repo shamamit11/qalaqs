@@ -1,17 +1,17 @@
 <?php
 namespace App\Services\Admin;
 
-use App\Models\ProductBrand;
+use App\Models\Brand;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Storage;
 
 class BrandService
 {
     use StoreImageTrait;
-    public function list($per_page, $page, $q) {
+    function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = ProductBrand::select('*');
+            $query = Brand::select('*');
             if ($q) {
                 $query->where('name', 'LIKE', '%' . $q . '%');
             }
@@ -38,10 +38,11 @@ class BrandService
     public function status($request)
     {
         try {
-            ProductBrand::where('id', $request->id)
+            Brand::where('id', $request->id)
                 ->update([
                     $request->field_name => $request->val,
                 ]);
+            return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
@@ -52,14 +53,14 @@ class BrandService
         try {
             if ($request['id']) {
                 $id = $request['id'];
-                $brand = ProductBrand::findOrFail($id);
+                $brand = Brand::findOrFail($id);
                 $message = "Data updated";
             } else {
                 $id = 0;
-                $brand = new ProductBrand;
+                $brand = new Brand;
                 $message = "Data added";
             }
-            
+
             if (preg_match('#^data:image.*?base64,#', $request['image'])) {
                 $image = $this->StoreBase64Image($request['image'], '/brand/');
             } else {
@@ -83,9 +84,9 @@ class BrandService
     {
         try {
             $id = $request->id;
-            $ras = ProductBrand::findOrFail($id);
+            $ras = Brand::findOrFail($id);
             Storage::disk('public')->delete('/brand/' . $ras->image);
-            ProductBrand::where('id', $id)->delete();
+            Brand::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
@@ -97,7 +98,7 @@ class BrandService
         try {
             $id = $request->id;
             $field_name = $request->field_name;
-            $ras = ProductBrand::where('id', $id)->first();
+            $ras = Brand::where('id', $id)->first();
             if ($ras) {
                 Storage::disk('public')->delete('/brand/' . $ras->$field_name);
                 $ras->$field_name = '';

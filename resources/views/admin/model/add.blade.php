@@ -17,7 +17,7 @@
                                         <select name="make_id" class="select2 form-control">
                                             @if ($makes->count() > 0)
                                             @foreach ($makes as $make)
-                                            <option value="{{ $make->id }}" @if (@$row->product_make_id ==
+                                            <option value="{{ $make->id }}" @if (@$row->make_id ==
                                                 $make->id) selected @endif>{{ $make->name }}</option>
                                             @endforeach
                                             @endif

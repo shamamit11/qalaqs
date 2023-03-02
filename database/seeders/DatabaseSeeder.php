@@ -9,16 +9,13 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-       $this->call([
+        $this->call([
             AdminSeeder::class,
-            CountriesSeeder::class,
-            ProductPartSeeder::class,  
-            ProductTypeSeeder::class,  
+            PartSeeder::class,  
+            TypeSeeder::class,  
         ]);
     }
 }

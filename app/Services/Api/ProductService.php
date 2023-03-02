@@ -2,13 +2,13 @@
 namespace App\Services\Api;
 
 use App\Models\Product;
-use App\Models\ProductCategory;
-use App\Models\ProductEngine;
-use App\Models\ProductMake;
-use App\Models\ProductModel;
-use App\Models\ProductSubCategory;
-use App\Models\ProductReview;
-use App\Models\ProductYear;
+use App\Models\Category;
+use App\Models\Engine;
+use App\Models\Make;
+use App\Models\Model;
+use App\Models\SubCategory;
+use App\Models\Review;
+use App\Models\Year;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
@@ -17,7 +17,7 @@ class ProductService
     {
         try {
             $make_data = array();
-            $makes = ProductMake::where('status', 1)->orderBy('name', 'asc')->get();
+            $makes = Make::where('status', 1)->orderBy('name', 'asc')->get();
             if ($makes->count() > 0) {
                 foreach ($makes as $make) {
                     array_push($make_data, array('id' => $make->id, 'name' => $make->name, 'image' => Storage::disk('public')->url('make/' . $make->image)));
@@ -37,10 +37,10 @@ class ProductService
     {
         try {
             $model_data = array();
-            $models = ProductModel::where('status', 1)->orderBy('name', 'asc')->get();
+            $models = Model::where('status', 1)->orderBy('name', 'asc')->get();
             if ($models->count() > 0) {
                 foreach ($models as $model) {
-                    array_push($model_data, array('id' => $model->id, 'name' => $model->name, 'make_id' => $model->product_make_id));
+                    array_push($model_data, array('id' => $model->id, 'name' => $model->name, 'make_id' => $model->_make_id));
                 }
             }
             $response['data'] = $model_data;
@@ -57,10 +57,10 @@ class ProductService
     {
         try {
             $year_data = array();
-            $years = ProductYear::where('status', 1)->orderBy('name', 'asc')->get();
+            $years = Year::where('status', 1)->orderBy('name', 'asc')->get();
             if ($years->count() > 0) {
                 foreach ($years as $year) {
-                    array_push($year_data, array('id' => $year->id, 'name' => $year->name, 'make_id' => $year->product_make_id, 'model_id' => $year->product_model_id));
+                    array_push($year_data, array('id' => $year->id, 'name' => $year->name, 'make_id' => $year->_make_id, 'model_id' => $year->_model_id));
                 }
             }
             $response['data'] = $year_data;
@@ -77,10 +77,10 @@ class ProductService
     {
         try {
             $engine_data = array();
-            $engines = ProductEngine::where('status', 1)->orderBy('name', 'asc')->get();
+            $engines = Engine::where('status', 1)->orderBy('name', 'asc')->get();
             if ($engines->count() > 0) {
                 foreach ($engines as $engine) {
-                    array_push($engine_data, array('id' => $engine->id, 'name' => $engine->name, 'make_id' => $engine->product_make_id, 'model_id' => $engine->product_model_id, 'year_id' => $engine->product_year_id));
+                    array_push($engine_data, array('id' => $engine->id, 'name' => $engine->name, 'make_id' => $engine->_make_id, 'model_id' => $engine->_model_id, 'year_id' => $engine->_year_id));
                 }
             }
             $response['data'] = $engine_data;
@@ -97,7 +97,7 @@ class ProductService
     {
         try {
             $category_data = array();
-            $categories = ProductCategory::where('status', 1)->orderBy('order', 'asc')->get();
+            $categories = Category::where('status', 1)->orderBy('order', 'asc')->get();
             if ($categories->count() > 0) {
                 foreach ($categories as $category) {
                     array_push($category_data, array('id' => $category->id, 'name' => $category->name, 'image' => Storage::disk('public')->url('category/' . $category->image)));
@@ -117,10 +117,10 @@ class ProductService
     {
         try {
             $subcategory_data = array();
-            $subcategories = ProductSubcategory::where('status', 1)->orderBy('order', 'asc')->get();
+            $subcategories = Subcategory::where('status', 1)->orderBy('order', 'asc')->get();
             if ($subcategories->count() > 0) {
                 foreach ($subcategories as $subcategory) {
-                    array_push($subcategory_data, array('id' => $subcategory->id, 'name' => $subcategory->name, 'image' => Storage::disk('public')->url('subcategory/' . $subcategory->image), 'category_id' => $subcategory->product_category_id));
+                    array_push($subcategory_data, array('id' => $subcategory->id, 'name' => $subcategory->name, 'image' => Storage::disk('public')->url('subcategory/' . $subcategory->image), 'category_id' => $subcategory->_category_id));
                 }
             }
             $response['data'] = $subcategory_data;
@@ -136,13 +136,13 @@ class ProductService
     public function product($request)
     {
         try {
-            $conditions = array('product_type' => $request['product_type'],
-                'product_category_id' => $request['category_id'],
-                'product_sub_category_id' => $request['subcategory_id'],
-                'product_make_id' => $request['make_id'],
-                'product_model_id' => $request['model_id'],
-                'product_year_id' => $request['year_id'],
-                'product_engine_id' => $request['engine_id'],
+            $conditions = array('type' => $request['type'],
+                'category_id' => $request['category_id'],
+                'sub_category_id' => $request['subcategory_id'],
+                'make_id' => $request['make_id'],
+                'model_id' => $request['model_id'],
+                'year_id' => $request['year_id'],
+                'engine_id' => $request['engine_id'],
                 'status' => 1,
                 'admin_approved' => 1);
             $product_data = array();
@@ -170,7 +170,7 @@ class ProductService
                         'sku' => $product->sku,
                         'part_type' => $product->part_type,
                         'part_number' => $product->part_number,
-                        'product_type' => $product->product_type,
+                        'type' => $product->type,
                         'manufacturer' => $product->manufacturer,
                         'rating' => $rating,
                         'name' => $product->name,

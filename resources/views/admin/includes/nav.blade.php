@@ -71,12 +71,12 @@
                     </a>
                 </li>
 
-                <li class="menu-title mt-2">Suppliers</li>
+                <li class="menu-title mt-2">Vendor</li>
 
-                <li class="{{ $nav == 'supplier' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-supplier') }}" class="{{ $nav == 'supplier' ? 'active' : '' }}">
+                <li class="{{ $nav == 'vendor' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-vendor') }}" class="{{ $nav == 'vendor' ? 'active' : '' }}">
                         <i class="mdi mdi-account-group"></i>
-                        <span> Suppliers </span>
+                        <span> Vendors </span>
                     </a>
                 </li>
                 <li> <a href="#"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>

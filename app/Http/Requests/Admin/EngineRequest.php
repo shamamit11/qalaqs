@@ -23,10 +23,10 @@ class EngineRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
-            'make_id' => 'required|exists:product_makes,id',
-            'model_id' => 'required|exists:product_models,id',
-            'year_id' => 'required|exists:product_years,id',
+            'id' => 'integer|nullable',
+            'make_id' => 'required|exists:makes,id',
+            'model_id' => 'required|exists:models,id',
+            'year_id' => 'required|exists:years,id',
             'name' => 'required',
             'status' => 'nullable',
         ];

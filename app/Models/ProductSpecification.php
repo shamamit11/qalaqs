@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductSpecification extends Model
 {
-    use HasFactory; 
+    use HasFactory;
     protected $fillable = ['product_id', 'specification_name', 'specification_value'];
 }

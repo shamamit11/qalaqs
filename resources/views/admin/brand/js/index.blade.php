@@ -57,11 +57,7 @@ $(document).ready(function() {
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {
-                swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    '',
-                    'error'
-                )
+                toastr["error"]('Cancelled.');
             }
         })
     });

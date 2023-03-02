@@ -23,9 +23,8 @@ class MakeRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
+            'id' => 'integer|nullable',
             'name' => 'required',
-            'image' => 'nullable',
             'status' => 'nullable',
         ];
     }

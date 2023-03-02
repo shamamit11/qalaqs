@@ -2,13 +2,7 @@
 namespace App\Services\Admin;
 
 use App\Models\Product;
-use App\Models\ProductEngine;
-use App\Models\ProductImage;
-use App\Models\ProductMatch;
-use App\Models\ProductSpecification;
 use App\Traits\StoreImageTrait;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
@@ -33,7 +27,7 @@ class ProductService
                     });
                 });
             }
-            $data['products'] = $query->orderBy('product_make_id', 'asc')->orderBy('product_model_id', 'asc')->orderBy('product_year_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
+            $data['products'] = $query->orderBy('make_id', 'asc')->orderBy('model_id', 'asc')->orderBy('year_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
             $data['products']->appends(array('q' => $q));
             if ($page != 1) {
                 $data['total_data'] = $data['products']->total();
@@ -60,12 +54,11 @@ class ProductService
                 ->update([
                     $request->field_name => $request->val,
                 ]);
+            return 'success';
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
-
-  
 
     public function delete($request)
     {

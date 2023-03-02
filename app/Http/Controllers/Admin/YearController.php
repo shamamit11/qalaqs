@@ -7,9 +7,9 @@ use App\Http\Requests\Admin\YearRequest;
 use App\Services\Admin\YearService;
 use Illuminate\Http\Request;
 
-use App\Models\ProductMake;
-use App\Models\ProductModel;
-use App\Models\ProductYear;
+use App\Models\Make;
+use App\Models\Models;
+use App\Models\Year;
 
 
 class YearController extends Controller
@@ -28,7 +28,7 @@ class YearController extends Controller
         $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = 'Product Years';
+        $page_title = ' Years';
         $result = $this->year->List($per_page, $page, $q);
         return view('admin.year.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
@@ -43,12 +43,12 @@ class YearController extends Controller
         $nav = 'year';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Product Years';
+        $page_title = ' Years';
         $data['title'] = ($id == 0) ? "Add Year" : "Edit Year"; 
         $data['action'] = route('admin-year-addaction');
-        $data['makes'] = ProductMake::where('status', 1)->orderBy('name', 'asc')->get();
-        $data['models'] = ProductModel::where('status', 1)->orderBy('name', 'asc')->get();
-        $data['row'] = ProductYear::where('id', $id)->first();
+        $data['makes'] = Make::where('status', 1)->orderBy('name', 'asc')->get();
+        $data['models'] = Models::where('status', 1)->orderBy('name', 'asc')->get();
+        $data['row'] = Year::where('id', $id)->first();
         return view('admin.year.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
@@ -59,6 +59,6 @@ class YearController extends Controller
 
     public function delete(Request $request)
     {
-        echo $this->year->delete($request);
+        return $this->year->delete($request);
     }
 }

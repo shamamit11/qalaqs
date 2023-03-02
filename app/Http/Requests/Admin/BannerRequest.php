@@ -23,10 +23,10 @@ class BannerRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
+            'id' => 'integer|nullable',
             'name' => 'required',
             'image' => 'sometimes',
-            'order' => 'required|numeric',
+            'order' => 'required|integer',
             'status' => 'nullable',
         ];
     }

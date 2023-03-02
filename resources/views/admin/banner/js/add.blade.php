@@ -52,7 +52,7 @@ $(document).ready(function() {
                 $('.btn-loading').html('Submit');
                 if (data.status_code == 201) {
                     toastr["success"](data.message);
-                    window.location.href = app_url + '/admin/banner';
+                    window.location.href = "{{route('admin-banner')}}";
                 }
             },
             error: function(xhr) {
@@ -61,6 +61,7 @@ $(document).ready(function() {
                 if (xhr.status == 422) {
                     var res = jQuery.parseJSON(xhr.responseText);
                     if (res.error == 'validation') {
+                        toastr["error"]("Please check required field.");
                         var messageLength = res.message.length;
                         for (var i = 0; i < messageLength; i++) {
                             for (const [key, value] of Object.entries(res.message[i])) {
@@ -108,21 +109,13 @@ $(document).ready(function() {
                         $(".dropify-message").removeClass('d-none').addClass('d-block');
                         $("#displayImg").attr("src", '');
                         $("#image").val('');
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Your data has been deleted.',
-                            'success'
-                        );
+                        toastr["success"]('Data deleted.');
                     }
                 });
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {
-                swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    '',
-                    'error'
-                )
+                toastr["error"]('Cancelled.');
             }
         })
     }

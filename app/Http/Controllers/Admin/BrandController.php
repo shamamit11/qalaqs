@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\BrandRequest;
 use App\Services\Admin\BrandService;
 use Illuminate\Http\Request;
 
-use App\Models\ProductBrand;
+use App\Models\Brand;
 
 class BrandController extends Controller
 {
@@ -25,7 +25,7 @@ class BrandController extends Controller
         $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = 'Product Brands';
+        $page_title = ' Brands';
         $result = $this->brand->List($per_page, $page, $q);
         return view('admin.brand.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
@@ -40,11 +40,11 @@ class BrandController extends Controller
         $nav = 'brand';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Product Brands';
+        $page_title = 'Brands';
         $data['title'] = ($id == 0) ? "Add Brand" : "Edit Brand";
         $data['action'] = route('admin-brand-addaction');
-        $data['order'] = getMax('product_brands', 'order');
-        $data['row'] = ProductBrand::where('id', $id)->first();
+        $data['order'] = getMax('brands', 'order');
+        $data['row'] = Brand::where('id', $id)->first();
         return view('admin.brand.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
@@ -55,11 +55,11 @@ class BrandController extends Controller
 
     public function delete(Request $request)
     {
-        echo $this->brand->delete($request);
+        return  $this->brand->delete($request);
     }
     
     public function imageDelete(Request $request)
     {
-        echo $this->brand->imageDelete($request);
+        return  $this->brand->imageDelete($request);
     }
 }

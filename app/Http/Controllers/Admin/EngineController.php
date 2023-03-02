@@ -7,10 +7,10 @@ use App\Http\Requests\Admin\EngineRequest;
 use App\Services\Admin\EngineService;
 use Illuminate\Http\Request;
 
-use App\Models\ProductEngine;
-use App\Models\ProductMake;
-use App\Models\ProductModel;
-use App\Models\ProductYear;
+use App\Models\Engine;
+use App\Models\Make;
+use App\Models\Models;
+use App\Models\Year;
 
 class EngineController extends Controller
 {
@@ -28,7 +28,7 @@ class EngineController extends Controller
         $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = 'Product Engines';
+        $page_title = ' Engines';
         $result = $this->engine->List($per_page, $page, $q);
         return view('admin.engine.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
@@ -43,13 +43,13 @@ class EngineController extends Controller
         $nav = 'engine';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Product Engines';
+        $page_title = ' Engines';
         $data['title'] = ($id == 0) ? "Add Engine" : "Edit Engine";
         $data['action'] = route('admin-engine-addaction');
-        $data['makes'] = ProductMake::where('status', 1)->orderBy('name', 'asc')->get();
-        $data['models'] = ProductModel::where('status', 1)->orderBy('name', 'asc')->get();
-        $data['years'] = ProductYear::where('status', 1)->orderBy('name', 'asc')->get();
-        $data['row'] = ProductEngine::where('id', $id)->first();
+        $data['makes'] = Make::where('status', 1)->orderBy('name', 'asc')->get();
+        $data['models'] = Models::where('status', 1)->orderBy('name', 'asc')->get();
+        $data['years'] = Year::where('status', 1)->orderBy('name', 'asc')->get();
+        $data['row'] = Engine::where('id', $id)->first();
         return view('admin.engine.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
@@ -60,7 +60,7 @@ class EngineController extends Controller
 
     public function delete(Request $request)
     {
-        echo $this->engine->delete($request);
+        return $this->engine->delete($request);
     }
     
 }

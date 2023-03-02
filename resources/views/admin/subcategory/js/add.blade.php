@@ -1,42 +1,7 @@
 <script>
-function encodeImgtoBase64(file) {
-    var img = file;
-    var reader = new FileReader();
-    reader.onloadend = function() {
-        $("#btn_image_delete").removeClass('d-none');
-        $("#displayImg").removeClass('d-none');
-        $("#image").val(reader.result);
-        $("#displayImg").attr("src", reader.result);
-        $(".dropify-message").removeClass('d-block').addClass('d-none');
-    }
-    reader.readAsDataURL(img);
-}
-
 $(document).ready(function() {
 
-    var dropArea = document.querySelector('.drag-area');
-    var input = dropArea.querySelector('input');
-    dropArea.onclick = () => {
-        input.click();
-    };
-    // when browse
-    input.addEventListener('change', function() {
-        file = this.files[0];
-        encodeImgtoBase64(file);
-    });
-    // when file is inside drag area
-    dropArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        encodeImgtoBase64(file);
-    });
-
-    // when file is dropped
-    dropArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        file = e.dataTransfer.files[0]; // grab single file even of user selects multiple files
-        encodeImgtoBase64(file);
-    });
-
+   
     $('.select2').select2();
     $("#form").submit(function(e) {
         e.preventDefault();
@@ -53,7 +18,7 @@ $(document).ready(function() {
                 $('.btn-loading').html('Submit');
                 if (data.status_code == 201) {
                     toastr["success"](data.message);
-                    window.location.href = app_url + '/admin/subcategory';
+                    window.location.href = "{{route('admin-subcategory')}}";
                 }
             },
             error: function(xhr) {
@@ -62,6 +27,7 @@ $(document).ready(function() {
                 if (xhr.status == 422) {
                     var res = jQuery.parseJSON(xhr.responseText);
                     if (res.error == 'validation') {
+                        toastr["error"]("Please check required field.");
                         var messageLength = res.message.length;
                         for (var i = 0; i < messageLength; i++) {
                             for (const [key, value] of Object.entries(res.message[i])) {

@@ -1,17 +1,17 @@
 <?php
 namespace App\Services\Admin;
 
-use App\Models\ProductMake;
+use App\Models\Make;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Storage;
 
 class MakeService
 {
     use StoreImageTrait;
-    public function list($per_page, $page, $q) {
+    function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = ProductMake::select('*');
+            $query = Make::select('*');
             if ($q) {
                 $query->where('name', 'LIKE', '%' . $q . '%');
             }
@@ -38,10 +38,11 @@ class MakeService
     public function status($request)
     {
         try {
-            ProductMake::where('id', $request->id)
+            Make::where('id', $request->id)
                 ->update([
                     $request->field_name => $request->val,
                 ]);
+            return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
@@ -52,22 +53,15 @@ class MakeService
         try {
             if ($request['id']) {
                 $id = $request['id'];
-                $make = ProductMake::findOrFail($id);
+                $make = Make::findOrFail($id);
                 $message = "Data updated";
             } else {
                 $id = 0;
-                $make = new ProductMake;
+                $make = new Make;
                 $message = "Data added";
-            }
-            
-            if (preg_match('#^data:image.*?base64,#', $request['image'])) {
-                $image = $this->StoreBase64Image($request['image'], '/make/');
-            } else {
-                $image = ($make) ? $make->image : '';
             }
             $make->name = $request['name'];
             $make->status = isset($request['status']) ? 1 : 0;
-            $make->image = $image;
             $make->save();
             $response['message'] = $message;
             $response['errors'] = false;
@@ -82,26 +76,7 @@ class MakeService
     {
         try {
             $id = $request->id;
-            $ras = ProductMake::findOrFail($id);
-            Storage::disk('public')->delete('/make/' . $ras->image);
-            ProductMake::where('id', $id)->delete();
-            return "success";
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function imageDelete($request)
-    {
-        try {
-            $id = $request->id;
-            $field_name = $request->field_name;
-            $ras = ProductMake::where('id', $id)->first();
-            if ($ras) {
-                Storage::disk('public')->delete('/make/' . $ras->$field_name);
-                $ras->$field_name = '';
-                $ras->save();
-            }
+            Make::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);

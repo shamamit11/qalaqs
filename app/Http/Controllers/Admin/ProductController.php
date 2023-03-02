@@ -53,6 +53,6 @@ class ProductController extends Controller
 
     public function delete(Request $request)
     {
-        echo $this->product->delete($request);
+        return $this->product->delete($request);
     }
 }

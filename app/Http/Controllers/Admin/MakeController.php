@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\MakeRequest;
 use App\Services\Admin\MakeService;
 use Illuminate\Http\Request;
 
-use App\Models\ProductMake;
+use App\Models\Make;
 
 class MakeController extends Controller
 {
@@ -25,7 +25,7 @@ class MakeController extends Controller
         $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = 'Product Makes';
+        $page_title = ' Makes';
         $result = $this->make->List($per_page, $page, $q);
         return view('admin.make.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
@@ -40,10 +40,10 @@ class MakeController extends Controller
         $nav = 'make';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Product Makes';
+        $page_title = ' Makes';
         $data['title'] = ($id == 0) ? "Add Make" : "Edit Make";
         $data['action'] = route('admin-make-addaction');
-        $data['row'] = ProductMake::where('id', $id)->first();
+        $data['row'] = Make::where('id', $id)->first();
         return view('admin.make.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
@@ -54,11 +54,11 @@ class MakeController extends Controller
 
     public function delete(Request $request)
     {
-        echo $this->make->delete($request);
+        return $this->make->delete($request);
     }
     
     public function imageDelete(Request $request)
     {
-        echo $this->make->imageDelete($request);
+        return $this->make->imageDelete($request);
     }
 }

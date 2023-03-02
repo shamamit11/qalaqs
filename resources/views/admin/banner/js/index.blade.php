@@ -47,21 +47,16 @@ $(document).ready(function() {
                     },
                     success: function() {
                         $("#tr" + id).remove();
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Your data has been deleted.',
-                            'success'
-                        );
+                        toastr["success"]('Data deleted.');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
                     }
                 });
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {
-                swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    '',
-                    'error'
-                )
+                toastr["error"]('Cancelled.');
             }
         })
     });

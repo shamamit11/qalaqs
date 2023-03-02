@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
- */
+ */ 
 
 Route::controller('AuthController')->group(function () {
     Route::get('login', 'login')->name('admin-login');
@@ -32,15 +32,7 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::get('/account/change-password', 'changePassword')->name('admin-account-change-password');
         Route::post('/account/update-password', 'updatePassword')->name('admin-account-update-password');
     });
-
-    Route::controller('SupplierController')->group(function () {
-        Route::get('/supplier', 'index')->name('admin-supplier');
-        Route::post('/supplier/status', 'status')->name('admin-supplier-status');
-        Route::get('/supplier/add', 'addEdit')->name('admin-supplier-add');
-        Route::post('/supplier/addaction', 'addAction')->name('admin-supplier-addaction');
-        Route::post('/supplier/delete', 'delete')->name('admin-supplier-delete');
-    });
-
+    
     Route::controller('BannerController')->group(function () {
         Route::get('/banner', 'index')->name('admin-banner');
         Route::post('/banner/status', 'status')->name('admin-banner-status');
@@ -55,7 +47,6 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/category/status', 'status')->name('admin-category-status');
         Route::get('/category/add', 'addEdit')->name('admin-category-add');
         Route::post('/category/addaction', 'addAction')->name('admin-category-addaction');
-        Route::post('/category/imagedelete', 'imageDelete')->name('admin-category-imagedelete');
         Route::post('/category/delete', 'delete')->name('admin-category-delete');
     });
 
@@ -82,11 +73,10 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/make/status', 'status')->name('admin-make-status');
         Route::get('/make/add', 'addEdit')->name('admin-make-add');
         Route::post('/make/addaction', 'addAction')->name('admin-make-addaction');
-        Route::post('/make/imagedelete', 'imageDelete')->name('admin-make-imagedelete');
         Route::post('/make/delete', 'delete')->name('admin-make-delete');
     });
 
-    Route::controller('ModelController')->group(function () {
+    Route::controller('ModelsController')->group(function () {
         Route::get('/model', 'index')->name('admin-model');
         Route::post('/model/status', 'status')->name('admin-model-status');
         Route::get('/model/add', 'addEdit')->name('admin-model-add');
@@ -110,10 +100,12 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/engine/delete', 'delete')->name('admin-engine-delete');
     });
 
-    Route::controller('SupplierController')->group(function () {
-        Route::get('/supplier', 'index')->name('admin-supplier');
-        Route::post('/supplier/status', 'status')->name('admin-supplier-status');
-        Route::post('/supplier/delete', 'delete')->name('admin-supplier-delete');
+    Route::controller('VendorController')->group(function () {
+        Route::get('/vendor', 'index')->name('admin-vendor');
+        Route::post('/vendor/status', 'status')->name('admin-vendor-status');
+        Route::get('/vendor/add', 'addEdit')->name('admin-vendor-add');
+        Route::post('/vendor/addaction', 'addAction')->name('admin-vendor-addaction');
+        Route::post('/vendor/delete', 'delete')->name('admin-vendor-delete');
     });
 
     Route::controller('ProductController')->group(function () {

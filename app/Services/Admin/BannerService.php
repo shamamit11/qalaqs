@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class BannerService
 {
     use StoreImageTrait;
-    public function list($per_page, $page, $q) {
+    function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = Banner::select('*');
@@ -42,6 +42,7 @@ class BannerService
                 ->update([
                     $request->field_name => $request->val,
                 ]);
+            return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
@@ -59,12 +60,12 @@ class BannerService
                 $banner = new Banner;
                 $message = "Data added";
             }
-            
+
             if (preg_match('#^data:image.*?base64,#', $request['image'])) {
                 $image = $this->StoreBase64Image($request['image'], '/banner/');
             } else {
                 $image = ($banner) ? $banner->image : '';
-            } 
+            }
             $banner->name = $request['name'];
             $banner->order = $request['order'];
             $banner->status = isset($request['status']) ? 1 : 0;

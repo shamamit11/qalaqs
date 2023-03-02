@@ -1,17 +1,14 @@
 <?php
 namespace App\Services\Admin;
 
-use App\Models\ProductEngine;
-use App\Models\ProductMake;
-use App\Models\ProductModel;
-use App\Models\ProductYear;
+use App\Models\Engine;
 
 class EngineService
 {
-    public function list($per_page, $page, $q) {
+    function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = ProductEngine::select('*')->with('make')->with('model')->with('year');
+            $query = Engine::select('*')->with('make')->with('model')->with('year');
             if ($q) {
                 $search_key = $q;
                 $query->where(function ($qry) use ($search_key) {
@@ -27,7 +24,7 @@ class EngineService
                     });
                 });
             }
-            $data['engines'] = $query->orderBy('product_make_id', 'asc')->orderBy('product_model_id', 'asc')->orderBy('product_year_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
+            $data['engines'] = $query->orderBy('make_id', 'asc')->orderBy('model_id', 'asc')->orderBy('year_id', 'asc')->orderBy('id', 'desc')->paginate($per_page);
             $data['engines']->appends(array('q' => $q));
             if ($page != 1) {
                 $data['total_data'] = $data['engines']->total();
@@ -50,10 +47,11 @@ class EngineService
     public function status($request)
     {
         try {
-            ProductEngine::where('id', $request->id)
+            Engine::where('id', $request->id)
                 ->update([
                     $request->field_name => $request->val,
                 ]);
+            return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
@@ -64,17 +62,17 @@ class EngineService
         try {
             if ($request['id']) {
                 $id = $request['id'];
-                $engine = ProductEngine::findOrFail($id);
+                $engine = Engine::findOrFail($id);
                 $message = "Data updated";
             } else {
                 $id = 0;
-                $engine = new ProductEngine;
+                $engine = new Engine;
                 $message = "Data added";
             }
-            $engine->product_make_id = $request['make_id'];
-            $engine->product_model_id = $request['model_id'];
-            $engine->product_make_id = $request['make_id'];
-            $engine->product_year_id = $request['year_id'];
+            $engine->make_id = $request['make_id'];
+            $engine->model_id = $request['model_id'];
+            $engine->make_id = $request['make_id'];
+            $engine->year_id = $request['year_id'];
             $engine->name = $request['name'];
             $engine->status = isset($request['status']) ? 1 : 0;
             $engine->save();
@@ -91,7 +89,7 @@ class EngineService
     {
         try {
             $id = $request->id;
-            ProductEngine::where('id', $id)->delete();
+            Engine::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);

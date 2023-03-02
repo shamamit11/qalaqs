@@ -23,10 +23,10 @@ class BrandRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
+            'id' => 'integer|nullable',
             'name' => 'required',
             'image' => 'nullable',
-            'order' => 'required|numeric',
+            'order' => 'required|integer',
             'status' => 'nullable',
         ];
     }

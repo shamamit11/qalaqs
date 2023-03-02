@@ -23,11 +23,10 @@ class SubcategoryRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
-            'category_id' => 'required|exists:product_categories,id',
+            'id' => 'integer|nullable',
+            'category_id' => 'required|exists:categories,id',
             'name' => 'required',
-            'image' => 'nullable',
-            'order' => 'required|numeric',
+            'order' => 'required|integer',
             'status' => 'nullable',
         ];
     }

@@ -1,4 +1,6 @@
-<script src="{{ asset('assets/libs/chained/jquery.chained.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-chained/1.0.1/jquery.chained.min.js"
+    integrity="sha512-rcWQG55udn0NOSHKgu3DO5jb34nLcwC+iL1Qq6sq04Sj7uW27vmYENyvWm8I9oqtLoAE01KzcUO6THujRpi/Kg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(document).ready(function() {
     $('.select2').select2();
@@ -19,7 +21,7 @@ $(document).ready(function() {
                 $('.btn-loading').html('Submit');
                 if (data.status_code == 201) {
                     toastr["success"](data.message);
-                    window.location.href = app_url + '/admin/engine';
+                    window.location.href = "{{route('admin-engine')}}";
                 }
             },
             error: function(xhr) {
@@ -28,6 +30,7 @@ $(document).ready(function() {
                 if (xhr.status == 422) {
                     var res = jQuery.parseJSON(xhr.responseText);
                     if (res.error == 'validation') {
+                        toastr["error"]("Please check required field.");
                         var messageLength = res.message.length;
                         for (var i = 0; i < messageLength; i++) {
                             for (const [key, value] of Object.entries(res.message[i])) {

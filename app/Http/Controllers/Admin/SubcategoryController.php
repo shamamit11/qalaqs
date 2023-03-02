@@ -7,8 +7,8 @@ use App\Http\Requests\Admin\SubcategoryRequest;
 use App\Services\Admin\SubcategoryService;
 use Illuminate\Http\Request;
 
-use App\Models\ProductCategory;
-use App\Models\ProductSubCategory;
+use App\Models\Category;
+use App\Models\SubCategory;
 
 class SubcategoryController extends Controller
 {
@@ -26,7 +26,7 @@ class SubcategoryController extends Controller
         $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = 'Product Subcategory';
+        $page_title = ' Subcategory';
         $result = $this->subcategory->List($per_page, $page, $q);
         return view('admin.subcategory.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
@@ -41,12 +41,12 @@ class SubcategoryController extends Controller
         $nav = 'subcategory';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Product Subcategory';
+        $page_title = ' Subcategory';
         $data['title'] = ($id == 0) ? "Add Subcategory" : "Edit Subcategory";
         $data['action'] = route('admin-subcategory-addaction');
-        $data['order'] = getMax('product_sub_categories', 'order');
-        $data['categories'] = ProductCategory::where('status', 1)->orderBy('order', 'asc')->get();
-        $data['row'] = ProductSubCategory::where('id', $id)->first();
+        $data['order'] = getMax('subcategories', 'order');
+        $data['categories'] = Category::where('status', 1)->orderBy('order', 'asc')->get();
+        $data['row'] = SubCategory::where('id', $id)->first();
         return view('admin.subcategory.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
@@ -57,11 +57,11 @@ class SubcategoryController extends Controller
 
     public function delete(Request $request)
     {
-        echo $this->subcategory->delete($request);
+        return $this->subcategory->delete($request);
     }
     
     public function imageDelete(Request $request)
     {
-        echo $this->subcategory->imageDelete($request);
+        return $this->subcategory->imageDelete($request);
     }
 }

@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\CategoryRequest;
 use App\Services\Admin\CategoryService;
 use Illuminate\Http\Request;
 
-use App\Models\ProductCategory;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -25,7 +25,7 @@ class CategoryController extends Controller
         $per_page = 10;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = 'Product Category';
+        $page_title = ' Category';
         $result = $this->category->List($per_page, $page, $q);
         return view('admin.category.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
@@ -40,11 +40,11 @@ class CategoryController extends Controller
         $nav = 'category';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Product Category';
+        $page_title = ' Category';
         $data['title'] = ($id == 0) ? "Add Category" : "Edit Category";
         $data['action'] = route('admin-category-addaction');
-        $data['order'] = getMax('product_categories', 'order');
-        $data['row'] = ProductCategory::where('id', $id)->first();
+        $data['order'] = getMax('categories', 'order');
+        $data['row'] = Category::where('id', $id)->first();
         return view('admin.category.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
@@ -55,11 +55,11 @@ class CategoryController extends Controller
 
     public function delete(Request $request)
     {
-        echo $this->category->delete($request);
+        return $this->category->delete($request);
     }
     
     public function imageDelete(Request $request)
     {
-        echo $this->category->imageDelete($request);
+        return $this->category->imageDelete($request);
     }
 }

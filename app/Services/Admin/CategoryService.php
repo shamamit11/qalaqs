@@ -1,17 +1,17 @@
 <?php
 namespace App\Services\Admin;
 
-use App\Models\ProductCategory;
+use App\Models\Category;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryService
 {
     use StoreImageTrait;
-    public function list($per_page, $page, $q) {
+    function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = ProductCategory::select('*');
+            $query = Category::select('*');
             if ($q) {
                 $query->where('name', 'LIKE', '%' . $q . '%');
             }
@@ -38,10 +38,11 @@ class CategoryService
     public function status($request)
     {
         try {
-            ProductCategory::where('id', $request->id)
+            Category::where('id', $request->id)
                 ->update([
                     $request->field_name => $request->val,
                 ]);
+            return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
@@ -52,23 +53,16 @@ class CategoryService
         try {
             if ($request['id']) {
                 $id = $request['id'];
-                $category = ProductCategory::findOrFail($id);
+                $category = Category::findOrFail($id);
                 $message = "Data updated";
             } else {
                 $id = 0;
-                $category = new ProductCategory;
+                $category = new Category;
                 $message = "Data added";
-            }
-            
-            if (preg_match('#^data:image.*?base64,#', $request['image'])) {
-                $image = $this->StoreBase64Image($request['image'], '/category/');
-            } else {
-                $image = ($category) ? $category->image : '';
             }
             $category->name = $request['name'];
             $category->order = $request['order'];
             $category->status = isset($request['status']) ? 1 : 0;
-            $category->image = $image;
             $category->save();
             $response['message'] = $message;
             $response['errors'] = false;
@@ -83,26 +77,7 @@ class CategoryService
     {
         try {
             $id = $request->id;
-            $ras = ProductCategory::findOrFail($id);
-            Storage::disk('public')->delete('/category/' . $ras->image);
-            ProductCategory::where('id', $id)->delete();
-            return "success";
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function imageDelete($request)
-    {
-        try {
-            $id = $request->id;
-            $field_name = $request->field_name;
-            $ras = ProductCategory::where('id', $id)->first();
-            if ($ras) {
-                Storage::disk('public')->delete('/category/' . $ras->$field_name);
-                $ras->$field_name = '';
-                $ras->save();
-            }
+            Category::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);

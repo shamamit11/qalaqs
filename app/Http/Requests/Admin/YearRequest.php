@@ -23,10 +23,10 @@ class YearRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
+            'id' => 'integer|nullable',
             'name' => 'required|digits:4',
-            'make_id' => 'required|exists:product_makes,id',
-            'model_id' => 'required|exists:product_models,id',
+            'make_id' => 'required|exists:makes,id',
+            'model_id' => 'required|exists:models,id',
             'status' => 'nullable',
         ];
     }

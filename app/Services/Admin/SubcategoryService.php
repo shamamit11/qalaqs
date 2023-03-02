@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Admin;
 
-use App\Models\ProductSubCategory;
+use App\Models\Subcategory;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,7 +11,7 @@ class SubcategoryService
     public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = ProductSubCategory::select('*')->with('category');
+            $query = Subcategory::select('*')->with('category');
             if ($q) {
                 $search_key = $q;
                 $query->where(function ($qry) use ($search_key) {
@@ -21,7 +21,7 @@ class SubcategoryService
                     });
                 });
             }
-            $data['subcategories'] = $query->orderBy('product_category_id', 'asc')->orderBy('order', 'asc')->paginate($per_page);
+            $data['subcategories'] = $query->orderBy('category_id', 'asc')->orderBy('order', 'asc')->paginate($per_page);
             $data['subcategories']->appends(array('q' => $q));
             if ($page != 1) {
                 $data['total_data'] = $data['subcategories']->total();
@@ -44,10 +44,11 @@ class SubcategoryService
     public function status($request)
     {
         try {
-            ProductSubCategory::where('id', $request->id)
+            Subcategory::where('id', $request->id)
                 ->update([
                     $request->field_name => $request->val,
                 ]);
+                return 'success';
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
@@ -58,24 +59,17 @@ class SubcategoryService
         try {
             if ($request['id']) {
                 $id = $request['id'];
-                $subcategory = ProductSubCategory::findOrFail($id);
+                $subcategory = Subcategory::findOrFail($id);
                 $message = "Data updated";
             } else {
                 $id = 0;
-                $subcategory = new ProductSubCategory;
+                $subcategory = new SubCategory;
                 $message = "Data added";
             }
-
-            if (preg_match('#^data:image.*?base64,#', $request['image'])) {
-                $image = $this->StoreBase64Image($request['image'], '/subcategory/');
-            } else {
-                $image = ($subcategory) ? $subcategory->image : '';
-            }
-            $subcategory->product_category_id = $request['category_id'];
+            $subcategory->category_id = $request['category_id'];
             $subcategory->name = $request['name'];
             $subcategory->order = $request['order'];
             $subcategory->status = isset($request['status']) ? 1 : 0;
-            $subcategory->image = $image;
             $subcategory->save();
             $response['message'] = $message;
             $response['errors'] = false;
@@ -90,26 +84,7 @@ class SubcategoryService
     {
         try {
             $id = $request->id;
-            $ras = ProductSubCategory::findOrFail($id);
-            Storage::disk('public')->delete('/subcategory/' . $ras->image);
-            ProductSubCategory::where('id', $id)->delete();
-            return "success";
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function imageDelete($request)
-    {
-        try {
-            $id = $request->id;
-            $field_name = $request->field_name;
-            $ras = ProductSubCategory::where('id', $id)->first();
-            if ($ras) {
-                Storage::disk('public')->delete('/subcategory/' . $ras->$field_name);
-                $ras->$field_name = '';
-                $ras->save();
-            }
+            Subcategory::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
