@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
 
 
 Route::get('/banner', 'BannerController@list');
+Route::post('/add_vendor', 'VendorController@add');
 Route::controller('ProductController')->group(function () {
     Route::get('/make', 'make');
     Route::get('/model', 'model');
@@ -41,6 +42,7 @@ Route::controller('ProductController')->group(function () {
     Route::get('/engine', 'engine');
     Route::get('/category', 'category');
     Route::get('/subcategory', 'subcategory');
+    Route::get('/product', 'product');
     Route::get('/product', 'product');
 });
 
