@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth;
+namespace App\Http\Requests\Api\Vendor\Account;
 use App\Http\Requests\ApiRequest;
 
-class LoginRequest extends ApiRequest
+class UpdatePasswordRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,9 @@ class LoginRequest extends ApiRequest
     public function rules()
     {
         return [
-            'email' => 'required',
-            'password' => 'required',
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required|same:new_password',
         ];
     }
 }

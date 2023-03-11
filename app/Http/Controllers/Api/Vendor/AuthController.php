@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Auth\LoginRequest;
-use App\Services\Api\AuthService;
+use App\Http\Requests\Api\Vendor\Auth\LoginRequest;
+use App\Http\Requests\Api\Vendor\Auth\RegisterVendorRequest;
+use App\Services\Api\Vendor\AuthService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -15,6 +17,12 @@ class AuthController extends Controller
     {
         $this->auth = $AuthService;
     }
+
+    public function registerVendor(RegisterVendorRequest $request)
+    {
+        return $this->auth->registerVendor($request->validated());
+    }
+    
 
     public function checkLogin(LoginRequest $request)
     {
@@ -26,9 +34,6 @@ class AuthController extends Controller
         return $this->auth->refreshToken();
     }
 
-    public function logout()
-    {
-        return $this->auth->logout();
-    }
+  
 
 }
