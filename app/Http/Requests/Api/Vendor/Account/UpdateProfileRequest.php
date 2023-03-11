@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Vendor\Account;
 
 use App\Http\Requests\ApiRequest;
 
-class VendorRequest extends ApiRequest
+class UpdateProfileRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,14 +26,11 @@ class VendorRequest extends ApiRequest
         return [
             'business_name' => 'required',
             'first_name' => 'required',
-            'first_name' => 'required',
             'last_name' => 'required',
             'mobile' => 'required',
-            'email' => 'required|email|unique:vendors,email',
-            'password' => 'required',
-            'account_type' => 'required',
-            'license_image' => 'required',
-
+            'address' => 'required',
+            'city' => 'required',
+            'image' => ($this->image) ? 'image' : '',
         ];
     }
 }

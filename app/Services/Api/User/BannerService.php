@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Api;
+namespace App\Services\Api\User;
 
 use App\Models\Banner;
 use Illuminate\Support\Facades\Storage;
