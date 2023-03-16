@@ -186,7 +186,7 @@ class ProductService
                         'stock' => $product->stock,
                         'specifications' => $product->specifications,
                         'matches' => $matches,
-                        'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image[0]->image),
+                        'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image),
                         'images' => $product->images,
                         'reviews' => $reviews);
                     array_push($product_data, $data);
