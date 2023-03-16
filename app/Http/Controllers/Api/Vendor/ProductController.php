@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\User;
+namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Services\Api\User\ProductService;
+use App\Services\Api\Vendor\ProductService;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\User\Product\ProductRequest;
-
+use App\Http\Requests\Api\Vendor\ProductRequest;
 
 class ProductController extends Controller
 {

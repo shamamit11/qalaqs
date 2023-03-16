@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('product_specifications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->string('specification_name')->nullable();
-            $table->string('specification_value')->nullable();
-            $table->timestamps();
+            $table->string('weight')->nullable();
+            $table->string('height')->nullable();
+            $table->string('width')->nullable();
+            $table->string('length')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
 
         });
     }

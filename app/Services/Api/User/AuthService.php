@@ -66,24 +66,4 @@ class AuthService
         }
     }
 
-    public function logout()
-    {
-        try {
-            $tokens = Auth::guard('user-api')->user()->tokens;
-            if ($tokens) {
-                foreach ($tokens as $token) {
-                    $token->revoke();
-                }
-            }
-            Auth::guard('user-api')->logout(true);
-            $response['message'] = __('logout');
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
 }

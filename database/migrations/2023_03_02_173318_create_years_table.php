@@ -16,9 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('model_id')->nullable();
             $table->year('name')->nullable();
             $table->boolean('status')->nullable()->default(1)->comment('0 = hide, 1 = show');
-            $table->timestamps();
             $table->foreign('make_id')->references('id')->on('makes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('model_id')->references('id')->on('models')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

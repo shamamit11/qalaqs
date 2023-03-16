@@ -1,18 +1,138 @@
 <?php
 namespace App\Services\Api\Vendor;
 
-use App\Models\Product;
-use App\Models\ProductEngine;
-use App\Models\ProductImage;
-use App\Models\ProductMatch;
-use App\Models\ProductSpecification;
+use App\Models\Category;
+use App\Models\Engine;
+use App\Models\Make;
+use App\Models\Models;
+use App\Models\SubCategory;
+use App\Models\Year;
 use App\Traits\StoreImageTrait;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
     use StoreImageTrait;
+
+    public function make()
+    {
+        try {
+            $make_data = array();
+            $makes = Make::where('status', 1)->orderBy('name', 'asc')->get();
+            if ($makes->count() > 0) {
+                foreach ($makes as $make) {
+                    array_push($make_data, array('id' => $make->id, 'name' => $make->name, 'image' => Storage::disk('public')->url('make/' . $make->image)));
+                }
+            }
+            $response['data'] = $make_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function model()
+    {
+        try {
+            $model_data = array();
+            $models = Models::where('status', 1)->orderBy('name', 'asc')->get();
+            if ($models->count() > 0) {
+                foreach ($models as $model) {
+                    array_push($model_data, array('id' => $model->id, 'name' => $model->name, 'make_id' => $model->make_id));
+                }
+            }
+            $response['data'] = $model_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function year()
+    {
+        try {
+            $year_data = array();
+            $years = Year::where('status', 1)->orderBy('name', 'asc')->get();
+            if ($years->count() > 0) {
+                foreach ($years as $year) {
+                    array_push($year_data, array('id' => $year->id, 'name' => $year->name, 'make_id' => $year->make_id, 'model_id' => $year->model_id));
+                }
+            }
+            $response['data'] = $year_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function engine()
+    {
+        try {
+            $engine_data = array();
+            $engines = Engine::where('status', 1)->orderBy('name', 'asc')->get();
+            if ($engines->count() > 0) {
+                foreach ($engines as $engine) {
+                    array_push($engine_data, array('id' => $engine->id, 'name' => $engine->name, 'make_id' => $engine->make_id, 'model_id' => $engine->model_id, 'year_id' => $engine->year_id));
+                }
+            }
+            $response['data'] = $engine_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function category()
+    {
+        try {
+            $category_data = array();
+            $categories = Category::where('status', 1)->orderBy('order', 'asc')->get();
+            if ($categories->count() > 0) {
+                foreach ($categories as $category) {
+                    array_push($category_data, array('id' => $category->id, 'name' => $category->name));
+                }
+            }
+            $response['data'] = $category_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function subcategory()
+    {
+        try {
+            $subcategory_data = array();
+            $subcategories = Subcategory::where('status', 1)->orderBy('order', 'asc')->get();
+            if ($subcategories->count() > 0) {
+                foreach ($subcategories as $subcategory) {
+                    array_push($subcategory_data, array('id' => $subcategory->id, 'name' => $subcategory->name, 'category_id' => $subcategory->category_id));
+                }
+            }
+            $response['data'] = $subcategory_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
 
     // function list($per_page, $page, $q) {
     //     try {
