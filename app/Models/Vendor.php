@@ -27,6 +27,8 @@ class Vendor extends Authenticatable implements JWTSubject
         'email_verified',
         'admin_approved',
         'status',
+        'account_type',
+        'license_image',
     ];
     
     /**

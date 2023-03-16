@@ -42,6 +42,7 @@ Route::controller('ProductController')->group(function () {
     Route::get('/category', 'category');
     Route::get('/subcategory', 'subcategory');
     Route::get('/product', 'product');
+    Route::get('/product', 'product');
 });
 
 

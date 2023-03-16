@@ -47,11 +47,16 @@ return [
         ],
 
         'vendor' => [
+            'driver' => 'session',
+            'provider' => 'vendors',
+        ],
+
+        'vendor-api' => [
             'driver' => 'jwt',
             'provider' => 'vendors',
         ],
 
-        'api' => [
+        'user-api' => [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
@@ -118,7 +123,7 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        
+
         'admins' => [
             'provider' => 'admins',
             'table' => 'password_reset_tokens',

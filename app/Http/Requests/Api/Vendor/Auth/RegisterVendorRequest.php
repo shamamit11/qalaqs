@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth;
+namespace App\Http\Requests\Api\Vendor\Auth;
+
 use App\Http\Requests\ApiRequest;
 
-class LoginRequest extends ApiRequest
+class RegisterVendorRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +24,14 @@ class LoginRequest extends ApiRequest
     public function rules()
     {
         return [
-            'email' => 'required',
+            'business_name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'mobile' => 'required',
+            'email' => 'required|email|unique:vendors,email',
             'password' => 'required',
+            'account_type' => 'required',
+            'image' => 'required|image',
         ];
     }
 }
