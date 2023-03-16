@@ -21,7 +21,7 @@ class AdminSeeder extends Seeder
             $admin->name = 'Qalaqs Admin';
             $admin->email = 'info@qalaqs.ae';
             $admin->username = 'admin';
-            $admin->password = Hash::make('admin@12345');
+            $admin->password = Hash::make('admin@2023');
             $admin->user_type = 'S';
             $admin->save();
         }

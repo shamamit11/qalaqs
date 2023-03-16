@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['vendor_id', 'sku', 'part', 'part_number', 'type', 'manufacturer', 'name', 'image', 'category_id', 'subcategory_id', 'brand_id', 'make_id', 'model_id', 'year_id', 'engine_id', 'warranty', 'price'];
+    protected $fillable = ['vendor_id', 'sku', 'part', 'part_number', 'type', 'manufacturer', 'name', 'image', 'category_id', 'subcategory_id', 'brand_id', 'make_id', 'model_id', 'year_id', 'engine_id', 'warranty', 'discount', 'price'];
 
     public function vendor()
     {
@@ -52,12 +52,7 @@ class Product extends Model
 
     public function images()
     {
-        return $this->hasMany(ProductImage::class, 'id', 'id')->orderBy('order', 'asc');
-    }
-
-    public function image()
-    {
-        return $this->hasMany(ProductImage::class, 'id', 'id')->where('is_primary', 1);
+        return $this->hasMany(ProductImage::class, 'id', 'id');
     }
 
     public function specifications()

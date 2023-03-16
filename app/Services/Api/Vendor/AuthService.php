@@ -13,6 +13,7 @@ class AuthService
     public function registerVendor($request) {
         try {
             $vendor = new Vendor();
+            $vendor->vendor_code = rand(11111111, 99999999);
             $vendor->account_type =  $request['account_type'];
             $vendor->business_name = $request['business_name'];
             $vendor->first_name = $request['first_name'];
@@ -22,6 +23,7 @@ class AuthService
             $vendor->password =  Hash::make($request['password']);
             $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
             $vendor->save();
+            $response['data'] = $vendor;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 201;
@@ -59,25 +61,6 @@ class AuthService
             $refresh_token = Auth::guard('vendor-api')->refresh();
             $response['data'] = $refresh_token;
             $response['message'] = __('fresh token');
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function logout()
-    {
-        try {
-            $tokens = Auth::guard('vendor-api')->user()->tokens;
-            if ($tokens) {
-                foreach ($tokens as $token) {
-                    $token->revoke();
-                }
-            }
-            Auth::guard('vendor-api')->logout(true);
-            $response['message'] = __('logout');
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);

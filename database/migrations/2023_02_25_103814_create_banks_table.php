@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('account_name')->nullable();
             $table->string('account_no')->nullable();
             $table->string('iban')->nullable();
-            $table->timestamps();
             $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

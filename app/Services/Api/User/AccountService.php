@@ -1,7 +1,7 @@
 <?php
-namespace App\Services\Api\Vendor;
+namespace App\Services\Api\User;
 
-use App\Models\Vendor;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -14,18 +14,16 @@ class AccountService
     public function updateProfile($request)
     {
         try {
-            $id = Auth::guard('vendor-api')->id();
-            $vendor = Vendor::findOrFail($id);
-            $vendor->business_name = $request['business_name'];
-            $vendor->first_name = $request['first_name'];
-            $vendor->last_name = $request['last_name'];
-            $vendor->address = $request['address'];
-            $vendor->city = $request['city'];
-            $vendor->mobile = $request['mobile'];
-            $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
-            $vendor->save();
-            $vendor->image = Storage::disk('public')->url('/vendor/'.$vendor->image);
-            $response['data'] = $vendor;
+            $id = Auth::guard('user-api')->id();
+            $user = User::findOrFail($id);
+            $user->business_name = $request['business_name'];
+            $user->first_name = $request['first_name'];
+            $user->last_name = $request['last_name'];
+            $user->mobile = $request['mobile'];
+            $user->image = isset($request['image']) ? $this->StoreImage($request['image'], '/user/') : null;
+            $user->save();
+            $user->image = Storage::disk('public')->url('/user/'.$user->image);
+            $response['data'] = $user;
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
@@ -37,8 +35,8 @@ class AccountService
     public function updatePassword($request)
     {
         try {
-            if (Hash::check($request['old_password'], Auth::guard('vendor-api')->user()->password)) {
-                Vendor::whereId(Auth::guard('vendor-api')->id())->update([
+            if (Hash::check($request['old_password'], Auth::guard('user-api')->user()->password)) {
+                User::whereId(Auth::guard('user-api')->id())->update([
                     'password' => Hash::make($request['new_password']),
                 ]);
                 $response['data'] = true;
@@ -59,13 +57,13 @@ class AccountService
     public function logout()
     {
         try {
-            $tokens = Auth::guard('vendor-api')->user()->tokens;
+            $tokens = Auth::guard('user-api')->user()->tokens;
             if ($tokens) {
                 foreach ($tokens as $token) {
                     $token->revoke();
                 }
             }
-            Auth::guard('vendor-api')->logout(true);
+            Auth::guard('user-api')->logout(true);
             $response['message'] = __('logout');
             $response['errors'] = null;
             $response['status_code'] = 200;
