@@ -202,4 +202,60 @@ class ProductService
         }
     }
 
+    public function featuredProduct()
+    {
+        try {
+            $conditions = ['is_featured' => 1, 'admin_approved' => '1'];
+            $product_data = array();
+            $products = Product::where($conditions)->orderBy('id', 'desc')->take(9)->get();
+            if ($products->count() > 0) {
+                foreach ($products as $product) {
+                    array_push($product_data, array('id' => $product->id, 'name' => $product->name, 'price' => $product->price, 'part_type' => $product->part_type, 'part_number' => $product->part_number));
+                }
+            }
+            $response['data'] = $product_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+
+    public function landingPageProduct()
+    {
+        try {
+            $product_data = array();
+            $conditions_feature = ['is_featured' => 1, 'admin_approved' => '1'];
+            $conditions_top_deal = ['is_featured' => 1, 'admin_approved' => '1'];
+            $feature_product_data = array();
+            $feature_products = Product::where($conditions_feature)->orderBy('id', 'desc')->take(3)->get();
+            if ($feature_products->count() > 0) {
+                foreach ($feature_products as $feature_product) {
+                    array_push($feature_product_data, array('id' => $feature_product->id, 'name' => $feature_product->name, 'price' => $feature_product->price, 'part_type' => $feature_product->part_type, 'part_number' => $feature_product->part_number));
+                }
+            }
+            $top_deal_product_data = array();
+            $top_deal_products = Product::where($conditions_top_deal)->orderBy('id', 'desc')->take(3)->get();
+            if ($top_deal_products->count() > 0) {
+                foreach ($top_deal_products as $top_deal_product) {
+                    array_push($top_deal_product_data, array('id' => $top_deal_product->id, 'name' => $top_deal_product->name, 'price' => $top_deal_product->price, 'part_type' => $top_deal_product->part_type, 'part_number' => $top_deal_product->part_number));
+                }
+            }
+            $product_data[] = ['feature_product'=>$feature_product_data,'top_deal_product'=>$top_deal_product_data];
+            //$product_data = array_push($product_data,array('feature_product'=>$feature_product_data,'top_deal_product'=>$top_deal_product_data));
+            $response['data'] = $product_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+
+
 }

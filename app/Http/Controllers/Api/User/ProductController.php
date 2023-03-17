@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Services\Api\ProductService;
+use App\Services\Api\User\ProductService;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\User\ProductRequest;
+use App\Http\Requests\Api\User\Product\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -43,5 +43,15 @@ class ProductController extends Controller
     public function product(ProductRequest $request) {
         return $this->product->product($request->validated());
     }
+
+    public function featuredProduct() {
+        return $this->product->featuredProduct();
+    }
+
+    public function landingPageProduct() {
+        return $this->product->landingPageProduct();
+    }
+
+
 
 }
