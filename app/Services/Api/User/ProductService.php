@@ -5,7 +5,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Engine;
 use App\Models\Make;
-use App\Models\Model;
+use App\Models\Models;
 use App\Models\SubCategory;
 use App\Models\Review;
 use App\Models\Year;
@@ -37,10 +37,10 @@ class ProductService
     {
         try {
             $model_data = array();
-            $models = Model::where('status', 1)->orderBy('name', 'asc')->get();
+            $models = Models::where('status', 1)->orderBy('name', 'asc')->get();
             if ($models->count() > 0) {
                 foreach ($models as $model) {
-                    array_push($model_data, array('id' => $model->id, 'name' => $model->name, 'make_id' => $model->_make_id));
+                    array_push($model_data, array('id' => $model->id, 'name' => $model->name, 'make_id' => $model->make_id));
                 }
             }
             $response['data'] = $model_data;
@@ -60,7 +60,7 @@ class ProductService
             $years = Year::where('status', 1)->orderBy('name', 'asc')->get();
             if ($years->count() > 0) {
                 foreach ($years as $year) {
-                    array_push($year_data, array('id' => $year->id, 'name' => $year->name, 'make_id' => $year->_make_id, 'model_id' => $year->_model_id));
+                    array_push($year_data, array('id' => $year->id, 'name' => $year->name, 'make_id' => $year->make_id, 'model_id' => $year->model_id));
                 }
             }
             $response['data'] = $year_data;
@@ -80,7 +80,7 @@ class ProductService
             $engines = Engine::where('status', 1)->orderBy('name', 'asc')->get();
             if ($engines->count() > 0) {
                 foreach ($engines as $engine) {
-                    array_push($engine_data, array('id' => $engine->id, 'name' => $engine->name, 'make_id' => $engine->_make_id, 'model_id' => $engine->_model_id, 'year_id' => $engine->_year_id));
+                    array_push($engine_data, array('id' => $engine->id, 'name' => $engine->name, 'make_id' => $engine->make_id, 'model_id' => $engine->model_id, 'year_id' => $engine->year_id));
                 }
             }
             $response['data'] = $engine_data;
@@ -100,7 +100,7 @@ class ProductService
             $categories = Category::where('status', 1)->orderBy('order', 'asc')->get();
             if ($categories->count() > 0) {
                 foreach ($categories as $category) {
-                    array_push($category_data, array('id' => $category->id, 'name' => $category->name, 'image' => Storage::disk('public')->url('category/' . $category->image)));
+                    array_push($category_data, array('id' => $category->id, 'name' => $category->name));
                 }
             }
             $response['data'] = $category_data;
@@ -120,7 +120,7 @@ class ProductService
             $subcategories = Subcategory::where('status', 1)->orderBy('order', 'asc')->get();
             if ($subcategories->count() > 0) {
                 foreach ($subcategories as $subcategory) {
-                    array_push($subcategory_data, array('id' => $subcategory->id, 'name' => $subcategory->name, 'image' => Storage::disk('public')->url('subcategory/' . $subcategory->image), 'category_id' => $subcategory->_category_id));
+                    array_push($subcategory_data, array('id' => $subcategory->id, 'name' => $subcategory->name, 'category_id' => $subcategory->category_id));
                 }
             }
             $response['data'] = $subcategory_data;
@@ -138,7 +138,7 @@ class ProductService
         try {
             $conditions = array('type' => $request['type'],
                 'category_id' => $request['category_id'],
-                'sub_category_id' => $request['subcategory_id'],
+                'subcategory_id' => $request['subcategory_id'],
                 'make_id' => $request['make_id'],
                 'model_id' => $request['model_id'],
                 'year_id' => $request['year_id'],
@@ -186,7 +186,7 @@ class ProductService
                         'stock' => $product->stock,
                         'specifications' => $product->specifications,
                         'matches' => $matches,
-                        'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image[0]->image),
+                        'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image),
                         'images' => $product->images,
                         'reviews' => $reviews);
                     array_push($product_data, $data);

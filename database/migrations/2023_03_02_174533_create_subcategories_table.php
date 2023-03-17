@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->integer('order')->nullable();
             $table->boolean('status')->nullable()->default(1)->comment('0 = hide, 1 = show');
-            $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

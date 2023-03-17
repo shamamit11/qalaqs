@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -29,25 +28,23 @@ Route::controller('AuthController')->group(function () {
 });
 
 Route::group(['middleware' => ['auth.jwt']], function () {
-    Route::controller('AuthController')->group(function () {
+    Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
+        Route::post('/update-profile', 'updateProfile');
+        Route::post('/update-password', 'updatePassword');
     });
+
+    Route::get('/banner', 'BannerController@list');
+    Route::controller('ProductController')->group(function () {
+        Route::get('/make', 'make');
+        Route::get('/model', 'model');
+        Route::get('/year', 'year');
+        Route::get('/engine', 'engine');
+        Route::get('/category', 'category');
+        Route::get('/subcategory', 'subcategory');
+        Route::get('/product', 'product');
+        Route::get('/feature-product', 'featuredProduct');
+        Route::get('/landing-page-product', 'landingPageProduct');
+    });
+
 });
-
-
-Route::get('/banner', 'BannerController@list');
-Route::controller('ProductController')->group(function () {
-    Route::get('/make', 'make');
-    Route::get('/model', 'model');
-    Route::get('/year', 'year');
-    Route::get('/engine', 'engine');
-    Route::get('/category', 'category');
-    Route::get('/subcategory', 'subcategory');
-    Route::get('/product', 'product');
-    Route::get('/product', 'product');
-    Route::get('/feature-product', 'featuredProduct');
-    Route::get('/landing-page-product', 'landingPageProduct');
-});
-
-
-
