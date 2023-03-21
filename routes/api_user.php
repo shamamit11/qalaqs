@@ -27,7 +27,7 @@ Route::controller('AuthController')->group(function () {
     Route::get('refresh-token', 'refreshToken')->name('refresh-token');
 });
 
-Route::group(['middleware' => ['auth.jwt']], function () {
+//Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
         Route::post('/update-profile', 'updateProfile');
@@ -43,8 +43,9 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/category', 'category');
         Route::get('/subcategory', 'subcategory');
         Route::get('/product', 'product');
+        Route::get('/product/{id}', 'productDetail');
         Route::get('/feature-product', 'featuredProduct');
         Route::get('/landing-page-product', 'landingPageProduct');
     });
 
-});
+//});

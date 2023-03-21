@@ -44,6 +44,10 @@ class ProductController extends Controller
         return $this->product->product($request->validated());
     }
 
+    public function productDetail($id) {
+        return $this->product->productDetail($id);
+    }
+
     public function featuredProduct() {
         return $this->product->featuredProduct();
     }

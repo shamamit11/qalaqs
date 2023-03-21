@@ -202,6 +202,59 @@ class ProductService
         }
     }
 
+    public function productDetail($id)
+    {
+        try {
+
+            $product_data = array();
+            $product = Product::find($id);
+            $product_images = array();
+            foreach($product->images as $val){
+                $product_images[] = ['id'=>$val->id,
+                                    'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $val->image)];
+            }
+            $product_specificatios = array();
+            foreach($product->specifications as $val1){
+                $product_specificatios[] = ['id' => $val1->id,
+                                                'specification_name' => $val1->specification_name,
+                                                'specification_value' => $val1->specification_value];
+
+            }
+
+            $product_data[] = [
+                'sku' => $product->sku,
+                'part_type' => $product->part_type,
+                'part_number' => $product->part_number,
+                'type' => $product->type,
+                'manufacturer' => $product->manufacturer,
+                'rating' => '',
+                'name' => $product->name,
+                'category' => $product->category->name,
+                'subcategory' => $product->subcategory->name,
+                'brand' => $product->brand->name,
+                'make' => $product->make->name,
+                'model' => '',
+                'year' => $product->year->name,
+                'engine' => $product->engine->name,
+                'warranty' => $product->warranty,
+                'price' => $product->price,
+                'stock' => $product->stock,
+                'specifications' => $product_specificatios,
+                'matches' => '',
+                'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image),
+                'images' => $product_images,
+                'reviews' => ''];
+
+            $response['data'] = $product_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function featuredProduct()
     {
         try {
