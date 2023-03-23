@@ -3,9 +3,33 @@ namespace App\Services\Api\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use App\Traits\StoreImageTrait;
 
 class AuthService
 {
+    use StoreImageTrait;
+    public function registerUser($request) {
+        try {
+            $user = new User();
+            $user->user_type =  $request['user_type'];
+            $user->business_name = $request['business_name'];
+            $user->first_name = $request['first_name'];
+            $user->last_name = $request['last_name'];
+            $user->mobile = $request['mobile'];
+            $user->email = $request['email'];
+            $user->password =  Hash::make($request['password']);
+            $user->verification_code = '12345';
+            $user->save();
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
 
     public function checkLogin($request)
     {
@@ -36,26 +60,6 @@ class AuthService
             $response['message'] = __('fresh token');
             $response['errors'] = null;
             $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function logout()
-    {
-        try {
-            $tokens = Auth::guard('user-api')->user()->tokens;
-            if ($tokens) {
-                foreach ($tokens as $token) {
-                    $token->revoke();
-                }
-            }
-            Auth::guard('user-api')->logout(true);
-            $response['message'] = __('logout');
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-
             return response()->json($response, 200);
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
