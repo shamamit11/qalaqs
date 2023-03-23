@@ -20,7 +20,7 @@ class AuthService
             $user->mobile = $request['mobile'];
             $user->email = $request['email'];
             $user->password =  Hash::make($request['password']);
-            $user->verification_code = '12345';
+//            $user->verification_code = '12345';
             $user->save();
             $response['message'] = null;
             $response['errors'] = null;
