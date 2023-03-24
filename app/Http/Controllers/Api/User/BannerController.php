@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Services\Api\BannerService;
+use App\Services\Api\User\BannerService;
 use Illuminate\Http\Request;
 
 class BannerController extends Controller

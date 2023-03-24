@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('year_id')->nullable();
             $table->string('name')->nullable();
             $table->boolean('status')->nullable()->default(1)->comment('0 = hide, 1 = show');
-            $table->timestamps();
             $table->foreign('make_id')->references('id')->on('makes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('model_id')->references('id')->on('models')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('year_id')->references('id')->on('years')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

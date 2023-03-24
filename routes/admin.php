@@ -103,9 +103,9 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::controller('VendorController')->group(function () {
         Route::get('/vendor', 'index')->name('admin-vendor');
         Route::post('/vendor/status', 'status')->name('admin-vendor-status');
-        Route::get('/vendor/add', 'addEdit')->name('admin-vendor-add');
-        Route::post('/vendor/addaction', 'addAction')->name('admin-vendor-addaction');
-        Route::post('/vendor/delete', 'delete')->name('admin-vendor-delete');
+       // Route::get('/vendor/add', 'addEdit')->name('admin-vendor-add');
+      //  Route::post('/vendor/addaction', 'addAction')->name('admin-vendor-addaction');
+     //   Route::post('/vendor/delete', 'delete')->name('admin-vendor-delete');
     });
 
     Route::controller('ProductController')->group(function () {
