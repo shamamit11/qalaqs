@@ -40,7 +40,10 @@ Route::group(['middleware' => ['auth.jwt']], function () {
             Route::get('/engine', 'engine');
             Route::get('/category', 'category');
             Route::get('/subcategory', 'subcategory');
+            Route::get('/products', 'list');
+            Route::get('/product/{id}', 'productDetail');
             Route::post('/product/addEdit', 'addEdit');
+            Route::post('/product/delete/{id}', 'deleteProduct');
         });
 
         // Route::get('/product', 'index')->name('supplier-product');

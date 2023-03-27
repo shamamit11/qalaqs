@@ -40,8 +40,20 @@ class ProductController extends Controller
         return $this->product->subcategory();
     }
 
+    public function list() {
+        return $this->product->listProducts();
+    }
+
     public function addEdit(ProductRequest $request) {
         return $this->product->store($request->validated());
+    }
+
+    public function productDetail($id) {
+        return $this->product->productDetail($id);
+    }
+
+    public function deleteProduct($id) {
+        return $this->product->deleteProduct($id);
     }
 
 }
