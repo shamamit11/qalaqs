@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('mobile')->nullable();
             $table->string('image')->nullable();
+            $table->string('license_image')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('email')->unique();
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->boolean('admin_approved')->default(0)->comment('0 = no, 1 = yes');
             $table->boolean('status')->nullable()->default(1)->comment('0 = inactive, 1 = active');
             $table->rememberToken();
+            $table->string('device_id')->nullable();
             $table->timestamps();
         });
     }

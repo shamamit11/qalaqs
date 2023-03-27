@@ -25,6 +25,7 @@ return new class extends Migration
             $table->boolean('status')->default(1)->comment('0 = inactive, 1 = active');
             $table->enum('user_type', ['I', 'G'])->default('I')->comment('I = Individual, G = Garage');
             $table->rememberToken();
+            $table->string('device_id')->nullable();
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@ class AccountService
             $user->last_name = $request['last_name'];
             $user->mobile = $request['mobile'];
             $user->image = isset($request['image']) ? $this->StoreImage($request['image'], '/user/') : null;
+            $user->device_id = isset($request['device_id']) ? $request['device_id']: null;
             $user->save();
             $user->image = Storage::disk('public')->url('/user/'.$user->image);
             $response['data'] = $user;
@@ -72,6 +73,18 @@ class AccountService
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
+    }
+
+    public function updatePushToken($request)
+    {
+        $id = Auth::guard('user-api')->user()->id;
+        $user = User::where('id', $id)->first();
+        $user->device_id = $request['device_id'];
+        $user->save();
+        $response['message'] = 'Success';
+        $response['errors'] = false;
+        $response['status_code'] = 200;
+        return response()->json($response, 200);
     }
 
 }
