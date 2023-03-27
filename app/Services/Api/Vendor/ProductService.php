@@ -7,8 +7,10 @@ use App\Models\Make;
 use App\Models\Models;
 use App\Models\SubCategory;
 use App\Models\Year;
+use App\Models\Product;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProductService
 {
@@ -132,6 +134,56 @@ class ProductService
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
+    }
+
+    public function store($request) {
+        try {
+            if ($request['id']) {
+                $id = $request['id'];
+                $product = Product::findOrFail($id);
+                $message = "Data updated";
+            } else {
+                $id = 0;
+                $product = new Product;
+                $message = "Data added";
+            }
+
+            $product->vendor_id = Auth::guard('vendor-api')->id();
+            $product->main_image = isset($request['main_image']) ? $this->StoreImage($request['main_image'], '/product/') : null;
+            $product->image_01 = isset($request['image_01']) ? $this->StoreImage($request['image_01'], '/product/') : null;
+            $product->image_02 = isset($request['image_02']) ? $this->StoreImage($request['image_02'], '/product/') : null;
+            $product->image_03 = isset($request['image_03']) ? $this->StoreImage($request['image_03'], '/product/') : null;
+            $product->image_04 = isset($request['image_04']) ? $this->StoreImage($request['image_04'], '/product/') : null;
+            $product->title = $request['title'];
+            $product->part_number = $request['part_number'];
+            $product->sku = $request['sku'];
+            $product->make_id = $request['make_id'];
+            $product->model_id = $request['model_id'];
+            $product->year_id = $request['year_id'];
+            $product->engine_id = $request['engine_id'];
+            $product->manufacturer = $request['manufacturer'];
+            $product->brand_id = $request['brand_id'];
+            $product->part_type = $request['part_type'];
+            $product->market = $request['market'];
+            $product->warranty = $request['warranty'];
+            $product->category_id = $request['category_id'];
+            $product->subcategory_id = $request['subcategory_id'];
+            $product->price = $request['price'];
+            $product->discount = $request['discount'];
+            $product->stock = $request['stock'];
+            $product->weight = $request['weight'];
+            $product->height = $request['height'];
+            $product->width = $request['width'];
+            $product->length = $request['length'];
+            
+           
+           
+
+
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+        
     }
 
     // function list($per_page, $page, $q) {

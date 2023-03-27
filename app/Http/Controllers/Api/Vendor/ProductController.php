@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Vendor\Product\ProductRequest;
 use App\Services\Api\Vendor\ProductService;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\Vendor\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -40,8 +40,8 @@ class ProductController extends Controller
         return $this->product->subcategory();
     }
 
-    public function product(ProductRequest $request) {
-        return $this->product->product($request->validated());
+    public function addEdit(ProductRequest $request) {
+        return $this->product->store($request->validated());
     }
 
 }
