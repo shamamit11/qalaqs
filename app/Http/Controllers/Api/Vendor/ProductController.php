@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Vendor\Product\ProductRequest;
+use App\Http\Requests\Api\Vendor\Product\SuitableRequest;
 use App\Services\Api\Vendor\ProductService;
 use Illuminate\Http\Request;
 
@@ -54,6 +55,18 @@ class ProductController extends Controller
 
     public function deleteProduct($id) {
         return $this->product->deleteProduct($id);
+    }
+
+    public function productSuitable($prod_id) {
+        return $this->product->productSuitable($prod_id);
+    }
+
+    public function addSuitable(SuitableRequest $request) {
+        return $this->product->store($request->validated());
+    }
+
+    public function deleteSuitable($suitable_id) {
+        return $this->product->deleteSuitable($suitable_id);
     }
 
 }

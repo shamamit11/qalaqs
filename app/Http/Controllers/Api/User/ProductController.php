@@ -45,6 +45,7 @@ class ProductController extends Controller
     }
 
     public function productDetail($id) {
+        $this->product->addProductView($id);
         return $this->product->productDetail($id);
     }
 

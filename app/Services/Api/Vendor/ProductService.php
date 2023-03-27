@@ -8,6 +8,7 @@ use App\Models\Models;
 use App\Models\SubCategory;
 use App\Models\Year;
 use App\Models\Product;
+use App\Models\Suitablefor;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -266,6 +267,54 @@ class ProductService
                 $response['status_code'] = 200;
                 return response()->json($response, 200);
             }
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function productSuitable($prod_id) {
+        try {
+            $matches = Suitablefor::where([['product_id', $prod_id]])->get();
+            $response['data'] = $matches;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
+
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+
+    }
+
+    public function addSuitable($request) {
+        try {
+            $suitable_product = new Suitablefor;
+            $suitable_product->product_id = $request['product_id'];
+            $suitable_product->make_id = $request['make_id'];
+            $suitable_product->model_id = $request['model_id'];
+            $suitable_product->year_id = $request['year_id'];
+            $suitable_product->engine_id = $request['engine_id'];
+            $suitable_product->save();
+            $response['data'] = $suitable_product;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+
+    }
+
+    public function deleteSuitable($suitable_id) {
+        try {
+            Suitablefor::where('id', $suitable_id)->delete();
+            $response['message'] = "success";
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
