@@ -31,6 +31,7 @@ class RegisterUserRequest extends ApiRequest
             'mobile' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
+            'device_id' => 'nullable'
         ];
     }
 }

@@ -22,9 +22,10 @@ class AccountService
             $vendor->address = $request['address'];
             $vendor->city = $request['city'];
             $vendor->mobile = $request['mobile'];
+            $vendor->device_id = isset($request['device_id']) ? $request['device_id']: null;
             $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
             $vendor->save();
-            $vendor->image = Storage::disk('public')->url('/vendor/'.$vendor->image);
+            //$vendor->image = Storage::disk('public')->url('/vendor/'.$vendor->image);
             $response['data'] = $vendor;
             $response['errors'] = false;
             $response['status_code'] = 201;
@@ -74,6 +75,18 @@ class AccountService
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
+    }
+
+    public function updatePushToken($request)
+    {
+        $id = Auth::guard('vendor-api')->user()->id;
+        $vendor = Vendor::where('id', $id)->first();
+        $vendor->device_id = $request['device_id'];
+        $vendor->save();
+        $response['message'] = 'Success';
+        $response['errors'] = false;
+        $response['status_code'] = 200;
+        return response()->json($response, 200);
     }
 
 }
