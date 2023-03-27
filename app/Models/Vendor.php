@@ -12,7 +12,7 @@ class Vendor extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = [ 'vendor_code', 'business_name', 'first_name', 'last_name', 'mobile', 'image', 'address', 'city', 'email', 'password', 'verification_code', 'email_verified', 'admin_approved', 'status', 'account_type' ];
+    protected $fillable = [ 'vendor_code', 'business_name', 'first_name', 'last_name', 'mobile', 'image', 'license_image', 'address', 'city', 'email', 'password', 'verification_code', 'email_verified', 'admin_approved', 'status', 'account_type', 'device_id' ];
     
     /**
      * The attributes that should be hidden for serialization.
