@@ -28,43 +28,26 @@ Route::controller('AuthController')->group(function () {
 Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
+        Route::get('/cancel-account', 'cancelAccount');
         Route::post('/update-profile', 'updateProfile');
         Route::post('/update-password', 'updatePassword');
+        Route::post('/update-bank', 'updateBank');
     });
 
     Route::controller('ProductController')->group(function () {
-        Route::controller('ProductController')->group(function () {
-            Route::get('/make', 'make');
-            Route::get('/model', 'model');
-            Route::get('/year', 'year');
-            Route::get('/engine', 'engine');
-            Route::get('/category', 'category');
-            Route::get('/subcategory', 'subcategory');
-            Route::get('/products', 'list');
-            Route::get('/product/{id}', 'productDetail');
-            Route::post('/product/addEdit', 'addEdit');
-            Route::post('/product/delete/{id}', 'deleteProduct');
-        });
-
-        // Route::get('/product', 'index')->name('supplier-product');
-        // Route::post('/product/status', 'status')->name('supplier-product-status');
-        // Route::get('/product/add', 'addEdit')->name('supplier-product-add');
-        // Route::post('/product/addaction', 'addAction')->name('supplier-product-addaction');
-        // Route::post('/product/imagedelete', 'imageDelete')->name('supplier-product-imagedelete');
-        // Route::post('/product/delete', 'delete')->name('supplier-product-delete');
-        // Route::post('/product/specification', 'specification')->name('supplier-product-specification');
-        // Route::post('/product/addspecification', 'addSpecification')->name('supplier-product-addspecification');
-        // Route::delete('/product/delete_specification', 'deleteSpecification')->name('supplier-product-specification-delete');
-        // Route::post('/product/match', 'match')->name('supplier-product-match');
-        // Route::post('/product/addmatch', 'addMatch')->name('supplier-product-addmatch');
-        // Route::delete('/product/delete_smatch', 'deleteMatch')->name('supplier-product-match-delete');
-        
-        // Route::post('/product/images', 'images')->name('supplier-product-images');
-        // Route::post('/product/save-images', 'saveImage')->name('supplier-product-saveimage');
-        // Route::post('/product/order-images', 'orderImage')->name('supplier-product-orderimage');
-        // Route::post('/product/image-status', 'imageStatus')->name('supplier-image-status');
-        // Route::post('/product/imagedelete', 'imageDelete')->name('supplier-product-imagedelete');
-
+        Route::get('/make', 'make');
+        Route::get('/model', 'model');
+        Route::get('/year', 'year');
+        Route::get('/engine', 'engine');
+        Route::get('/category', 'category');
+        Route::get('/subcategory', 'subcategory');
+        Route::get('/products', 'list');
+        Route::get('/product/{id}', 'productDetail');
+        Route::post('/product/addEdit', 'addEdit');
+        Route::post('/product/delete/{id}', 'deleteProduct');
+        Route::get('/product/suitable{prod_id}', 'productSuitable');
+        Route::post('/product/sutiable/add', 'addSuitable');
+        Route::post('/product/deleteSuitable/{id}', 'deleteSuitable');
     });
     
 });
