@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
             Route::get('/engine', 'engine');
             Route::get('/category', 'category');
             Route::get('/subcategory', 'subcategory');
-           // Route::poast('/product', 'product');
+            Route::post('/product/addEdit', 'addEdit');
         });
 
         // Route::get('/product', 'index')->name('supplier-product');

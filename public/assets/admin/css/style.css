@@ -186,8 +186,8 @@ div.error {
 }
 
 #sidebar-menu .menu-title {
-	background-color: #777;
-	color:#fff;
+	background-color: #f0f0f0;
+    color: #000;
   }
 
   .select2-container--default .select2-selection--multiple .select2-selection__choice {
