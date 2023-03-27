@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     });
 
     Route::get('/banner', 'BannerController@list');
+    
     Route::controller('ProductController')->group(function () {
         Route::get('/make', 'make');
         Route::get('/model', 'model');
