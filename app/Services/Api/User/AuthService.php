@@ -3,7 +3,6 @@ namespace App\Services\Api\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\StoreImageTrait;
 
@@ -20,7 +19,6 @@ class AuthService
             $user->mobile = $request['mobile'];
             $user->email = $request['email'];
             $user->password =  Hash::make($request['password']);
-//            $user->verification_code = '12345';
             $user->save();
             $response['data'] = $user;
             $response['message'] = null;
@@ -38,7 +36,9 @@ class AuthService
             $credentials = array('email' => $request['email'], 'password' => $request['password']);
             $token = Auth::guard('user-api')->attempt($credentials);
             if ($token) {
-                $response['data'] = array('id' => Auth::guard('user-api')->user()->id, 'first_name' => Auth::guard('user-api')->user()->first_name, 'last_name' => Auth::guard('user-api')->user()->last_name, 'token' => $token);
+                $vendor = array('id' => Auth::guard('user-api')->user()->id);
+                $accesstoken = Auth::guard('user-api')->claims($vendor)->attempt($credentials);
+                $response['data'] = array('id' => Auth::guard('user-api')->user()->id, 'first_name' => Auth::guard('user-api')->user()->first_name, 'last_name' => Auth::guard('user-api')->user()->last_name, 'token' => $accesstoken);
                 $response['errors'] = false;
                 $response['status_code'] = 200;
                 return response()->json($response, 200);
