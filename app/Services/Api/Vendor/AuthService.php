@@ -3,7 +3,6 @@ namespace App\Services\Api\Vendor;
 
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\StoreImageTrait;
 
@@ -38,8 +37,11 @@ class AuthService
         try {
             $credentials = array('email' => $request['email'], 'password' => $request['password']);
             $token = Auth::guard('vendor-api')->attempt($credentials);
+
             if ($token) {
-                $response['data'] = array('id' => Auth::guard('vendor-api')->user()->id, 'first_name' => Auth::guard('vendor-api')->user()->first_name, 'last_name' => Auth::guard('vendor-api')->user()->last_name, 'token' => $token);
+                $vendor = array('id' => Auth::guard('vendor-api')->user()->id);
+                $accesstoken = Auth::guard('vendor-api')->claims($vendor)->attempt($credentials);
+                $response['data'] = array('id' => Auth::guard('vendor-api')->user()->id, 'first_name' => Auth::guard('vendor-api')->user()->first_name, 'last_name' => Auth::guard('vendor-api')->user()->last_name, 'token' => $accesstoken);
                 $response['errors'] = false;
                 $response['status_code'] = 200;
                 return response()->json($response, 200);

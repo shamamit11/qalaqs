@@ -141,13 +141,10 @@ class ProductService
             if ($request['id']) {
                 $id = $request['id'];
                 $product = Product::findOrFail($id);
-                $message = "Data updated";
             } else {
                 $id = 0;
                 $product = new Product;
-                $message = "Data added";
             }
-
             $product->vendor_id = Auth::guard('vendor-api')->id();
             $product->main_image = isset($request['main_image']) ? $this->StoreImage($request['main_image'], '/product/') : null;
             $product->image_01 = isset($request['image_01']) ? $this->StoreImage($request['image_01'], '/product/') : null;
@@ -175,11 +172,12 @@ class ProductService
             $product->height = $request['height'];
             $product->width = $request['width'];
             $product->length = $request['length'];
-            
-           
-           
-
-
+            $product->save();
+            $response['data'] = $product;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
