@@ -22,6 +22,7 @@ class AuthService
             $user->password =  Hash::make($request['password']);
 //            $user->verification_code = '12345';
             $user->save();
+            $response['data'] = $user;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 201;
