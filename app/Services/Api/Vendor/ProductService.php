@@ -136,6 +136,41 @@ class ProductService
         }
     }
 
+    public function listProducts() {
+        try {
+            $product_data = array();
+            $vendor_id = Auth::guard('vendor-api')->user()->id;
+            $products = Product::where('vendor_id', $vendor_id)->orderBy('id', 'asc')->get();
+            if($products->count() > 0) {
+                foreach ($products as $product) {
+                    if($product['main_image']) {
+                        $product->main_image = env('APP_URL').'/storage/product/'.$product['main_image'];
+                    }
+                    if($product['image_01']) {
+                        $product->image_01 = env('APP_URL').'/storage/product/'.$product['image_01'];
+                    }
+                    if($product['image_02']) {
+                        $product->image_02 = env('APP_URL').'/storage/product/'.$product['image_02'];
+                    }
+                    if($product['image_03']) {
+                        $product->image_03 = env('APP_URL').'/storage/product/'.$product['image_03'];
+                    }
+                    if($product['image_04']) {
+                        $product->image_04 = env('APP_URL').'/storage/product/'.$product['image_04'];
+                    }
+                    array_push($product_data, $product);
+                }
+            }
+            $response['data'] = $products;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function store($request) {
         try {
             if ($request['id']) {
@@ -145,7 +180,7 @@ class ProductService
                 $id = 0;
                 $product = new Product;
             }
-            $product->vendor_id = Auth::guard('vendor-api')->id();
+            $product->vendor_id = Auth::guard('vendor-api')->user()->id;
             $product->main_image = isset($request['main_image']) ? $this->StoreImage($request['main_image'], '/product/') : null;
             $product->image_01 = isset($request['image_01']) ? $this->StoreImage($request['image_01'], '/product/') : null;
             $product->image_02 = isset($request['image_02']) ? $this->StoreImage($request['image_02'], '/product/') : null;
@@ -182,6 +217,58 @@ class ProductService
             return response()->json(['errors' => $e->getMessage()], 400);
         }
         
+    }
+
+    public function productDetail($id) {
+        try {
+            $vendor_id = Auth::guard('vendor-api')->user()->id;
+            $product = Product::where([['vendor_id', $vendor_id], ['id', $id]])->first();
+            if($product->main_image) {
+                $product->main_image = env('APP_URL').'/storage/product/'.$product->main_image;
+            }
+            if($product->image_01) {
+                $product->image_01 = env('APP_URL').'/storage/product/'.$product->image_01;
+            }
+            if($product->image_02) {
+                $product->image_02 = env('APP_URL').'/storage/product/'.$product->image_02;
+            }
+            if($product->image_03) {
+                $product->image_03 = env('APP_URL').'/storage/product/'.$product->image_03;
+            }
+            if($product->image_04) {
+                $product->image_04 = env('APP_URL').'/storage/product/'.$product->image_04;
+            }
+            $response['data'] = $product;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+
+    }
+
+    public function deleteProduct($id) {
+        try {
+            $vendor_id = Auth::guard('vendor-api')->user()->id;
+            $product = Product::where([['vendor_id', $vendor_id], ['id', $id]])->first();
+            if($product) {
+                Storage::disk('public')->delete('/product/' . $product->main_image);
+                Storage::disk('public')->delete('/product/' . $product->image_01);
+                Storage::disk('public')->delete('/product/' . $product->image_02);
+                Storage::disk('public')->delete('/product/' . $product->image_03);
+                Storage::disk('public')->delete('/product/' . $product->image_04);
+                $product->delete();
+                $response['message'] = "success";
+                $response['errors'] = null;
+                $response['status_code'] = 200;
+                return response()->json($response, 200);
+            }
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
     }
 
     // function list($per_page, $page, $q) {
