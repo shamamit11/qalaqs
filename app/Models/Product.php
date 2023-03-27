@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['vendor_id', 'sku', 'part', 'part_number', 'type', 'manufacturer', 'name', 'image', 'category_id', 'subcategory_id', 'brand_id', 'make_id', 'model_id', 'year_id', 'engine_id', 'warranty', 'discount', 'price'];
+    protected $fillable = [
+        'vendor_id', 
+        'main_image',
+        'image_01', 'image_02', 'image_03', 'image_04', 
+        'title', 'part_number','sku', 'make_id', 'model_id', 'year_id', 'engine_id', 'manufacturer', 'brand_id',
+        'part_type', 'market', 'warranty', 'category_id', 'subcategory_id',
+        'price', 'discount', 'stock', 'weight', 'height', 'width', 'length', 'folder', 'status', 'admin_approved', 'is_featured'
+    ];
 
     public function vendor()
     {

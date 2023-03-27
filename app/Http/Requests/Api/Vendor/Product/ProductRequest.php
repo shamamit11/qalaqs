@@ -24,13 +24,33 @@ class ProductRequest extends ApiRequest
     public function rules()
     {
         return [
-            'type' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'required|exists:subcategories,id',
+            'id' => 'required|integer',
+            'main_image' => 'required|image',
+            'image_01' => 'nullable|image',
+            'image_02' => 'nullable|image',
+            'image_03' => 'nullable|image',
+            'image_04' => 'nullable|image',
+            'title' => 'required',
+            'part_number' => 'required',
+            'sku' => 'required',
             'make_id' => 'required|exists:makes,id',
             'model_id' => 'required|exists:models,id',
             'year_id' => 'required|exists:years,id',
             'engine_id' => 'required|exists:engines,id',
+            'manufacturer' => 'required',
+            'brand_id' => 'nullable|exists:brands,id',
+            'part_type' => 'required',
+            'market' => 'required',
+            'warranty' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
+            'price' => 'required|numeric',
+            'discount' => 'nullable|integer',
+            'stock'=>'required|integer',
+            'weight'=>'required|numeric',
+            'height'=>'required|numeric',
+            'width'=>'required|numeric',
+            'length'=>'required|numeric',
         ];
     }
 }

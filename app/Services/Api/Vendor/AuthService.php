@@ -21,6 +21,8 @@ class AuthService
             $vendor->email = $request['email'];
             $vendor->password =  Hash::make($request['password']);
             $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
+            $vendor->license_image = isset($request['license_image']) ? $this->StoreImage($request['license_image'], '/vendor/') : null;
+            $vendor->device_id = isset($request['device_id']) ? $request['device_id'] : null;
             $vendor->save();
             $response['data'] = $vendor;
             $response['message'] = null;
