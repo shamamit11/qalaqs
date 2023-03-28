@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::get('/banner', 'BannerController@list');
     Route::post('user-add-address', 'AddressController@addAddress');
     Route::get('user-address/{user_id}', 'AddressController@list');
+    
 
     Route::controller('ProductController')->group(function () {
         Route::get('/make', 'make');

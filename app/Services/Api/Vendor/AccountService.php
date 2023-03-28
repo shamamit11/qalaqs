@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Api\Vendor;
 
+use App\Models\Bank;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -87,6 +88,43 @@ class AccountService
         $response['errors'] = false;
         $response['status_code'] = 200;
         return response()->json($response, 200);
+    }
+
+    public function cancelAccount()
+    {
+        try {
+            $id = Auth::guard('vendor-api')->user()->id;
+            $vendor = Vendor::findOrFail($id);
+            if($vendor) {
+                $vendor->delete();
+            }
+            $response['message'] = 'Success';
+            $response['errors'] = false;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }  
+    }
+
+    public function updateBank($request)
+    {
+        try {
+            $id = Auth::guard('vendor-api')->user()->id;
+            $bank = Bank::findOrFail($id);
+            $bank->vendor_id = $id;
+            $bank->bank_name = $request['bank_name'];
+            $bank->account_name = $request['account_name'];
+            $bank->account_no = $request['account_no'];
+            $bank->iban = $request['iban'];
+            $bank->save();
+            $response['data'] = $bank;
+            $response['errors'] = false;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }  
     }
 
 }

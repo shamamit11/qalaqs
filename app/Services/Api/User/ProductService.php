@@ -9,6 +9,7 @@ use App\Models\Models;
 use App\Models\SubCategory;
 use App\Models\Review;
 use App\Models\Year;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
@@ -28,7 +29,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -48,7 +49,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -68,7 +69,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -88,7 +89,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -108,7 +109,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -128,7 +129,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -136,7 +137,8 @@ class ProductService
     public function product($request)
     {
         try {
-            $conditions = array('type' => $request['type'],
+            $conditions = array(
+                'type' => $request['type'],
                 'category_id' => $request['category_id'],
                 'subcategory_id' => $request['subcategory_id'],
                 'make_id' => $request['make_id'],
@@ -144,29 +146,31 @@ class ProductService
                 'year_id' => $request['year_id'],
                 'engine_id' => $request['engine_id'],
                 'status' => 1,
-                'admin_approved' => 1);
+                'admin_approved' => 1
+            );
             $product_data = array();
             $products = Product::where($conditions)->orderBy('name', 'asc')->get();
             if ($products->count() > 0) {
                 foreach ($products as $product) {
                     $matches = array();
-                    if(count($product->matches) > 0) {
-                        foreach($product->matches as $match) {
-                            array_push($matches, array('id' => $match->id,  'name' =>  $match->make->name.' / '.$match->model->name.' / '.$match->year->name.' / '.$match->engine->name));
+                    if (count($product->matches) > 0) {
+                        foreach ($product->matches as $match) {
+                            array_push($matches, array('id' => $match->id, 'name' => $match->make->name . ' / ' . $match->model->name . ' / ' . $match->year->name . ' / ' . $match->engine->name));
                         }
                     }
                     $reviews = array();
                     $rating = 0;
-                    if(count($product->reviews) > 0) {
+                    if (count($product->reviews) > 0) {
                         $total_rating = 0;
-                        foreach($product->reviews as $review) {
-                            array_push($reviews, array('id' => $review->id, 'name' =>  $review->name, 'reviews' =>  $review->reviews, 'rating' =>  $review->rating));
+                        foreach ($product->reviews as $review) {
+                            array_push($reviews, array('id' => $review->id, 'name' => $review->name, 'reviews' => $review->reviews, 'rating' => $review->rating));
                             $total_rating = $total_rating + $review->rating;
                         }
-                        $rating = round(($total_rating / count($product->reviews)),0);
+                        $rating = round(($total_rating / count($product->reviews)), 0);
 
                     }
-                    $data = array('id' => $product->id,
+                    $data = array(
+                        'id' => $product->id,
                         'sku' => $product->sku,
                         'part_type' => $product->part_type,
                         'part_number' => $product->part_number,
@@ -188,7 +192,8 @@ class ProductService
                         'matches' => $matches,
                         'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image),
                         'images' => $product->images,
-                        'reviews' => $reviews);
+                        'reviews' => $reviews
+                    );
                     array_push($product_data, $data);
                 }
             }
@@ -197,7 +202,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -205,19 +210,22 @@ class ProductService
     public function productDetail($id)
     {
         try {
-
             $product_data = array();
             $product = Product::find($id);
             $product_images = array();
-            foreach($product->images as $val){
-                $product_images[] = ['id'=>$val->id,
-                                    'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $val->image)];
+            foreach ($product->images as $val) {
+                $product_images[] = [
+                    'id' => $val->id,
+                    'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $val->image)
+                ];
             }
             $product_specificatios = array();
-            foreach($product->specifications as $val1){
-                $product_specificatios[] = ['id' => $val1->id,
-                                                'specification_name' => $val1->specification_name,
-                                                'specification_value' => $val1->specification_value];
+            foreach ($product->specifications as $val1) {
+                $product_specificatios[] = [
+                    'id' => $val1->id,
+                    'specification_name' => $val1->specification_name,
+                    'specification_value' => $val1->specification_value
+                ];
 
             }
 
@@ -243,14 +251,15 @@ class ProductService
                 'matches' => '',
                 'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image),
                 'images' => $product_images,
-                'reviews' => ''];
+                'reviews' => ''
+            ];
 
             $response['data'] = $product_data;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -271,7 +280,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -297,15 +306,29 @@ class ProductService
                     array_push($top_deal_product_data, array('id' => $top_deal_product->id, 'name' => $top_deal_product->name, 'price' => $top_deal_product->price, 'part_type' => $top_deal_product->part_type, 'part_number' => $top_deal_product->part_number));
                 }
             }
-            $product_data[] = ['feature_product'=>$feature_product_data,'top_deal_product'=>$top_deal_product_data];
+            $product_data[] = ['feature_product' => $feature_product_data, 'top_deal_product' => $top_deal_product_data];
             //$product_data = array_push($product_data,array('feature_product'=>$feature_product_data,'top_deal_product'=>$top_deal_product_data));
             $response['data'] = $product_data;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function addProductView($id) {
+        $prodView = DB::table('product_views')->where('product_id', $id)->first();
+        if($prodView) {
+            $prodView->views = $prodView->views + 1;
+            $prodView->save();
+        } 
+        else {
+            DB::table('product_views')->insert([
+                'product_id' => $id, 
+                'views' => 1
+            ]);
         }
     }
 
