@@ -53,6 +53,23 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/landing-page-product', 'landingPageProduct');
     });
 
+    Route::controller('CartController')->group(function () {
+        Route::get('/cart/{cart_session_id}', 'list');
+        Route::post('/cart/addItem', 'addItem');
+        Route::post('/cart/updateQty', 'updateQty');
+        Route::post('/cart/deleteItem', 'deleteItem');
+        Route::get('/cart/items/{cart_session_id}', 'itemCount');
+        Route::post('/cart/applyPromocode', 'applyPromocode');
+        Route::get('/cart/summary/{cart_session_id}', 'cartSummary');
+    });
+
+    Route::controller('OrderController')->group(function () {
+        Route::post('/order/processPayment', 'processPayment');
+        Route::post('/order/createOrder', 'createOrder');
+        Route::get('/orders', 'listOrders');
+        Route::get('/order/detail/{order_id}', 'getOrderDetails');
+    });
+
 });
 
 
