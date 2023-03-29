@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cart_id');
+            $table->unsignedBigInteger('cart_session_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('item_count');
             $table->decimal('sub_total', 12, 2)->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('delivery_charge', 12, 2)->nullable();
             $table->decimal('grand_total', 12, 2)->nullable();
             $table->unsignedBigInteger('vendor_id');
-            $table->foreign('cart_id')->references('id')->on('carts')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('cart_session_id')->references('session_id')->on('carts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate();
             $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate();
             $table->timestamps();
