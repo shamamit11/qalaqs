@@ -202,7 +202,7 @@ class ProductService
             $product->category_id = $request['category_id'];
             $product->subcategory_id = $request['subcategory_id'];
             $product->price = $request['price'];
-            $product->discount = $request['discount'];
+            $product->discount = isset($request['discount']) ? $request['discount'] : 0;
             $product->stock = $request['stock'];
             $product->weight = $request['weight'];
             $product->height = $request['height'];

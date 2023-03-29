@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('promo_value', 12, 2)->nullable();
             $table->decimal('sub_total', 12, 2)->nullable();
             $table->decimal('tax_total', 12, 2)->nullable();
+            $table->decimal('grand_total', 12, 2)->nullable();
             $table->decimal('delivery_charge', 12, 2)->nullable();
             $table->string('delivery_name')->nullable();
             $table->string('delivery_address')->nullable();

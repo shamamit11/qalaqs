@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('promocode_users', function (Blueprint $table) {
             $table->id();
-            $table->string('session_id')->nullable()->index();
+            $table->unsignedBigInteger('promocode_id');
             $table->unsignedBigInteger('user_id');
-            $table->integer('item_count')->nullable();
-            $table->string('promo_code')->nullable();
-            $table->string('promo_type')->nullable();
-            $table->decimal('promo_value', 12, 2)->nullable();
-            $table->decimal('sub_total', 12, 2)->nullable();
+            $table->integer('num_of_usuage')->nullable();
+            $table->foreign('promocode_id')->references('id')->on('promocodes')->cascadeOnUpdate();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate();
             $table->timestamps();
         });
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('promocode_users');
     }
 };

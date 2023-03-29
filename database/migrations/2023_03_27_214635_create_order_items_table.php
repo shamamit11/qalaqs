@@ -18,11 +18,9 @@ return new class extends Migration
             $table->integer('item_count');
             $table->decimal('amount', 12, 2)->nullable();
             $table->decimal('sub_total', 12, 2)->nullable();
-            $table->decimal('tax_total', 12, 2)->nullable();
             $table->double('delivery_distance')->nullable();
             $table->decimal('delivery_charge', 12, 2)->nullable();
             $table->decimal('cod_charge', 12, 2)->nullable();
-            $table->decimal('grand_total', 12, 2)->nullable();
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('order_status_id');
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate()->cascadeOnDelete();
