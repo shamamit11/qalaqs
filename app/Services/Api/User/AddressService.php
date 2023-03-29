@@ -3,13 +3,14 @@ namespace App\Services\Api\User;
 
 use App\Models\Address;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AddressService
 {
     public function addAddress($request) {
         try {
             $address = new Address();
-            $address->user_id =  $request['user_id'];
+            $address->user_id  = Auth::guard('user-api')->id();
             $address->name =  $request['name'];
             $address->building_name = $request['building_name'];
             $address->street_name = $request['street_name'];
@@ -27,8 +28,9 @@ class AddressService
         }
     }
 
-    public function list($user_id) {
+    public function list() {
         try {
+            $user_id = Auth::guard('user-api')->id();
             $address_data = array();
             $address = Address::where('user_id', $user_id)->orderBy('name', 'asc')->get();
             if ($address->count() > 0) {

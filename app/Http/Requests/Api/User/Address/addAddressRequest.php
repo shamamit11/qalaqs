@@ -24,7 +24,6 @@ class addAddressRequest extends ApiRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'name' => 'required',
             'building_name' => 'required',
             'street_name' => 'required',

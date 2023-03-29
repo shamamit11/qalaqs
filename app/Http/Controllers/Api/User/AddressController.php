@@ -20,8 +20,8 @@ class AddressController extends Controller
         return $this->address->addAddress($request->validated());
     }
 
-    function list($user_id) {
-        return $this->address->list($user_id);
+    function list() {
+        return $this->address->list();
     }
 
 }
