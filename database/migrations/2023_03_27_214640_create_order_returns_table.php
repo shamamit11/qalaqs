@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
             $table->longText('reason')->nullable();
+            $table->boolean('status')->nullable()->default(1)->comment('0 = inactive, 1 = active');
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate();
