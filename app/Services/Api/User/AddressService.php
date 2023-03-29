@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Api\User;
 
-use App\Models\Address;
+use App\Models\UserAddress;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,14 +9,15 @@ class AddressService
 {
     public function addAddress($request) {
         try {
-            $address = new Address();
+            $address = new UserAddress();
             $address->user_id  = Auth::guard('user-api')->id();
             $address->name =  $request['name'];
-            $address->building_name = $request['building_name'];
+            $address->building = $request['building'];
             $address->street_name = $request['street_name'];
             $address->city = $request['city'];
             $address->country = $request['country'];
-            $address->mobile_no = $request['mobile_no'];
+            $address->mobile = $request['mobile'];
+            $address->is_default = $request['is_default'];
             $address->save();
             $response['data'] = true;
             $response['message'] = null;
@@ -32,16 +33,17 @@ class AddressService
         try {
             $user_id = Auth::guard('user-api')->id();
             $address_data = array();
-            $address = Address::where('user_id', $user_id)->orderBy('name', 'asc')->get();
+            $address = UserAddress::where('user_id', $user_id)->orderBy('name', 'asc')->get();
             if ($address->count() > 0) {
                 foreach ($address as $value) {
                     $address_data[] = [ 'id' => $value->id,
                                        'name' => $value->name,
-                                       'building_name' => $value->building_name,
+                                       'building' => $value->building,
                                        'street_name' => $value->street_name,
                                        'city' => $value->city,
                                        'country' => $value->country,
-                                       'mobile_no' => $value->mobile_no,
+                                       'mobile' => $value->mobile,
+                                       'is_default' => $value->is_default,
                         ];
                 }
             }

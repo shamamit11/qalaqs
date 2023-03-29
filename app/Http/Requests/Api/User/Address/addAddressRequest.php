@@ -25,11 +25,12 @@ class addAddressRequest extends ApiRequest
     {
         return [
             'name' => 'required',
-            'building_name' => 'required',
+            'building' => 'required',
             'street_name' => 'required',
             'city' => 'required',
             'country' => 'required',
-            'mobile_no' => 'required',
+            'mobile' => 'required',
+            'is_default' => 'required',
 
         ];
     }
