@@ -58,3 +58,12 @@ if (!function_exists('getSlug')) {
         return $slug;
     }
 }
+
+if (!function_exists('generateOrderID')) {
+    function generateOrderID()
+    {
+        $date = date_create();
+        $order_id = "QLS-".date_timestamp_get($date);
+        return $order_id;
+    }
+}

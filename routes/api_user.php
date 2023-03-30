@@ -21,6 +21,7 @@ Route::controller('AuthController')->group(function () {
     Route::post('check-login', 'checkLogin')->name('check-login');
     Route::get('/refresh-token', 'refreshToken');
     Route::post('register-user', 'registerUser');
+
     // Route::post('forget-password', 'forgetPassword')->name('forget-password');
     // Route::get('reset-password/{token}', 'resetPassword')->name('reset-password');
     // Route::post('reset-password', 'savePassword')->name('save-password');
@@ -35,7 +36,10 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     });
 
     Route::get('/banner', 'BannerController@list');
+    Route::post('user-add-address', 'AddressController@addAddress');
+    Route::get('user-address', 'AddressController@list');
     
+
     Route::controller('ProductController')->group(function () {
         Route::get('/make', 'make');
         Route::get('/model', 'model');
@@ -49,4 +53,26 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/landing-page-product', 'landingPageProduct');
     });
 
+    Route::controller('CartController')->group(function () {
+        Route::get('/cart/{cart_session_id}', 'list');
+        Route::post('/cart/addItem', 'addItem');
+        Route::post('/cart/updateQty', 'updateQty');
+        Route::post('/cart/deleteItem', 'deleteItem');
+        Route::get('/cart/items/{cart_session_id}', 'itemCount');
+        Route::post('/cart/applyPromocode', 'applyPromocode');
+        Route::get('/cart/summary/{cart_session_id}', 'cartSummary');
+    });
+
+    Route::controller('OrderController')->group(function () {
+        Route::post('/order/processPayment', 'processPayment');
+        Route::post('/order/createOrder', 'createOrder');
+        Route::get('/orders', 'listOrders');
+        Route::get('/order/detail/{order_id}', 'getOrderDetails');
+        Route::get('/orders/recent', 'recentOrders');
+        Route::get('/orders/recentDetail/{id}', 'recentOrderDetail');
+        Route::post('/orders/createReturns', 'createOrderReturns');
+    });
+
 });
+
+
