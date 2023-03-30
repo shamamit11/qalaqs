@@ -73,6 +73,11 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/orders/createReturns', 'createOrderReturns');
     });
 
+    Route::controller('VendorController')->group(function () {
+        Route::get('/vendor/{vendor_id}', 'vendorDetail');
+        Route::post('/vendor/addReview', 'addReview');
+    });
+
 });
 
 

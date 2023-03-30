@@ -22,11 +22,9 @@ return new class extends Migration
             $table->decimal('delivery_charge', 12, 2)->nullable();
             $table->decimal('cod_charge', 12, 2)->nullable();
             $table->unsignedBigInteger('vendor_id');
-            $table->unsignedBigInteger('order_status_id');
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnUpdate();
             $table->foreign('vendor_id')->references('id')->on('vendors')->cascadeOnUpdate();
-            $table->foreign('order_status_id')->references('id')->on('order_statuses')->cascadeOnUpdate();
             $table->timestamps();
         });
     }

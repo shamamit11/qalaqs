@@ -316,6 +316,8 @@ class CartService
             $promo_value = $cartData->promo_value;
             $sub_total = $cartData->sub_total;
 
+            $promo_discount = 0.00;
+            
             if($promo_type) {
                 switch($promo_type) {
                     case 'P':
