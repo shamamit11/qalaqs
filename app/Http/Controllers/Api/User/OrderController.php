@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\Order\OrderReturnRequest;
 use App\Http\Requests\Api\User\Order\PaymentRequest;
 use App\Http\Requests\Api\User\Order\OrderRequest;
 use App\Services\Api\User\OrderService;
@@ -31,5 +32,17 @@ class OrderController extends Controller
 
     public function getOrderDetails($order_id) {
         return $this->order->getOrderDetails($order_id);
+    }
+
+    public function recentOrders() {
+        return $this->order->recentOrders();
+    }
+
+    public function recentOrderDetail($id) {
+        return $this->order->recentOrderDetail($id);
+    }
+
+    public function createOrderReturns(OrderReturnRequest $request) {
+        return $this->order->createOrderReturns($request);
     }
 }
