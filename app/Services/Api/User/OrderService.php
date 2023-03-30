@@ -1,11 +1,13 @@
 <?php
 namespace App\Services\Api\User;
 
+use App\Models\ItemStatusUpdate;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\OrderReturn;
+use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\Tax;
 use App\Models\UserAddress;
@@ -60,6 +62,8 @@ class OrderService
             $promo_type = $cartData->promo_type;
             $promo_value = $cartData->promo_value;
             $sub_total = $cartData->sub_total;
+
+            $promo_discount = 0.00;
 
             if($promo_type) {
                 switch($promo_type) {
@@ -129,8 +133,17 @@ class OrderService
                 $orderItem->delivery_charge = 0.00;
                 $orderItem->cod_charge = 0.00;
                 $orderItem->vendor_id = $item->vendor_id;
-                $orderItem->order_status_id = 1;
                 $orderItem->save();
+
+                //update item_status_updates table
+                $statusUpdates = new ItemStatusUpdate;
+                $statusUpdates->order_id = $orderData->id;
+                $statusUpdates->order_item_id = $orderItem->id;
+                $statusUpdates->user_id = $user_id;
+                $statusUpdates->vendor_id = $item->vendor_id;
+                $statusUpdates->status_id = 1;
+                $statusUpdates->updated_by = 'system';
+                $statusUpdates->save();
             }
 
             //delete items from cart and cart_items
@@ -172,6 +185,8 @@ class OrderService
             );
             $order->order_date =  date("d M Y", strtotime($order->created_at));
 
+            $promo_discount = 0.00;
+
             if($order->promo_type) {
                 switch($order->promo_type) {
                     case 'P':
@@ -189,8 +204,7 @@ class OrderService
             $order_items = [];
             $orderItems = DB::table('order_items')
                 ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
-                ->leftJoin('order_statuses', 'order_statuses.id', '=', 'order_items.order_status_id')
-                ->select('order_items.id as order_item_id', 'order_items.order_id','order_items.product_id', 'order_items.item_count as qty', 'order_items.sub_total', 'order_items.updated_at', 'products.part_type', 'products.market', 'products.title', 'products.main_image', 'order_statuses.name as order_status_name')
+                ->select('order_items.id as order_item_id', 'order_items.order_id','order_items.product_id', 'order_items.item_count as qty', 'order_items.sub_total', 'order_items.updated_at', 'products.part_type', 'products.market', 'products.title', 'products.main_image')
                 ->where('order_items.order_id', $order_id)
                 ->get();
 
@@ -199,6 +213,10 @@ class OrderService
                     $item->main_image = env('APP_URL').'/storage/product/'.$item->main_image;
                     $item->updated_at = date("d M Y", strtotime($item->updated_at));
                 }
+                $statusUpdate = ItemStatusUpdate::where('order_item_id', $item->order_item_id)->orderBy('created_at', 'desc')->first();
+                $status = OrderStatus::where('id', $statusUpdate->status_id)->first();
+                $item->order_status_name = $status->name;
+                $item->status_code = $status->code;
             }
             $order_items['order'] = $order;
             $order_items['order_items'] = $orderItems;
@@ -220,8 +238,7 @@ class OrderService
             $orderItems = DB::table('order_items')
                 ->leftJoin('orders', 'orders.id', '=', 'order_items.order_id')
                 ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
-                ->leftJoin('order_statuses', 'order_statuses.id', '=', 'order_items.order_status_id')
-                ->select('order_items.*', 'products.title', 'products.main_image', 'order_statuses.name as order_status')
+                ->select('order_items.*', 'products.title', 'products.main_image')
                 ->where([['orders.user_id', $user_id], ['orders.created_at','>=', $date]])
                 ->orderBy('order_items.created_at', 'desc')
                 ->get();
@@ -230,6 +247,11 @@ class OrderService
                 $item->main_image = env('APP_URL').'/storage/product/'.$item->main_image;
                 $item->created_at = date("d M Y", strtotime($item->created_at));
                 $item->updated_at = date("d M Y", strtotime($item->updated_at));
+
+                $statusUpdate = ItemStatusUpdate::where('order_item_id', $item->id)->orderBy('created_at', 'desc')->first();
+                $status = OrderStatus::where('id', $statusUpdate->status_id)->first();
+                $item->order_status_name = $status->name;
+                $item->status_code = $status->code;
             }
 
             $response['data'] = $orderItems;
@@ -246,14 +268,18 @@ class OrderService
         try {
             $orderItem = DB::table('order_items')
                 ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
-                ->leftJoin('order_statuses', 'order_statuses.id', '=', 'order_items.order_status_id')
-                ->select('order_items.*', 'products.title', 'products.main_image', 'order_statuses.name as order_status')
+                ->select('order_items.*', 'products.title', 'products.main_image')
                 ->where('order_items.id', $id)
                 ->first();
 
             $orderItem->main_image = env('APP_URL').'/storage/product/'.$orderItem->main_image;
             $orderItem->created_at = date("d M Y", strtotime($orderItem->created_at));
             $orderItem->updated_at = date("d M Y", strtotime($orderItem->updated_at));
+
+            $statusUpdate = ItemStatusUpdate::where('order_item_id', $orderItem->id)->orderBy('created_at', 'desc')->first();
+            $status = OrderStatus::where('id', $statusUpdate->status_id)->first();
+            $orderItem->order_status_name = $status->name;
+            $orderItem->status_code = $status->code;
 
             $response['data'] = $orderItem;
             $response['errors'] = false;
@@ -278,9 +304,14 @@ class OrderService
             $orderReturn->status = 1;
             $orderReturn->save();
 
-            $orderItem = OrderItem::where('id', $request['order_item_id'])->first();
-            $orderItem->order_status_id = 7;
-            $orderItem->save();
+            $statusUpdate = new ItemStatusUpdate;
+            $statusUpdate->order_id = $request['order_id'];
+            $statusUpdate->order_item_id = $request['order_item_id'];
+            $statusUpdate->user_id = $user_id;
+            $statusUpdate->vendor_id = $request['vendor_id'];
+            $statusUpdate->status_id = 7;
+            $statusUpdate->updated_by = 'system';
+            $statusUpdate->save();
 
             $response['message'] = 'success';
             $response['errors'] = false;
