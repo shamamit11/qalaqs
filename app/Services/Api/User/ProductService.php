@@ -8,6 +8,7 @@ use App\Models\Make;
 use App\Models\Models;
 use App\Models\SubCategory;
 use App\Models\Review;
+use App\Models\Suitablefor;
 use App\Models\Year;
 use App\Models\Type;
 use Illuminate\Support\Facades\DB;
@@ -135,28 +136,6 @@ class ProductService
         }
     }
 
-    public function types()
-    {
-        try {
-            $type_data = array();
-            $types = Type::orderBy('created_at', 'desc')->get();
-            if ($types->count() > 0) {
-                foreach ($types as $type) {
-                    $type_data[] = ['id' => $type->id, 'name' => $type->name
-                    ];
-
-                }
-            }
-            $response['data'] = $type_data;
-            $response['message'] = null;
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
     public function product($request)
     {
         try {
@@ -167,7 +146,7 @@ class ProductService
                 'engine_id' => $request['engine_id'],
                 'category_id' => $request['category_id'],
                 'subcategory_id' => $request['subcategory_id'],
-                'type_id' => $request['type_id'],
+                'part_type' => $request['part_type'],
                 'status' => 1,
                 'admin_approved' => 1
             );
@@ -212,7 +191,6 @@ class ProductService
                         'warranty' => $product->warranty,
                         'category' => $product->category->name,
                         'subcategory' => $product->subcategory->name,
-                        'type' => $product->types->name,
                         'price' => $product->price,
                         'discount' => $product->discount,
                         'stock' => $product->stock,
@@ -241,42 +219,67 @@ class ProductService
         try {
             $product_data = array();
             $product = Product::find($id);
+            $product_suitable = array();
+            $suitable_for = Suitablefor::where([['product_id', $product->id]])->get();
 
-            $product_data[] = [
-                'main_image' => env('APP_URL').'/storage/product/'.$product->main_image,
-                'image_01' => env('APP_URL').'/storage/product/'.$product->image_01,
-                'image_02' => env('APP_URL').'/storage/product/'.$product->image_02,
-                'image_03' => env('APP_URL').'/storage/product/'.$product->image_03,
-                'image_04' => env('APP_URL').'/storage/product/'.$product->image_04,
-                'title' => $product->title,
-                'part_number' => $product->part_number,
-                'sku' => $product->sku,
-                'make' => $product->make->name,
-                'model' => '',
-                'year' => $product->year->name,
-                'engine' => $product->engine->name,
-                'manufacturer' => $product->manufacturer,
-                'brand' => $product->brand->name,
-                'part_type' => $product->part_type,
-                'market' => $product->market,
-                'warranty' => $product->warranty,
-                'category' => $product->category->name,
-                'subcategory' => $product->subcategory->name,
-                'type' => $product->types->name,
-                'price' => $product->price,
-                'discount' => $product->discount,
-                'stock' => $product->stock,
-                'weight' => $product->weight,
-                'height' => $product->height,
-                'width' => $product->width,
-                'length' => $product->length
-            ];
+            foreach($suitable_for as $item) {
+                $make = Make::where('id', $item->make_id)->first();
+                $model = Models::where('id', $item->model_id)->first();
+                $year = Year::where('id', $item->year_id)->first();
+                $engine = Engine::where('id', $item->engine_id)->first();
+                $product_suitable[] = [
+                    'make' => $make->name,
+                    'model' => $model->name,
+                    'year' => $year->name,
+                    'engine' => $engine->name
+                ];
 
-            $response['data'] = $product_data;
-            $response['message'] = null;
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
+            }
+
+
+            if($product) {
+                 $product_data[] = [
+                     'main_image' => env('APP_URL') . '/storage/product/' . $product->main_image,
+                     'image_01' => env('APP_URL') . '/storage/product/' . $product->image_01,
+                     'image_02' => env('APP_URL') . '/storage/product/' . $product->image_02,
+                     'image_03' => env('APP_URL') . '/storage/product/' . $product->image_03,
+                     'image_04' => env('APP_URL') . '/storage/product/' . $product->image_04,
+                     'title' => $product->title,
+                     'part_number' => $product->part_number,
+                     'sku' => $product->sku,
+                     'make' => $product->make->name,
+                     'model' => '',
+                     'year' => $product->year->name,
+                     'engine' => $product->engine->name,
+                     'manufacturer' => $product->manufacturer,
+                     'brand' => $product->brand->name,
+                     'part_type' => $product->part_type,
+                     'market' => $product->market,
+                     'warranty' => $product->warranty,
+                     'category' => $product->category->name,
+                     'subcategory' => $product->subcategory->name,
+                     'price' => $product->price,
+                     'discount' => $product->discount,
+                     'stock' => $product->stock,
+                     'weight' => $product->weight,
+                     'height' => $product->height,
+                     'width' => $product->width,
+                     'length' => $product->length,
+                     'product_suitable_for' => $product_suitable
+                 ];
+
+                 $response['data'] = $product_data;
+                 $response['message'] = null;
+                 $response['errors'] = null;
+                 $response['status_code'] = 200;
+                 return response()->json($response, 200);
+             }else{
+                 $response['data'] = false;
+                 $response['message'] = null;
+                 $response['errors'] = null;
+                 $response['status_code'] = 200;
+                 return response()->json($response, 200);
+             }
         } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
@@ -340,12 +343,16 @@ class ProductService
     public function addProductView($id) {
         $prodView = DB::table('product_views')->where('product_id', $id)->first();
         if($prodView) {
-            $prodView->views = $prodView->views + 1;
-            $prodView->save();
-        } 
+            $cnt = $prodView->views+1;
+            DB::table('product_views')
+                ->where('product_id', $id)
+                ->update([
+                    'views' =>  $cnt
+                ]);
+        }
         else {
             DB::table('product_views')->insert([
-                'product_id' => $id, 
+                'product_id' => $id,
                 'views' => 1
             ]);
         }

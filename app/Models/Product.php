@@ -67,11 +67,6 @@ class Product extends Model
         return $this->hasMany(ProductSpecification::class, 'product_id', 'id');
     }
 
-    public function types()
-    {
-        return $this->belongsTo(Type::class, 'type_id', 'id');
-    }
-
 //    public function matches()
 //    {
 //        return $this->hasMany(ProductMatch::class, 'id', 'id');
