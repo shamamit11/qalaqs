@@ -9,6 +9,7 @@ use App\Models\Models;
 use App\Models\SubCategory;
 use App\Models\Review;
 use App\Models\Year;
+use App\Models\Type;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -134,30 +135,52 @@ class ProductService
         }
     }
 
+    public function types()
+    {
+        try {
+            $type_data = array();
+            $types = Type::orderBy('created_at', 'desc')->get();
+            if ($types->count() > 0) {
+                foreach ($types as $type) {
+                    $type_data[] = ['id' => $type->id, 'name' => $type->name
+                    ];
+
+                }
+            }
+            $response['data'] = $type_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function product($request)
     {
         try {
             $conditions = array(
-                'type' => $request['type'],
-                'category_id' => $request['category_id'],
-                'subcategory_id' => $request['subcategory_id'],
                 'make_id' => $request['make_id'],
                 'model_id' => $request['model_id'],
                 'year_id' => $request['year_id'],
                 'engine_id' => $request['engine_id'],
+                'category_id' => $request['category_id'],
+                'subcategory_id' => $request['subcategory_id'],
+                'type_id' => $request['type_id'],
                 'status' => 1,
                 'admin_approved' => 1
             );
             $product_data = array();
-            $products = Product::where($conditions)->orderBy('name', 'asc')->get();
+            $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
             if ($products->count() > 0) {
                 foreach ($products as $product) {
-                    $matches = array();
-                    if (count($product->matches) > 0) {
-                        foreach ($product->matches as $match) {
-                            array_push($matches, array('id' => $match->id, 'name' => $match->make->name . ' / ' . $match->model->name . ' / ' . $match->year->name . ' / ' . $match->engine->name));
-                        }
-                    }
+//                    $matches = array();
+//                    if (count($product->matches) > 0) {
+//                        foreach ($product->matches as $match) {
+//                            array_push($matches, array('id' => $match->id, 'name' => $match->make->name . ' / ' . $match->model->name . ' / ' . $match->year->name . ' / ' . $match->engine->name));
+//                        }
+//                    }
                     $reviews = array();
                     $rating = 0;
                     if (count($product->reviews) > 0) {
@@ -169,32 +192,38 @@ class ProductService
                         $rating = round(($total_rating / count($product->reviews)), 0);
 
                     }
-                    $data = array(
-                        'id' => $product->id,
-                        'sku' => $product->sku,
-                        'part_type' => $product->part_type,
+                    $product_data[] = ['id' => $product->id,
+                        'main_image' => env('APP_URL').'/storage/product/'.$product->main_image,
+                        'image_01' => env('APP_URL').'/storage/product/'.$product->image_01,
+                        'image_02' => env('APP_URL').'/storage/product/'.$product->image_02,
+                        'image_03' => env('APP_URL').'/storage/product/'.$product->image_03,
+                        'image_04' => env('APP_URL').'/storage/product/'.$product->image_04,
+                        'title' => $product->title,
                         'part_number' => $product->part_number,
-                        'type' => $product->type,
-                        'manufacturer' => $product->manufacturer,
-                        'rating' => $rating,
-                        'name' => $product->name,
-                        'category' => $product->category->name,
-                        'subcategory' => $product->subcategory->name,
-                        'brand' => $product->brand->name,
+                        'sku' => $product->sku,
                         'make' => $product->make->name,
-                        'model' => $product->model->name,
+                        'model' => '',
                         'year' => $product->year->name,
                         'engine' => $product->engine->name,
+                        'manufacturer' => $product->manufacturer,
+                        'brand' => $product->brand->name,
+                        'part_type' => $product->part_type,
+                        'market' => $product->market,
                         'warranty' => $product->warranty,
+                        'category' => $product->category->name,
+                        'subcategory' => $product->subcategory->name,
+                        'type' => $product->types->name,
                         'price' => $product->price,
+                        'discount' => $product->discount,
                         'stock' => $product->stock,
-                        'specifications' => $product->specifications,
-                        'matches' => $matches,
-                        'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image),
-                        'images' => $product->images,
+                        'weight' => $product->weight,
+                        'height' => $product->height,
+                        'width' => $product->width,
+                        'length' => $product->length,
+//                        'matches' => $matches,
                         'reviews' => $reviews
-                    );
-                    array_push($product_data, $data);
+                    ];
+
                 }
             }
             $response['data'] = $product_data;
@@ -212,46 +241,35 @@ class ProductService
         try {
             $product_data = array();
             $product = Product::find($id);
-            $product_images = array();
-            foreach ($product->images as $val) {
-                $product_images[] = [
-                    'id' => $val->id,
-                    'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $val->image)
-                ];
-            }
-            $product_specificatios = array();
-            foreach ($product->specifications as $val1) {
-                $product_specificatios[] = [
-                    'id' => $val1->id,
-                    'specification_name' => $val1->specification_name,
-                    'specification_value' => $val1->specification_value
-                ];
-
-            }
 
             $product_data[] = [
-                'sku' => $product->sku,
-                'part_type' => $product->part_type,
+                'main_image' => env('APP_URL').'/storage/product/'.$product->main_image,
+                'image_01' => env('APP_URL').'/storage/product/'.$product->image_01,
+                'image_02' => env('APP_URL').'/storage/product/'.$product->image_02,
+                'image_03' => env('APP_URL').'/storage/product/'.$product->image_03,
+                'image_04' => env('APP_URL').'/storage/product/'.$product->image_04,
+                'title' => $product->title,
                 'part_number' => $product->part_number,
-                'type' => $product->type,
-                'manufacturer' => $product->manufacturer,
-                'rating' => '',
-                'name' => $product->name,
-                'category' => $product->category->name,
-                'subcategory' => $product->subcategory->name,
-                'brand' => $product->brand->name,
+                'sku' => $product->sku,
                 'make' => $product->make->name,
                 'model' => '',
                 'year' => $product->year->name,
                 'engine' => $product->engine->name,
+                'manufacturer' => $product->manufacturer,
+                'brand' => $product->brand->name,
+                'part_type' => $product->part_type,
+                'market' => $product->market,
                 'warranty' => $product->warranty,
+                'category' => $product->category->name,
+                'subcategory' => $product->subcategory->name,
+                'type' => $product->types->name,
                 'price' => $product->price,
+                'discount' => $product->discount,
                 'stock' => $product->stock,
-                'specifications' => $product_specificatios,
-                'matches' => '',
-                'image' => Storage::disk('public')->url('product/' . $product->folder . '/' . $product->image),
-                'images' => $product_images,
-                'reviews' => ''
+                'weight' => $product->weight,
+                'height' => $product->height,
+                'width' => $product->width,
+                'length' => $product->length
             ];
 
             $response['data'] = $product_data;
@@ -267,12 +285,12 @@ class ProductService
     public function featuredProduct()
     {
         try {
-            $conditions = ['is_featured' => 1, 'admin_approved' => '1'];
+            $conditions = ['admin_approved' => '1'];
             $product_data = array();
-            $products = Product::where($conditions)->orderBy('id', 'desc')->take(9)->get();
+            $products = Product::where($conditions)->orderBy('created_at', 'desc')->take(9)->get();
             if ($products->count() > 0) {
                 foreach ($products as $product) {
-                    array_push($product_data, array('id' => $product->id, 'name' => $product->name, 'price' => $product->price, 'part_type' => $product->part_type, 'part_number' => $product->part_number));
+                    array_push($product_data, array('id' => $product->id, 'title' => $product->title, 'price' => $product->price, 'part_type' => $product->part_type, 'part_number' => $product->part_number,'main_image'=>env('APP_URL').'/storage/product/'.$product->main_image));
                 }
             }
             $response['data'] = $product_data;
@@ -290,20 +308,21 @@ class ProductService
     {
         try {
             $product_data = array();
-            $conditions_feature = ['is_featured' => 1, 'admin_approved' => '1'];
-            $conditions_top_deal = ['is_featured' => 1, 'admin_approved' => '1'];
+            $conditions_feature = ['admin_approved' => '1'];
+            $conditions_top_deal = [['discount','>' ,'0'], ['admin_approved','1']];
             $feature_product_data = array();
-            $feature_products = Product::where($conditions_feature)->orderBy('id', 'desc')->take(3)->get();
+            $feature_products = Product::where($conditions_feature)->orderBy('created_at', 'desc')->take(3)->get();
             if ($feature_products->count() > 0) {
                 foreach ($feature_products as $feature_product) {
-                    array_push($feature_product_data, array('id' => $feature_product->id, 'name' => $feature_product->name, 'price' => $feature_product->price, 'part_type' => $feature_product->part_type, 'part_number' => $feature_product->part_number));
+                    array_push($feature_product_data, array('id' => $feature_product->id, 'title' => $feature_product->title, 'price' => $feature_product->price, 'part_type' => $feature_product->part_type, 'part_number' => $feature_product->part_number,'main_image'=>env('APP_URL').'/storage/product/'.$feature_product->main_image));
                 }
             }
             $top_deal_product_data = array();
             $top_deal_products = Product::where($conditions_top_deal)->orderBy('id', 'desc')->take(3)->get();
+
             if ($top_deal_products->count() > 0) {
                 foreach ($top_deal_products as $top_deal_product) {
-                    array_push($top_deal_product_data, array('id' => $top_deal_product->id, 'name' => $top_deal_product->name, 'price' => $top_deal_product->price, 'part_type' => $top_deal_product->part_type, 'part_number' => $top_deal_product->part_number));
+                    array_push($top_deal_product_data, array('id' => $top_deal_product->id, 'title' => $top_deal_product->title, 'price' => $top_deal_product->price, 'part_type' => $top_deal_product->part_type, 'part_number' => $top_deal_product->part_number, 'discount' => $top_deal_product->discount,'main_image'=>env('APP_URL').'/storage/product/'.$top_deal_product->main_image));
                 }
             }
             $product_data[] = ['feature_product' => $feature_product_data, 'top_deal_product' => $top_deal_product_data];

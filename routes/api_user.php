@@ -46,8 +46,9 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/year', 'year');
         Route::get('/engine', 'engine');
         Route::get('/category', 'category');
+        Route::get('/types', 'types');
         Route::get('/subcategory', 'subcategory');
-        Route::get('/product', 'product');
+        Route::post('/search-product', 'product');
         Route::get('/product/{id}', 'productDetail');
         Route::get('/feature-product', 'featuredProduct');
         Route::get('/landing-page-product', 'landingPageProduct');
@@ -73,11 +74,12 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/orders/createReturns', 'createOrderReturns');
     });
 
+});
     Route::controller('VendorController')->group(function () {
         Route::get('/vendor/{vendor_id}', 'vendorDetail');
         Route::post('/vendor/addReview', 'addReview');
     });
 
-});
+
 
 

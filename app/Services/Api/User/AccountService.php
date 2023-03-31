@@ -16,14 +16,11 @@ class AccountService
         try {
             $id = Auth::guard('user-api')->id();
             $user = User::findOrFail($id);
-            $user->business_name = $request['business_name'];
             $user->first_name = $request['first_name'];
             $user->last_name = $request['last_name'];
             $user->mobile = $request['mobile'];
-            $user->image = isset($request['image']) ? $this->StoreImage($request['image'], '/user/') : null;
             $user->device_id = isset($request['device_id']) ? $request['device_id']: null;
             $user->save();
-            $user->image = Storage::disk('public')->url('/user/'.$user->image);
             $response['data'] = $user;
             $response['errors'] = false;
             $response['status_code'] = 201;
