@@ -28,7 +28,7 @@ Route::controller('AuthController')->group(function () {
     Route::get('refresh-token', 'refreshToken')->name('refresh-token');
 });
 
-//Route::group(['middleware' => ['auth.jwt']], function () {
+Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
         Route::post('/update-profile', 'updateProfile');
@@ -74,6 +74,12 @@ Route::controller('AuthController')->group(function () {
         Route::post('/orders/createReturns', 'createOrderReturns');
     });
 
-//});
+});
+    Route::controller('VendorController')->group(function () {
+        Route::get('/vendor/{vendor_id}', 'vendorDetail');
+        Route::post('/vendor/addReview', 'addReview');
+    });
+
+
 
 

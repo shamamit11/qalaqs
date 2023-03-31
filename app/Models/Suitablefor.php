@@ -13,21 +13,21 @@ class Suitablefor extends Model
 
     public function make()
     {
-        return $this->belongsTo(ProductMake::class, 'make_id', 'id');
+        return $this->belongsTo(Make::class, 'make_id', 'id');
     }
 
     public function model()
     {
-        return $this->belongsTo(ProductModel::class, 'model_id', 'id');
+        return $this->belongsTo(Model::class, 'model_id', 'id');
     }
 
     public function year()
     {
-        return $this->belongsTo(ProductYear::class, 'year_id', 'id');
+        return $this->belongsTo(Year::class, 'year_id', 'id');
     }
 
     public function engine()
     {
-        return $this->belongsTo(ProductEngine::class, 'engine_id', 'id');
+        return $this->belongsTo(Engine::class, 'engine_id', 'id');
     }
 }

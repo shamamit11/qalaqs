@@ -139,9 +139,8 @@ class ProductService
 
     public function listProducts() {
         try {
-            $product_data = array();
             $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $products = Product::where('vendor_id', $vendor_id)->orderBy('id', 'asc')->get();
+            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'asc')->get();
             if($products->count() > 0) {
                 foreach ($products as $product) {
                     if($product['main_image']) {
@@ -159,7 +158,6 @@ class ProductService
                     if($product['image_04']) {
                         $product->image_04 = env('APP_URL').'/storage/product/'.$product['image_04'];
                     }
-                    array_push($product_data, $product);
                 }
             }
             $response['data'] = $products;
@@ -224,6 +222,19 @@ class ProductService
         try {
             $vendor_id = Auth::guard('vendor-api')->user()->id;
             $product = Product::where([['vendor_id', $vendor_id], ['id', $id]])->first();
+            $suitable_for = Suitablefor::where([['product_id', $product->id]])->get()->makeHidden(['product_id', 'created_at', 'updated_at']);
+
+            foreach($suitable_for as $item) {
+                $make = Make::where('id', $item->make_id)->first();
+                $model = Models::where('id', $item->model_id)->first();
+                $year = Year::where('id', $item->year_id)->first();
+                $engine = Engine::where('id', $item->engine_id)->first();
+                $item->make = $make->name;
+                $item->model = $model->name;
+                $item->year = $year->name;
+                $item->engine = $engine->name;
+            }
+
             if($product->main_image) {
                 $product->main_image = env('APP_URL').'/storage/product/'.$product->main_image;
             }
@@ -239,6 +250,8 @@ class ProductService
             if($product->image_04) {
                 $product->image_04 = env('APP_URL').'/storage/product/'.$product->image_04;
             }
+            $product->suitable_for = $suitable_for;
+
             $response['data'] = $product;
             $response['message'] = null;
             $response['errors'] = null;
@@ -274,7 +287,17 @@ class ProductService
 
     public function productSuitable($prod_id) {
         try {
-            $matches = Suitablefor::where([['product_id', $prod_id]])->get();
+            $matches = Suitablefor::where([['product_id', $prod_id]])->get(['id', 'make_id', 'model_id', 'year_id', 'engine_id']);
+            foreach($matches as $item) {
+                $make = Make::where('id', $item->make_id)->first();
+                $model = Models::where('id', $item->model_id)->first();
+                $year = Year::where('id', $item->year_id)->first();
+                $engine = Engine::where('id', $item->engine_id)->first();
+                $item->make = $make->name;
+                $item->model = $model->name;
+                $item->year = $year->name;
+                $item->engine = $engine->name;
+            }
             $response['data'] = $matches;
             $response['message'] = null;
             $response['errors'] = null;

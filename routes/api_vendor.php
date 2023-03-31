@@ -45,9 +45,22 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/product/{id}', 'productDetail');
         Route::post('/product/addEdit', 'addEdit');
         Route::post('/product/delete/{id}', 'deleteProduct');
-        Route::get('/product/suitable{prod_id}', 'productSuitable');
-        Route::post('/product/sutiable/add', 'addSuitable');
+        Route::get('/product/suitable/{prod_id}', 'productSuitable');
+        Route::post('/product/suitable/add', 'addSuitable');
         Route::post('/product/deleteSuitable/{id}', 'deleteSuitable');
+    });
+
+    Route::controller('VendorController')->group(function () {
+        Route::get('/profile', 'vendorDetail');
+        Route::get('/stats', 'vendorStats');
+    });
+
+    Route::controller('OrderController')->group(function () {
+        Route::get('/orders', 'listOrders');
+        Route::get('/order/{order_item_id}', 'orderDetails');
+        Route::post('/order/updateStatus', 'updateOrderStatus');
+        Route::get('/listReturns', 'listReturns');
+        Route::get('/returns/{return_id}', 'returnDetail');
     });
     
 });
