@@ -40,6 +40,10 @@ class ProductController extends Controller
         return $this->product->subcategory();
     }
 
+    public function types() {
+        return $this->product->types();
+    }
+
     public function product(ProductRequest $request) {
         return $this->product->product($request->validated());
     }
