@@ -24,7 +24,7 @@ class ProductRequest extends ApiRequest
     public function rules()
     {
         return [
-            'type' => 'required',
+            'part_type' => 'required',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
             'make_id' => 'required|exists:makes,id',

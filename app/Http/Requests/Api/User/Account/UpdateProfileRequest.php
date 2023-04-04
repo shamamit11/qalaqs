@@ -24,11 +24,9 @@ class UpdateProfileRequest extends ApiRequest
     public function rules()
     {
         return [
-            'business_name' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'mobile' => 'required',
-            'image' => ($this->image) ? 'image' : '',
         ];
     }
 }

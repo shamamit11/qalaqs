@@ -40,18 +40,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::get('user-address', 'AddressController@list');
     
 
-    Route::controller('ProductController')->group(function () {
-        Route::get('/make', 'make');
-        Route::get('/model', 'model');
-        Route::get('/year', 'year');
-        Route::get('/engine', 'engine');
-        Route::get('/category', 'category');
-        Route::get('/subcategory', 'subcategory');
-        Route::get('/product', 'product');
-        Route::get('/product/{id}', 'productDetail');
-        Route::get('/feature-product', 'featuredProduct');
-        Route::get('/landing-page-product', 'landingPageProduct');
-    });
+
 
     Route::controller('CartController')->group(function () {
         Route::get('/cart/{cart_session_id}', 'list');
@@ -73,11 +62,24 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/orders/createReturns', 'createOrderReturns');
     });
 
+});
     Route::controller('VendorController')->group(function () {
         Route::get('/vendor/{vendor_id}', 'vendorDetail');
         Route::post('/vendor/addReview', 'addReview');
     });
 
+Route::controller('ProductController')->group(function () {
+    Route::get('/make', 'make');
+    Route::get('/model', 'model');
+    Route::get('/year', 'year');
+    Route::get('/engine', 'engine');
+    Route::get('/category', 'category');
+    Route::get('/types', 'types');
+    Route::get('/subcategory', 'subcategory');
+    Route::post('/search-product', 'product');
+    Route::get('/product/{id}', 'productDetail');
+    Route::get('/feature-product', 'featuredProduct');
+    Route::get('/landing-page-product', 'landingPageProduct');
 });
 
 
