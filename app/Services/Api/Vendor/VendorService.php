@@ -38,6 +38,14 @@ class VendorService
             $reviews = VendorReview::where('vendor_id', $vendor_id)->get();
             $vendor->reviews = $reviews;
 
+            if($vendor->image) {
+                $vendor->image = env('APP_URL').'/storage/vendor/'.$vendor->image;
+            }
+
+            if($vendor->license_image) {
+                $vendor->license_image = env('APP_URL').'/storage/vendor/'.$vendor->license_image;
+            }
+        
             $vendor_array['detail'] = $vendor;
 
             $response['data'] = $vendor_array;
