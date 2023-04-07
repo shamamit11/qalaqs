@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\Order\OrderReturnRequest;
+use App\Http\Requests\Api\User\Order\PaymentTokenRequest;
 use App\Http\Requests\Api\User\Order\PaymentRequest;
 use App\Http\Requests\Api\User\Order\OrderRequest;
 use App\Services\Api\User\OrderService;
@@ -18,12 +19,12 @@ class OrderController extends Controller
         $this->order = $OrderService;
     }
 
-    public function processPayment() {
-        return $this->order->processPayment();  
+    public function generatePaymentToken(PaymentTokenRequest $request) {
+        return $this->order->generatePaymentToken($request);
     }
 
-    public function completePayment() {
-        return $this->order->completePayment();  
+    public function processPayment(PaymentRequest $request) {
+        return $this->order->processPayment($request);  
     }
 
     public function createOrder(OrderRequest $request) {
