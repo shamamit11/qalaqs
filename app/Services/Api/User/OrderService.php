@@ -14,41 +14,104 @@ use App\Models\UserAddress;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Zepson\Dpo\Dpo;
 
 class OrderService
-{ 
-    public function processPayment($request) {
+{
+    public function processPayment()
+    {
         try {
-            $card_name = $request['card_name'];
-            $card_number = $request['card_number'];
-            $expiry_month = $request['expiry_month'];
-            $expiry_year = $request['expiry_year'];
-            $cvc = $request['cvc'];
-            $total_amount = $request['total_amount'];
-           
-            //Payment API
+            $endpoint = "https://secure.3gdirectpay.com/API/v6/";
 
-            $payment_status = 'success';
+            $xmlData = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+            <API3G>
+                <CompanyToken>" . env('DPO_COMPANY_TOKEN') . "</CompanyToken>
+                <Request>createToken</Request>
+                <Transaction>
+                    <PaymentAmount>100.00</PaymentAmount>
+                    <PaymentCurrency>AED</PaymentCurrency>
+                    <CompanyRef>KDIEOM</CompanyRef>
+                    <CompanyRefUnique>0</CompanyRefUnique>
+                    <PTL>5</PTL>
+                </Transaction>
+                <customerEmail>test@directpayonline.com</customerEmail>
+                <customerFirstName>Dima</customerFirstName>
+                <customerLastName>Kyselov</customerLastName>
+                <customerCity>Nairobddi</customerCity>
+                <customerCountry>KE</customerCountry>
+                <customerAddress>Africa</customerAddress>
+                <customerPhone>1234567890</customerPhone>
+                <Services>
+                    <Service>
+                        <ServiceType>48565</ServiceType>
+                        <ServiceDescription>Flight from Nairobi to Diani</ServiceDescription>
+                        <ServiceDate>2013/12/20 19:00</ServiceDate>
+                    </Service>
+                </Services>
+            </API3G>";
 
-            if($payment_status == 'success') {
-                $response['message'] = 'success';
-                $response['transaction_id'] = 'e768378c-ce7e-11ed-afa1-0242ac120002';
-                $response['errors'] = false;
-                $response['status_code'] = 201;
-                return response()->json($response, 201);
-            } 
-            else {
-                $response['message'] = 'error';
-                $response['errors'] = true;
-                $response['status_code'] = 401;
-                return response()->json($response, 401);
+            $ch = curl_init();
+
+            if (!$ch) {
+                die("Couldn't initialize a cURL handle");
             }
-        } catch (\Exception$e) {
+            curl_setopt($ch, CURLOPT_URL, $endpoint);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
+
+            $result = curl_exec($ch);
+
+            
+
+            curl_close($ch);
+
+            $data = simplexml_load_string($result);
+
+            dd($data);
+
+
+            //return $dpo->directPayment($order);
+
+            // $card_name = $request['card_name'];
+            // $card_number = $request['card_number'];
+            // $expiry_month = $request['expiry_month'];
+            // $expiry_year = $request['expiry_year'];
+            // $cvc = $request['cvc'];
+            // $total_amount = $request['total_amount'];
+
+            // //Payment API
+
+            // $payment_status = 'success';
+
+            // if($payment_status == 'success') {
+            //     $response['message'] = 'success';
+            //     $response['transaction_id'] = 'e768378c-ce7e-11ed-afa1-0242ac120002';
+            //     $response['errors'] = false;
+            //     $response['status_code'] = 201;
+            //     return response()->json($response, 201);
+            // } 
+            // else {
+            //     $response['message'] = 'error';
+            //     $response['errors'] = true;
+            //     $response['status_code'] = 401;
+            //     return response()->json($response, 401);
+            // }
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function createOrder($request) { 
+    public function completePayment()
+    {
+
+    }
+
+    public function createOrder($request)
+    {
         try {
             $user_id = Auth::guard('user-api')->id();
             $cart_session_id = $request['cart_session_id'];
@@ -65,8 +128,8 @@ class OrderService
 
             $promo_discount = 0.00;
 
-            if($promo_type) {
-                switch($promo_type) {
+            if ($promo_type) {
+                switch ($promo_type) {
                     case 'P':
                         $promo_discount = $sub_total * $promo_value / 100;
                         break;
@@ -84,7 +147,7 @@ class OrderService
             $grand_total = $sub_total - $promo_discount + $tax_amount + $shipping_charge;
 
             $shippingAddress = UserAddress::where([['id', $shipping_address_id], ['user_id', $user_id]])->first();
-            
+
             $order_id = generateOrderID();
 
             $orderData = new Order;
@@ -101,13 +164,13 @@ class OrderService
             $orderData->grand_total = $grand_total;
             $orderData->delivery_charge = $shipping_charge;
             $orderData->delivery_name = $shippingAddress->name;
-            $orderData->delivery_address = $shippingAddress->building. ', ' .$shippingAddress->street_name;
+            $orderData->delivery_address = $shippingAddress->building . ', ' . $shippingAddress->street_name;
             $orderData->delivery_city = $shippingAddress->city;
             $orderData->delivery_country = $shippingAddress->country;
             $orderData->delivery_zip = '00000';
             $orderData->delivery_phone = $shippingAddress->mobile;
             $orderData->billing_name = $shippingAddress->name;
-            $orderData->billing_address = $shippingAddress->building. ', ' .$shippingAddress->street_name;
+            $orderData->billing_address = $shippingAddress->building . ', ' . $shippingAddress->street_name;
             $orderData->billing_city = $shippingAddress->city;
             $orderData->billing_country = $shippingAddress->country;
             $orderData->billing_zip = '00000';
@@ -121,7 +184,7 @@ class OrderService
 
             $cartItems = CartItem::where('cart_session_id', $cart_session_id)->get();
 
-            foreach($cartItems as $item) {
+            foreach ($cartItems as $item) {
                 $product = Product::where('id', $item->product_id)->first();
                 $orderItem = new OrderItem;
                 $orderItem->order_id = $orderData->id;
@@ -155,40 +218,42 @@ class OrderService
             $response['status_code'] = 201;
             return response()->json($response, 201);
 
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function listOrders() {
+    public function listOrders()
+    {
         try {
             $user_id = Auth::guard('user-api')->id();
             $orders = Order::where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
-            foreach($orders as $order) {
+            foreach ($orders as $order) {
                 $order->order_date = date("d M Y", strtotime($order->created_at));
             }
             $response['data'] = $orders;
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function getOrderDetails($order_id) {
+    public function getOrderDetails($order_id)
+    {
         try {
             $user_id = Auth::guard('user-api')->id();
-           
+
             $order = Order::where([['user_id', $user_id], ['id', $order_id]])->first(
-                ['id', 'order_id', 'item_count','promo_type', 'promo_value', 'sub_total', 'vat_percentage', 'vat_amount', 'delivery_charge', 'grand_total', 'created_at', 'delivery_name', 'delivery_address', 'delivery_city', 'delivery_country', 'delivery_phone']
+                ['id', 'order_id', 'item_count', 'promo_type', 'promo_value', 'sub_total', 'vat_percentage', 'vat_amount', 'delivery_charge', 'grand_total', 'created_at', 'delivery_name', 'delivery_address', 'delivery_city', 'delivery_country', 'delivery_phone']
             );
-            $order->order_date =  date("d M Y", strtotime($order->created_at));
+            $order->order_date = date("d M Y", strtotime($order->created_at));
 
             $promo_discount = 0.00;
 
-            if($order->promo_type) {
-                switch($order->promo_type) {
+            if ($order->promo_type) {
+                switch ($order->promo_type) {
                     case 'P':
                         $promo_discount = $order->sub_total * $order->promo_value / 100;
                         break;
@@ -199,18 +264,18 @@ class OrderService
                         $promo_discount = 0.00;
                 }
             }
-            $order->promo_discount =  $promo_discount;
+            $order->promo_discount = $promo_discount;
 
             $order_items = [];
             $orderItems = DB::table('order_items')
                 ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
-                ->select('order_items.id as order_item_id', 'order_items.order_id','order_items.product_id', 'order_items.item_count as qty', 'order_items.sub_total', 'order_items.updated_at', 'products.part_type', 'products.market', 'products.title', 'products.main_image')
+                ->select('order_items.id as order_item_id', 'order_items.order_id', 'order_items.product_id', 'order_items.item_count as qty', 'order_items.sub_total', 'order_items.updated_at', 'products.part_type', 'products.market', 'products.title', 'products.main_image')
                 ->where('order_items.order_id', $order_id)
                 ->get();
 
-            foreach($orderItems as $item) {
-                if($item->main_image) {
-                    $item->main_image = env('APP_URL').'/storage/product/'.$item->main_image;
+            foreach ($orderItems as $item) {
+                if ($item->main_image) {
+                    $item->main_image = env('APP_URL') . '/storage/product/' . $item->main_image;
                     $item->updated_at = date("d M Y", strtotime($item->updated_at));
                 }
                 $statusUpdate = ItemStatusUpdate::where('order_item_id', $item->order_item_id)->orderBy('created_at', 'desc')->first();
@@ -220,31 +285,32 @@ class OrderService
             }
             $order_items['order'] = $order;
             $order_items['order_items'] = $orderItems;
-       
+
             $response['data'] = $order_items;
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function recentOrders() {
+    public function recentOrders()
+    {
         try {
             $user_id = Auth::guard('user-api')->id();
             $date = Carbon::today()->subDays(7);
-    
+
             $orderItems = DB::table('order_items')
                 ->leftJoin('orders', 'orders.id', '=', 'order_items.order_id')
                 ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
                 ->select('order_items.*', 'products.title', 'products.main_image')
-                ->where([['orders.user_id', $user_id], ['orders.created_at','>=', $date]])
+                ->where([['orders.user_id', $user_id], ['orders.created_at', '>=', $date]])
                 ->orderBy('order_items.created_at', 'desc')
                 ->get();
-    
-            foreach($orderItems as $item) {
-                $item->main_image = env('APP_URL').'/storage/product/'.$item->main_image;
+
+            foreach ($orderItems as $item) {
+                $item->main_image = env('APP_URL') . '/storage/product/' . $item->main_image;
                 $item->created_at = date("d M Y", strtotime($item->created_at));
                 $item->updated_at = date("d M Y", strtotime($item->updated_at));
 
@@ -258,13 +324,13 @@ class OrderService
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } 
-        catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function recentOrderDetail($id) {
+    public function recentOrderDetail($id)
+    {
         try {
             $orderItem = DB::table('order_items')
                 ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
@@ -272,7 +338,7 @@ class OrderService
                 ->where('order_items.id', $id)
                 ->first();
 
-            $orderItem->main_image = env('APP_URL').'/storage/product/'.$orderItem->main_image;
+            $orderItem->main_image = env('APP_URL') . '/storage/product/' . $orderItem->main_image;
             $orderItem->created_at = date("d M Y", strtotime($orderItem->created_at));
             $orderItem->updated_at = date("d M Y", strtotime($orderItem->updated_at));
 
@@ -285,13 +351,13 @@ class OrderService
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        }
-        catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function createOrderReturns($request) {
+    public function createOrderReturns($request)
+    {
         try {
             $user_id = Auth::guard('user-api')->id();
             $orderReturn = new OrderReturn;
@@ -317,8 +383,7 @@ class OrderService
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
-        }
-        catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }

@@ -18,8 +18,12 @@ class OrderController extends Controller
         $this->order = $OrderService;
     }
 
-    public function processPayment(PaymentRequest $request) {
-        return $this->order->processPayment($request);  
+    public function processPayment() {
+        return $this->order->processPayment();  
+    }
+
+    public function completePayment() {
+        return $this->order->completePayment();  
     }
 
     public function createOrder(OrderRequest $request) {
