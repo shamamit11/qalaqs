@@ -8,7 +8,7 @@ use App\Services\Admin\SubcategoryService;
 use Illuminate\Http\Request;
 
 use App\Models\Category;
-use App\Models\SubCategory;
+use App\Models\Subcategory;
 
 class SubcategoryController extends Controller
 {
@@ -46,7 +46,7 @@ class SubcategoryController extends Controller
         $data['action'] = route('admin-subcategory-addaction');
         $data['order'] = getMax('subcategories', 'order');
         $data['categories'] = Category::where('status', 1)->orderBy('order', 'asc')->get();
-        $data['row'] = SubCategory::where('id', $id)->first();
+        $data['row'] = Subcategory::where('id', $id)->first();
         return view('admin.subcategory.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
