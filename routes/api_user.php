@@ -28,6 +28,9 @@ Route::controller('AuthController')->group(function () {
     Route::get('refresh-token', 'refreshToken')->name('refresh-token');
 });
 
+Route::post('/order/processPayment', 'OrderController@processPayment');
+Route::get('/order/completePayment', 'OrderController@completePayment');
+
 Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
@@ -53,7 +56,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     });
 
     Route::controller('OrderController')->group(function () {
-        Route::post('/order/processPayment', 'processPayment');
+        //Route::post('/order/processPayment', 'processPayment');
         Route::post('/order/createOrder', 'createOrder');
         Route::get('/orders', 'listOrders');
         Route::get('/order/detail/{order_id}', 'getOrderDetails');
