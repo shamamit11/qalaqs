@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\User\Order;
 
 use App\Http\Requests\ApiRequest;
 
-class PaymentRequest extends ApiRequest
+class PaymentTokenRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,8 @@ class PaymentRequest extends ApiRequest
     public function rules()
     {
         return [
-            'card_name' => 'required',
-            'card_number' => 'required',
-            'card_expiry' => 'required',
-            'card_cvv' => 'required',
-            'transaction_token' => 'required',
-            'cart_session_id' => 'required',
             'shipping_address_id' => 'required',
-            'shipping_charge' => 'required'
+            'total_amount' => 'required',
         ];
     }
 }
