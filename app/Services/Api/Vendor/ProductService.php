@@ -5,7 +5,7 @@ use App\Models\Category;
 use App\Models\Engine;
 use App\Models\Make;
 use App\Models\Models;
-use App\Models\SubCategory;
+use App\Models\Subcategory;
 use App\Models\Year;
 use App\Models\Product;
 use App\Models\Suitablefor;
@@ -121,7 +121,7 @@ class ProductService
     {
         try {
             $subcategory_data = array();
-            $subcategories = SubCategory::where('status', 1)->orderBy('order', 'asc')->get();
+            $subcategories = Subcategory::where('status', 1)->orderBy('order', 'asc')->get();
             if ($subcategories->count() > 0) {
                 foreach ($subcategories as $subcategory) {
                     array_push($subcategory_data, array('id' => $subcategory->id, 'name' => $subcategory->name, 'category_id' => $subcategory->category_id));
