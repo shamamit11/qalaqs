@@ -311,57 +311,66 @@ class CartService
         try {
             $user_id = Auth::guard('user-api')->id();
             $cartData = Cart::where([['user_id', $user_id], ['session_id', $cart_session_id]])->first();
-            $item_count = $cartData->item_count;
-            $promo_type = $cartData->promo_type;
-            $promo_value = $cartData->promo_value;
-            $sub_total = $cartData->sub_total;
 
-            $promo_discount = 0.00;
-            
-            if($promo_type) {
-                switch($promo_type) {
-                    case 'P':
-                        $promo_discount = $sub_total * $promo_value / 100;
-                        break;
-                    case 'A':
-                        $promo_discount = $sub_total - $promo_value;
-                        break;
-                    default:
-                        $promo_discount = 0.00;
+            if($cartData) {
+                $item_count = $cartData->item_count;
+                $promo_type = $cartData->promo_type;
+                $promo_value = $cartData->promo_value;
+                $sub_total = $cartData->sub_total;
+    
+                $promo_discount = 0.00;
+                
+                if($promo_type) {
+                    switch($promo_type) {
+                        case 'P':
+                            $promo_discount = $sub_total * $promo_value / 100;
+                            break;
+                        case 'A':
+                            $promo_discount = $sub_total - $promo_value;
+                            break;
+                        default:
+                            $promo_discount = 0.00;
+                    }
                 }
-            }
-
-            $tax = Tax::findOrFail(1);
-            $tax_amount = $sub_total * $tax->percentage / 100;
-           
-            //calculate shipping
-            if($sub_total >= 500) {
-                $shipping_charge = 5.00;
-            }
-            else if($sub_total >= 200) {
-                $shipping_charge = 10.00;
-            }
+    
+                $tax = Tax::findOrFail(1);
+                $tax_amount = $sub_total * $tax->percentage / 100;
+               
+                //calculate shipping
+                if($sub_total >= 500) {
+                    $shipping_charge = 5.00;
+                }
+                else if($sub_total >= 200) {
+                    $shipping_charge = 10.00;
+                }
+                else {
+                    $shipping_charge = 15.00;
+                }
+    
+                $grand_total = $sub_total - $promo_discount + $tax_amount + $shipping_charge;
+    
+                $summary = [];
+                $summary['cart_session_id'] = $cart_session_id;
+                $summary['total_items'] = $item_count;
+                $summary['sub_total'] = $sub_total;
+                $summary['promo_discount'] = $promo_discount;
+                $summary['tax_name'] = $tax->name;
+                $summary['tax_percent'] = $tax->percentage;
+                $summary['tax_amount'] = $tax_amount;
+                $summary['shipping_charge'] = $shipping_charge;
+                $summary['grand_total'] = $grand_total;
+    
+                $response['data'] = $summary;
+                $response['errors'] = false;
+                $response['status_code'] = 200;
+                return response()->json($response, 200);
+            } 
             else {
-                $shipping_charge = 15.00;
+                $response['message'] = 'Empty Cart';
+                $response['errors'] = true;
+                $response['status_code'] = 400;
+                return response()->json($response, 400);
             }
-
-            $grand_total = $sub_total - $promo_discount + $tax_amount + $shipping_charge;
-
-            $summary = [];
-            $summary['cart_session_id'] = $cart_session_id;
-            $summary['total_items'] = $item_count;
-            $summary['sub_total'] = $sub_total;
-            $summary['promo_discount'] = $promo_discount;
-            $summary['tax_name'] = $tax->name;
-            $summary['tax_percent'] = $tax->percentage;
-            $summary['tax_amount'] = $tax_amount;
-            $summary['shipping_charge'] = $shipping_charge;
-            $summary['grand_total'] = $grand_total;
-
-            $response['data'] = $summary;
-            $response['errors'] = false;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
             
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);

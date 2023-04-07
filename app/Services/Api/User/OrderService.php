@@ -10,6 +10,7 @@ use App\Models\OrderReturn;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\Tax;
+use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -19,37 +20,47 @@ use Zepson\Dpo\Dpo;
 
 class OrderService
 {
-    public function processPayment()
+    public function generatePaymentToken($request)
     {
         try {
+
+            $user_id = Auth::guard('user-api')->id();
+            $userData = User::where('id', $user_id)->first();
+
+            $shipping_address_id = $request['shipping_address_id'];
+            $shippingAddress = UserAddress::where([['id', $shipping_address_id], ['user_id', $user_id]])->first();
+
+            $user = explode(" ", $shippingAddress->name);
+            $date_now = Carbon::now();
+
             $endpoint = "https://secure.3gdirectpay.com/API/v6/";
 
             $xmlData = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-            <API3G>
-                <CompanyToken>" . env('DPO_COMPANY_TOKEN') . "</CompanyToken>
-                <Request>createToken</Request>
-                <Transaction>
-                    <PaymentAmount>100.00</PaymentAmount>
-                    <PaymentCurrency>AED</PaymentCurrency>
-                    <CompanyRef>KDIEOM</CompanyRef>
-                    <CompanyRefUnique>0</CompanyRefUnique>
-                    <PTL>5</PTL>
-                </Transaction>
-                <customerEmail>test@directpayonline.com</customerEmail>
-                <customerFirstName>Dima</customerFirstName>
-                <customerLastName>Kyselov</customerLastName>
-                <customerCity>Nairobddi</customerCity>
-                <customerCountry>KE</customerCountry>
-                <customerAddress>Africa</customerAddress>
-                <customerPhone>1234567890</customerPhone>
-                <Services>
-                    <Service>
-                        <ServiceType>48565</ServiceType>
-                        <ServiceDescription>Flight from Nairobi to Diani</ServiceDescription>
-                        <ServiceDate>2013/12/20 19:00</ServiceDate>
-                    </Service>
-                </Services>
-            </API3G>";
+                <API3G>
+                    <CompanyToken>" . env('DPO_COMPANY_TOKEN') . "</CompanyToken>
+                    <Request>createToken</Request>
+                    <Transaction>
+                        <PaymentAmount>" . $request['total_amount'] . "</PaymentAmount>
+                        <PaymentCurrency>AED</PaymentCurrency>
+                        <CompanyRef>KDIEOM</CompanyRef>
+                        <CompanyRefUnique>0</CompanyRefUnique>
+                        <PTL>5</PTL>
+                    </Transaction>
+                    <customerEmail>" . $userData->email . "</customerEmail>
+                    <customerFirstName>" . $user[0] . "</customerFirstName>
+                    <customerLastName>" . $user[1] . "</customerLastName>
+                    <customerCity>" . $shippingAddress->city . "</customerCity>
+                    <customerCountry>" . $shippingAddress->country . "</customerCountry>
+                    <customerAddress>" . $shippingAddress->country . "</customerAddress>
+                    <customerPhone>" . $shippingAddress->mobile . "</customerPhone>
+                    <Services>
+                        <Service>
+                            <ServiceType>48565</ServiceType>
+                            <ServiceDescription>Items Purchase</ServiceDescription>
+                            <ServiceDate>" . $date_now . "</ServiceDate>
+                        </Service>
+                    </Services>
+                </API3G>";
 
             $ch = curl_init();
 
@@ -64,55 +75,105 @@ class OrderService
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
 
             $result = curl_exec($ch);
-
-            
-
             curl_close($ch);
 
-            $data = simplexml_load_string($result);
+            $xml_res = simplexml_load_string($result, "SimpleXMLElement", LIBXML_NOCDATA);
+            $xml_json = json_encode($xml_res);
+            $xml_array = json_decode($xml_json, TRUE);
 
-            dd($data);
+            $response['message'] = 'success';
+            $response['token'] = $xml_array['TransToken'];
+            $response['errors'] = false;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
 
-
-            //return $dpo->directPayment($order);
-
-            // $card_name = $request['card_name'];
-            // $card_number = $request['card_number'];
-            // $expiry_month = $request['expiry_month'];
-            // $expiry_year = $request['expiry_year'];
-            // $cvc = $request['cvc'];
-            // $total_amount = $request['total_amount'];
-
-            // //Payment API
-
-            // $payment_status = 'success';
-
-            // if($payment_status == 'success') {
-            //     $response['message'] = 'success';
-            //     $response['transaction_id'] = 'e768378c-ce7e-11ed-afa1-0242ac120002';
-            //     $response['errors'] = false;
-            //     $response['status_code'] = 201;
-            //     return response()->json($response, 201);
-            // } 
-            // else {
-            //     $response['message'] = 'error';
-            //     $response['errors'] = true;
-            //     $response['status_code'] = 401;
-            //     return response()->json($response, 401);
-            // }
         } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function completePayment()
+    public function processPayment($request)
     {
+        try {
+            $endpoint = "https://secure.3gdirectpay.com/API/v6/";
 
+            $xmlData = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+                <API3G>
+                    <CompanyToken>" . env('DPO_COMPANY_TOKEN') . "</CompanyToken>
+                    <Request>chargeTokenCreditCard</Request>
+                    <TransactionToken>" . $request['transaction_token'] . "</TransactionToken>
+                    <CreditCardNumber>" . $request['card_number'] . "</CreditCardNumber>
+                    <CreditCardExpiry>" . $request['card_expiry'] . "</CreditCardExpiry>
+                    <CreditCardCVV>" . $request['card_cvv'] . "</CreditCardCVV>
+                    <CardHolderName>" . $request['card_name'] . "</CardHolderName>
+                    <ChargeType></ChargeType>
+                </API3G>";
+
+            $ch = curl_init();
+
+            if (!$ch) {
+                die("Couldn't initialize a cURL handle");
+            }
+            curl_setopt($ch, CURLOPT_URL, $endpoint);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
+
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            $xml_res = simplexml_load_string($result, "SimpleXMLElement", LIBXML_NOCDATA);
+            $xml_json = json_encode($xml_res);
+            $xml_array = json_decode($xml_json, TRUE);
+
+            if ($xml_array['Result'] == '999') {
+                $response['message'] = $xml_array['ResultExplanation'];
+                $response['errors'] = true;
+                $response['status_code'] = 999;
+                return response()->json($response, 999);
+            } 
+            
+            if ($xml_array['Result'] == '902') {
+                $response['message'] = $xml_array['ResultExplanation'];
+                $response['errors'] = true;
+                $response['status_code'] = 406;
+                return response()->json($response, 406);
+            } 
+            
+            if ($xml_array['Result'] == '200') {
+                $response['message'] = $xml_array['ResultExplanation'];
+                $response['errors'] = true;
+                $response['status_code'] = 208;
+                return response()->json($response, 208);
+            } 
+            
+            if ($xml_array['Result'] == '000') {
+                $data = array(
+                    "cart_session_id" => $request['cart_session_id'],
+                    "shipping_address_id" => $request['shipping_address_id'],
+                    "shipping_charge" => $request['shipping_charge'],
+                    "transaction_id" => $request['transaction_token']
+                );
+
+                $createOrder = $this->createOrder($data);
+                return $createOrder;
+
+                // $response['message'] = $xml_array['ResultExplanation'];
+                // $response['errors'] = false;
+                // $response['status_code'] = 200;
+                // return response()->json($response, 200);
+            }
+
+        } 
+        catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
     }
 
     public function createOrder($request)
     {
-        try {
             $user_id = Auth::guard('user-api')->id();
             $cart_session_id = $request['cart_session_id'];
             $shipping_address_id = $request['shipping_address_id'];
@@ -213,14 +274,10 @@ class OrderService
             Cart::where('session_id', $cart_session_id)->delete();
             CartItem::where('cart_session_id', $cart_session_id)->delete();
 
-            $response['message'] = 'success';
+            $response['message'] = 'Order Placed Successfully !!';
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
-
-        } catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
     }
 
     public function listOrders()
