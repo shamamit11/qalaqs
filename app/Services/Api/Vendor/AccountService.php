@@ -112,17 +112,26 @@ class AccountService
         try {
             $id = Auth::guard('vendor-api')->user()->id;
             $bank = Bank::where('vendor_id', $id)->first();
+
+            if($bank) {
+                $bank = Bank::where('vendor_id', $id)->first();
+            } else {
+                $bank = new Bank;
+            }
+
             $bank->vendor_id = $id;
             $bank->bank_name = $request['bank_name'];
             $bank->account_name = $request['account_name'];
             $bank->account_no = $request['account_no'];
             $bank->iban = $request['iban'];
             $bank->save();
+            
             $response['data'] = $bank;
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
-        } catch (\Exception$e) {
+        } 
+        catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }  
     }
