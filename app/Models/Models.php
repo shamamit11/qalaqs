@@ -9,6 +9,7 @@ class Models extends Model
 {
     use HasFactory;
 
+    protected $table = 'models';
     public function make()
     {
         return $this->belongsTo(Make::class, 'make_id', 'id');

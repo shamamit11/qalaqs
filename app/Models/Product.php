@@ -44,7 +44,7 @@ class Product extends Model
 
     public function model()
     {
-        return $this->belongsTo(Model::class, 'model_id', 'id');
+        return $this->belongsTo(Models::class, 'model_id', 'id');
     }
 
     public function year()
