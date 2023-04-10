@@ -38,6 +38,7 @@ class ProductRequest extends ApiRequest
             'year_id' => 'required|exists:years,id',
             'engine_id' => 'required|exists:engines,id',
             'manufacturer' => 'required',
+            'origin' => 'required',
             'brand_id' => 'nullable|exists:brands,id',
             'part_type' => 'required',
             'market' => 'required',
