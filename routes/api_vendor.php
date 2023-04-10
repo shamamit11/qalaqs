@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/model', 'model');
         Route::get('/year', 'year');
         Route::get('/engine', 'engine');
+        Route::get('/brand', 'brand');
         Route::get('/category', 'category');
         Route::get('/subcategory', 'subcategory');
         Route::get('/products', 'list');
