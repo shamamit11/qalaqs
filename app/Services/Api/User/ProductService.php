@@ -185,6 +185,7 @@ class ProductService
                         'year' => $product->year->name,
                         'engine' => $product->engine->name,
                         'manufacturer' => $product->manufacturer,
+                        'origin' => $product->origin,
                         'brand' => $product->brand->name,
                         'part_type' => $product->part_type,
                         'market' => $product->market,
@@ -238,7 +239,6 @@ class ProductService
                 }
             }
 
-
             if($product) {
                  $product_data[] = [
                      'main_image' => env('APP_URL') . '/storage/product/' . $product->main_image,
@@ -254,6 +254,7 @@ class ProductService
                      'year' => $product->year->name,
                      'engine' => $product->engine->name,
                      'manufacturer' => $product->manufacturer,
+                     'origin' => $product->origin,
                      'brand' => isset($product->brand_id) ? $product->brand->name : "",
                      'part_type' => $product->part_type,
                      'market' => $product->market,

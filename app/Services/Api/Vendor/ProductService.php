@@ -215,6 +215,7 @@ class ProductService
             $product->year_id = $request['year_id'];
             $product->engine_id = $request['engine_id'];
             $product->manufacturer = $request['manufacturer'];
+            $product->origin = $request['origin'];
             $product->brand_id = $request['brand_id'];
             $product->part_type = $request['part_type'];
             $product->market = $request['market'];
