@@ -222,18 +222,20 @@ class ProductService
             $product_suitable = array();
             $suitable_for = Suitablefor::where([['product_id', $product->id]])->get();
 
-            foreach($suitable_for as $item) {
-                $make = Make::where('id', $item->make_id)->first();
-                $model = Models::where('id', $item->model_id)->first();
-                $year = Year::where('id', $item->year_id)->first();
-                $engine = Engine::where('id', $item->engine_id)->first();
-                $product_suitable[] = [
-                    'make' => $make->name,
-                    'model' => $model->name,
-                    'year' => $year->name,
-                    'engine' => $engine->name
-                ];
+            if(count($suitable_for) > 0) {
+                foreach($suitable_for as $item) {
+                    $make = Make::where('id', $item->make_id)->first();
+                    $model = Models::where('id', $item->model_id)->first();
+                    $year = Year::where('id', $item->year_id)->first();
+                    $engine = Engine::where('id', $item->engine_id)->first();
+                    $product_suitable[] = [
+                        'make' => $make->name,
+                        'model' => $model->name,
+                        'year' => $year->name,
+                        'engine' => $engine->name
+                    ];
 
+                }
             }
 
 
@@ -248,11 +250,11 @@ class ProductService
                      'part_number' => $product->part_number,
                      'sku' => $product->sku,
                      'make' => $product->make->name,
-                     'model' => '',
+                     'model' =>  $product->model->name,
                      'year' => $product->year->name,
                      'engine' => $product->engine->name,
                      'manufacturer' => $product->manufacturer,
-                     'brand' => $product->brand->name,
+                     'brand' => isset($product->brand_id) ? $product->brand->name : "",
                      'part_type' => $product->part_type,
                      'market' => $product->market,
                      'warranty' => $product->warranty,
