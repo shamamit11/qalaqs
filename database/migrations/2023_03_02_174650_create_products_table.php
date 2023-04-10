@@ -27,6 +27,7 @@ return new class extends Migration
             $table->unsignedBigInteger('year_id')->nullable();
             $table->unsignedBigInteger('engine_id')->nullable();
             $table->string('manufacturer')->nullable();
+            $table->string('origin')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->string('part_type')->nullable();
             $table->string('market')->nullable();
