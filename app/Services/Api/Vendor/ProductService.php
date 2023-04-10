@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Api\Vendor;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Engine;
 use App\Models\Make;
@@ -136,6 +137,27 @@ class ProductService
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
+
+    public function brand()
+    {
+        try {
+            $brand_data = array();
+            $brands = Brand::where('status', 1)->orderBy('order', 'asc')->get();
+            if ($brands->count() > 0) {
+                foreach ($brands as $brand) {
+                    array_push($brand_data, array('id' => $brand->id, 'name' => $brand->name));
+                }
+            }
+            $response['data'] = $brand_data;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
 
     public function listProducts() {
         try {
