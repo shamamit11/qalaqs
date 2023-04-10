@@ -33,6 +33,11 @@ class ProductController extends Controller
         return $this->product->engine();
     }
 
+    public function brand() {
+        return $this->product->brand();
+    }
+
+
     public function category() {
         return $this->product->category();
     }
