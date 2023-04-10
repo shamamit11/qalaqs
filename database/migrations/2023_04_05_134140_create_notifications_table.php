@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('device_id')->nullable();
             $table->bigInteger('receiver_id')->nullable();
             $table->enum('receiver_type', ['U', 'V'])->default('V')->comment('U = User, V = Vendor')->nullable();
+            $table->string('title')->nullable();
             $table->text('message')->nullable();
+            $table->boolean('status')->nullable()->default(1)->comment('0 = unread, 1 = read');
             $table->timestamps();
         });
     }

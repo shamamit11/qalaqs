@@ -12,6 +12,13 @@
                     </a>
                 </li>
 
+                <li class="{{ $nav == 'filemanager' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-filemanager') }}" class="{{ $nav == 'filemanager' ? 'active' : '' }}">
+                        <i class="mdi mdi-folder-cog"></i>
+                        <span> File Manager </span>
+                    </a>
+                </li>
+
                 <li class="menu-title mt-2">Sales</li>
                 <li> <a href="#"> <i class="mdi mdi-cart"></i> <span> Orders </span> </a> </li>
                 <li> <a href="#"> <i class="mdi mdi-autorenew"></i> <span> Returns </span> </a> </li>

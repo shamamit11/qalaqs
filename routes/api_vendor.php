@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('VendorController')->group(function () {
         Route::get('/profile', 'vendorDetail');
         Route::get('/stats', 'vendorStats');
+        Route::get('/notification', 'notification');
     });
 
     Route::controller('OrderController')->group(function () {
@@ -63,5 +64,5 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/listReturns', 'listReturns');
         Route::get('/returns/{return_id}', 'returnDetail');
     });
-    
+ 
 });

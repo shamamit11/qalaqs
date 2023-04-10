@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Api\Vendor;
 
+use App\Models\Notification;
 use App\Models\OrderItem;
 use App\Models\OrderReturn;
 use App\Models\Product;
@@ -81,6 +82,21 @@ class VendorService
 
             $response['data'] = $vendor;
             $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function notification() {
+        try {
+            $vendor_id = Auth::guard('vendor-api')->user()->id;
+            $notificationData = Notification::where([['receiver_id', $vendor_id], ['receiver_type', 'V']])->get();
+
+            $response['data'] = $notificationData;
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
