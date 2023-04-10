@@ -111,7 +111,7 @@ class AccountService
     {
         try {
             $id = Auth::guard('vendor-api')->user()->id;
-            $bank = Bank::findOrFail($id);
+            $bank = Bank::where('vendor_id', $id)->first();
             $bank->vendor_id = $id;
             $bank->bank_name = $request['bank_name'];
             $bank->account_name = $request['account_name'];
