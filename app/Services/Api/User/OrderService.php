@@ -2,6 +2,7 @@
 namespace App\Services\Api\User;
 
 use App\Models\ItemStatusUpdate;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Cart;
@@ -12,6 +13,7 @@ use App\Models\Product;
 use App\Models\Tax;
 use App\Models\User;
 use App\Models\UserAddress;
+use App\Models\Vendor;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -268,6 +270,18 @@ class OrderService
                 $statusUpdates->status_id = 1;
                 $statusUpdates->updated_by = 'system';
                 $statusUpdates->save();
+
+                //update notification table
+                $vendorData = Vendor::where('id', $item->vendor_id)->first();
+                $notification = new Notification;
+                $notification->date = date("d M Y");
+                $notification->device_id = $vendorData->device_id;
+                $notification->receiver_id = $item->vendor_id;
+                $notification->receiver_type = 'V';
+                $notification->title = "New Order Request";
+                $notification->message = "You have received New Order Request for - " . $product->title;
+                $notification->status = 0;
+                $notification->save();
             }
 
             //delete items from cart and cart_items
@@ -436,11 +450,25 @@ class OrderService
             $statusUpdate->updated_by = 'system';
             $statusUpdate->save();
 
+            //update notification table
+            $vendorData = Vendor::where('id', $request['vendor_id'])->first();
+            $productData = Product::where('id', $request['product_id'])->first();
+            $notification = new Notification;
+            $notification->date = date("d M Y");
+            $notification->device_id = $vendorData->device_id;
+            $notification->receiver_id = $request['vendor_id'];
+            $notification->receiver_type = 'V';
+            $notification->title = "Order Returns";
+            $notification->message = "You have received Order Returnd for - " . $productData->title;
+            $notification->status = 0;
+            $notification->save();
+
             $response['message'] = 'success';
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }

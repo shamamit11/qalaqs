@@ -3,12 +3,10 @@
         <div class="row">
             <div class="col-md-6">
                 <script>
-                document.write(new Date().getFullYear())
-                </script> &copy; Adminto theme by <a href="https://ezwebdesign.ae/">Ezweb Design</a>
+                    document.write(new Date().getFullYear())
+                </script> &copy; <a href="https://qalaqs.com/" target="_blank">Qalaqs</a>
             </div>
             <div class="col-md-6">
-                <div class="text-md-end footer-links d-none d-sm-block"> <a href="https://ezwebdesign.ae/" target="_blank">About Us</a> <a
-                        href="javascript:void(0);">Help</a> <a href="https://ezwebdesign.ae/contact" target="_blank">Contact Us</a> </div>
             </div>
         </div>
     </div>

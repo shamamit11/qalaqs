@@ -25,7 +25,7 @@ class ProductController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = 'Products';
-        $result = $this->product->List($per_page, $page, $q);
+        $result = $this->product->list($per_page, $page, $q);
         return view('admin.product.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 
@@ -34,17 +34,17 @@ class ProductController extends Controller
         $this->product->status($request);
     }
 
-    // public function addEdit(Request $request)
-    // {
-    //     $nav = 'product';
-    //     $sub_nav = '';
-    //     $id = ($request->id) ? $request->id : 0;
-    //     $page_title = 'Product Products';
-    //     $data['title'] = ($id == 0) ? "Add Product" : "Edit Product";
-    //     $data['action'] = route('admin-product-addaction');
-    //     $data['row'] = Product::where('id', $id)->first();
-    //     return view('admin.product.add', compact('nav', 'sub_nav', 'page_title'), $data);
-    // }
+    public function addEdit(Request $request)
+    {
+        $nav = 'product';
+        $sub_nav = '';
+        $id = ($request->id) ? $request->id : 0;
+        $page_title = 'Product';
+        $data['title'] = ($id == 0) ? "Add Product" : "View Product";
+        $data['action'] = route('admin-product-addaction');
+        $data['row'] = Product::where('id', $id)->first();
+        return view('admin.product.add', compact('nav', 'sub_nav', 'page_title'), $data);
+    }
 
     // public function addAction(ProductRequest $request)
     // {

@@ -27,10 +27,11 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th width="50">#</th>
-                                            <th>Sku</th>
-                                            <th>Name</th>
-
-                                            <th width="200">Status</th>
+                                            <th width="120">SKU</th>
+                                            <th width="120">Part#</th>
+                                            <th>Title</th>
+                                            <th width="300">Vendor</th>
+                                            <th style="text-align:center" width="150">Status</th>
                                             <th style="text-align:center" width="120">Action</th>
                                         </tr>
                                     </thead>
@@ -39,17 +40,23 @@
                                         <tr id="tr{{ $product->id }}">
                                             <td>{{ $count++ }}</td>
                                             <td>{{ $product->sku }}</td>
-                                            <td>{{ $product->name }}</td>
-
-                                            <td><label class="switch" style="margin: 0 auto">
+                                            <td>{{ $product->part_number }}</td>
+                                            <td>{{ $product->title }}</td>
+                                            <td>{{ $product->vendor->business_name }}</td>
+                                            <td style="text-align:center"><label class="switch" style="margin: 0 auto">
                                                     <input class="switch-input switch-status" type="checkbox"
                                                         data-id="{{ $product->id }}"
                                                         data-status-value="{{ $product->admin_approved }}"
                                                         @if($product->
                                                     admin_approved == 1) checked @endif /> <span class="switch-label"
-                                                        data-on="approved" data-off="Pending"></span> <span
+                                                        data-on="Approved" data-off="Pending"></span> <span
                                                         class="switch-handle"></span> </label></td>
                                             <td style="text-align:center">
+                                                <a href="{{route('admin-product-add', ['id='.$product->id])}}"
+                                                    class="btn btn-sm btn-warning rounded-pill"
+                                                    data-id="{{ $product->id }}"><span class="icon"><i
+                                                            class='fas fa-eye'></i></span></a>
+
                                                 <button type="button"
                                                     class="btn btn-sm btn-danger rounded-pill delete-row-btn"
                                                     data-id="{{ $product->id }}"><span class="icon"><i

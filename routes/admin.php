@@ -26,6 +26,10 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/', 'DashboardController@index')->name('admin-dashboard');
     Route::get('logout', 'AuthController@logout')->name('admin-logout');
 
+    Route::controller('FilemanagerController')->group(function () {
+        Route::get('/filemanager', 'index')->name('admin-filemanager');
+    });
+    
     Route::controller('AccountController')->group(function () {
         Route::get('/account', 'index')->name('admin-account-setting');
         Route::post('/account/addaction', 'addAction')->name('admin-account-addaction');
@@ -110,6 +114,8 @@ Route::group(['middleware' => 'adminauth'], function () {
 
     Route::controller('ProductController')->group(function () {
         Route::get('/product', 'index')->name('admin-product');
+        Route::get('/product/add', 'addEdit')->name('admin-product-add');
+        Route::post('/product/addaction', 'addAction')->name('admin-product-addaction');
         Route::post('/product/status', 'status')->name('admin-product-status');
         Route::post('/product/delete', 'delete')->name('admin-product-delete');
     });

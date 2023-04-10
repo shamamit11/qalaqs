@@ -1,5 +1,7 @@
 <script>
 $(document).ready(function() {
+    $('#login_error').addClass('d-none');
+    
     $("#frm_login").submit(function(e) {
         e.preventDefault();
         $('.btn-loading').prop('disabled', true)
@@ -22,7 +24,7 @@ $(document).ready(function() {
             error: function(xhr) {
                 $('.btn-loading').prop('disabled', false);
                 $('.btn-loading').html('Log In');
-                if (xhr.status == 406 || xhr.status == 400) {
+                if (xhr.status == 406 || xhr.status == 400 || xhr.status == 401) {
                     $('#login_error').removeClass('d-none');
                 } else if (xhr.status == 422) {
                     $('#login_error').addClass('d-none');
@@ -33,7 +35,8 @@ $(document).ready(function() {
                         for (var i = 0; i < messageLength; i++) {
                             for (const [key, value] of Object.entries(res.message[i])) {
                                 if (value) {
-                                    $('div.error').show();
+                                    $('#'+key).addClass('inputerror');
+                                    $('#error_'+ key).show();
                                     $('#error_' + key).text(value);
                                 }
                             }
@@ -43,5 +46,10 @@ $(document).ready(function() {
             }
         });
     });
+});
+
+$("input").change(function(e){
+    var inputId = $(this).attr("id");
+    $("#"+inputId).removeClass('inputerror');
 });
 </script>

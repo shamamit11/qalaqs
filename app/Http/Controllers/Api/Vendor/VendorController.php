@@ -22,4 +22,8 @@ class VendorController extends Controller
     public function vendorStats() {
         return $this->vendor->vendorStats();
     }
+
+    public function notification() {
+        return $this->vendor->notification();
+    }
 }
