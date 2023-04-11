@@ -66,6 +66,4 @@ class ProductController extends Controller
         return $this->product->landingPageProduct();
     }
 
-
-
 }

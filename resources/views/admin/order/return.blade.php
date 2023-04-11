@@ -32,6 +32,7 @@
                                                 <th width="">Customer</th>
                                                 <th width="">Vendor</th>
                                                 <th>Trans ID</th>
+                                                <th style="text-align:center" width="">Status</th>
                                                 <th style="text-align:center" width="120">Action</th>
                                             </tr>
                                         </thead>
@@ -44,7 +45,15 @@
                                                     <td>{{ $return->user->first_name }} {{ $return->user->last_name }}</td>
                                                     <td>{{ $return->vendor->business_name }}</td>
                                                     <td>{{ $return->order->payment_transaction_id }}</td>
-                                                    
+                                                    <td style="text-align:center"><label class="switch"
+                                                        style="margin: 0 auto">
+                                                        <input class="switch-input switch-status" type="checkbox"
+                                                            data-id="{{ $return->id }}"
+                                                            data-status-value="{{ $return->status }}"
+                                                            @if ($return->status == 0) checked @endif /> <span
+                                                            class="switch-label" data-on="Closed"
+                                                            data-off="Open"></span> <span
+                                                            class="switch-handle"></span> </label></td>
                                                     <td style="text-align:center">
                                                         <a href="{{ route('admin-return-view', ['id=' . $return->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"
@@ -78,3 +87,7 @@
             @include('admin.includes.footer')
         </div>
     @endsection
+    @section('footer-scripts')
+        @include('admin.order.js.return')
+    @endsection
+
