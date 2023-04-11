@@ -104,11 +104,15 @@ Route::group(['middleware' => 'adminauth'], function () {
     });
 
     Route::controller('VendorController')->group(function () {
-        Route::get('/vendor', 'index')->name('admin-vendor');
-        Route::post('/vendor/status', 'status')->name('admin-vendor-status');
-       // Route::get('/vendor/add', 'addEdit')->name('admin-vendor-add');
-      //  Route::post('/vendor/addaction', 'addAction')->name('admin-vendor-addaction');
-     //   Route::post('/vendor/delete', 'delete')->name('admin-vendor-delete');
+        Route::get('/vendors', 'index')->name('admin-vendor');
+        Route::get('/vendors/view', 'view')->name('admin-vendor-view');
+        Route::post('/vendors/status', 'status')->name('admin-vendor-status');
+    });
+
+    Route::controller('UserController')->group(function () {
+        Route::get('/customers', 'index')->name('admin-users');
+        Route::get('/customers/view', 'view')->name('admin-users-view');
+        Route::post('/customers/status', 'status')->name('admin-users-status');
     });
 
     Route::controller('ProductController')->group(function () {
@@ -116,6 +120,13 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::get('/product/view', 'view')->name('admin-product-view');
         Route::post('/product/status', 'status')->name('admin-product-status');
         Route::post('/product/delete', 'delete')->name('admin-product-delete');
+    });
+
+    Route::controller('OrderController')->group(function () {
+        Route::get('/orders', 'index')->name('admin-orders');
+        Route::get('/order/view', 'view')->name('admin-order-view');
+        Route::get('/returns', 'returns')->name('admin-returns');
+        Route::get('/return/view', 'returnView')->name('admin-return-view');
     });
 
 });

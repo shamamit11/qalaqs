@@ -22,4 +22,14 @@ class OrderItem extends Model
     {
         return $this->belongsTo(OrderStatus::class, 'order_status_id', 'id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
+    }
 }
