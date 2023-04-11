@@ -384,6 +384,25 @@ class ProductService
                 'admin_approved' => 1
             );
             $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
+            if($products->count() > 0) {
+                foreach ($products as $product) {
+                    if($product['main_image']) {
+                        $product->main_image = env('APP_URL').'/storage/product/'.$product['main_image'];
+                    }
+                    if($product['image_01']) {
+                        $product->image_01 = env('APP_URL').'/storage/product/'.$product['image_01'];
+                    }
+                    if($product['image_02']) {
+                        $product->image_02 = env('APP_URL').'/storage/product/'.$product['image_02'];
+                    }
+                    if($product['image_03']) {
+                        $product->image_03 = env('APP_URL').'/storage/product/'.$product['image_03'];
+                    }
+                    if($product['image_04']) {
+                        $product->image_04 = env('APP_URL').'/storage/product/'.$product['image_04'];
+                    }
+                }
+            }
             $response['data'] = $products;
             $response['message'] = null;
             $response['errors'] = null;
