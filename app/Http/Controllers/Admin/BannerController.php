@@ -40,8 +40,7 @@ class BannerController extends Controller
         $nav = 'banner';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Banner';
-        $data['title'] = ($id == 0) ? "Add Banner" : "Edit Banner";
+        $data['title'] = $page_title = ($id == 0) ? "Add Banner" : "Edit Banner";
         $data['action'] = route('admin-banner-addaction');
         $data['order'] = getMax('banners', 'order');
         $data['row'] = Banner::where('id', $id)->first();

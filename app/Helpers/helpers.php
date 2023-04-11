@@ -1,4 +1,5 @@
 <?php
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 if (!function_exists('time_elapsed_string')) {
@@ -89,4 +90,9 @@ function getRatingStar($num) {
             $star = "☆☆☆☆☆";
     }
     return $star;
+}
+
+function getNewProductsCount() {
+    $products = Product::where('admin_approved', 0)->count();
+    return $products;
 }
