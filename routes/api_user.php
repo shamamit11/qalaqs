@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
- */
+*/
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::get('/banner', 'BannerController@list');
     Route::post('user-add-address', 'AddressController@addAddress');
     Route::get('user-address', 'AddressController@list');
-    
+
     Route::controller('CartController')->group(function () {
         Route::get('/cart/{cart_session_id}', 'list');
         Route::post('/cart/addItem', 'addItem');
@@ -60,10 +60,10 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     });
 
 });
-    Route::controller('VendorController')->group(function () {
-        Route::get('/vendor/{vendor_id}', 'vendorDetail');
-        Route::post('/vendor/addReview', 'addReview');
-    });
+Route::controller('VendorController')->group(function () {
+    Route::get('/vendor/{vendor_id}', 'vendorDetail');
+    Route::post('/vendor/addReview', 'addReview');
+});
 
 Route::controller('ProductController')->group(function () {
     Route::get('/make', 'make');
@@ -79,5 +79,3 @@ Route::controller('ProductController')->group(function () {
     Route::get('/other-categories', 'listOtherCategories');
     Route::get('/other-categories-products/{category_id}', 'listProductByOtherCategories');
 });
-
-
