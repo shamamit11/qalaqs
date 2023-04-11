@@ -40,8 +40,7 @@ class MakeController extends Controller
         $nav = 'make';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = ' Makes';
-        $data['title'] = ($id == 0) ? "Add Make" : "Edit Make";
+        $data['title'] = $page_title = ($id == 0) ? "Add Make" : "Edit Make";
         $data['action'] = route('admin-make-addaction');
         $data['row'] = Make::where('id', $id)->first();
         return view('admin.make.add', compact('nav', 'sub_nav', 'page_title'), $data);

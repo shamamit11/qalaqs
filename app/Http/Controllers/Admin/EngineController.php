@@ -43,8 +43,7 @@ class EngineController extends Controller
         $nav = 'engine';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = ' Engines';
-        $data['title'] = ($id == 0) ? "Add Engine" : "Edit Engine";
+        $data['title'] = $page_title = ($id == 0) ? "Add Engine" : "Edit Engine";
         $data['action'] = route('admin-engine-addaction');
         $data['makes'] = Make::where('status', 1)->orderBy('name', 'asc')->get();
         $data['models'] = Models::where('status', 1)->orderBy('name', 'asc')->get();

@@ -41,8 +41,7 @@ class ModelsController extends Controller
         $nav = 'model';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = ' Models';
-        $data['title'] = ($id == 0) ? "Add Model" : "Edit Model";
+        $data['title'] = $page_title = ($id == 0) ? "Add Model" : "Edit Model";
         $data['action'] = route('admin-model-addaction');
         $data['makes'] = Make::where('status', 1)->orderBy('name', 'asc')->get();
         $data['row'] = Models::where('id', $id)->first();

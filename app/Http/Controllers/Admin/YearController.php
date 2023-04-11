@@ -43,8 +43,7 @@ class YearController extends Controller
         $nav = 'year';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = ' Years';
-        $data['title'] = ($id == 0) ? "Add Year" : "Edit Year"; 
+        $data['title'] =  $page_title = ($id == 0) ? "Add Year" : "Edit Year"; 
         $data['action'] = route('admin-year-addaction');
         $data['makes'] = Make::where('status', 1)->orderBy('name', 'asc')->get();
         $data['models'] = Models::where('status', 1)->orderBy('name', 'asc')->get();

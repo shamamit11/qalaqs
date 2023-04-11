@@ -60,16 +60,10 @@ class BannerService
                 $banner = new Banner;
                 $message = "Data added";
             }
-
-            if (preg_match('#^data:image.*?base64,#', $request['image'])) {
-                $image = $this->StoreBase64Image($request['image'], '/banner/');
-            } else {
-                $image = ($banner) ? $banner->image : '';
-            }
             $banner->name = $request['name'];
             $banner->order = $request['order'];
             $banner->status = isset($request['status']) ? 1 : 0;
-            $banner->image = $image;
+            $banner->image = $request['image'];
             $banner->save();
             $response['message'] = $message;
             $response['errors'] = false;
@@ -84,26 +78,7 @@ class BannerService
     {
         try {
             $id = $request->id;
-            $ras = Banner::findOrFail($id);
-            Storage::disk('public')->delete('/banner/' . $ras->image);
             Banner::where('id', $id)->delete();
-            return "success";
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function imageDelete($request)
-    {
-        try {
-            $id = $request->id;
-            $field_name = $request->field_name;
-            $ras = Banner::where('id', $id)->first();
-            if ($ras) {
-                Storage::disk('public')->delete('/banner/' . $ras->$field_name);
-                $ras->$field_name = '';
-                $ras->save();
-            }
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);

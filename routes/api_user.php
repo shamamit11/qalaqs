@@ -35,7 +35,6 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/update-password', 'updatePassword');
     });
 
-    Route::get('/banner', 'BannerController@list');
     Route::post('user-add-address', 'AddressController@addAddress');
     Route::get('user-address', 'AddressController@list');
 
@@ -79,3 +78,5 @@ Route::controller('ProductController')->group(function () {
     Route::get('/other-categories', 'listOtherCategories');
     Route::get('/other-categories-products/{category_id}', 'listProductByOtherCategories');
 });
+
+Route::get('/banner', 'BannerController@list');
