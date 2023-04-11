@@ -1,5 +1,4 @@
-
-    <script>
+<script>
     $(document).ready(function() {
         $('.switch-status').change(function() {
             if ($(this).attr('data-status-value') == 0) {
@@ -10,7 +9,7 @@
             $(this).attr("data-status-value", val);
             var id = $(this).attr('data-id');
             $.ajax({
-                url: '{{ route("admin-category-status")}}',
+                url: '{{ route('admin-category-status') }}',
                 type: 'POST',
                 data: {
                     'id': id,
@@ -40,7 +39,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '{{ route("admin-category-delete")}}',
+                        url: '{{ route('admin-category-delete') }}',
                         type: 'POST',
                         data: {
                             'id': id,
@@ -48,23 +47,18 @@
                         },
                         success: function() {
                             $("#tr" + id).remove();
-                            swalWithBootstrapButtons.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
-                                'success'
-                            );
+                            toastr["success"]('Your data has been deleted.');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 500);
                         }
                     });
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        '',
-                        'error'
-                    )
+                    toastr["error"]('Cancelled.');
                 }
             })
         });
     });
-    </script>
+</script>

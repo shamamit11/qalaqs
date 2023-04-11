@@ -274,7 +274,7 @@ class OrderService
                 //update notification table
                 $vendorData = Vendor::where('id', $item->vendor_id)->first();
                 $notification = new Notification;
-                $notification->date = date("d M Y");
+                $notification->date = date("Y-m-d");
                 $notification->device_id = $vendorData->device_id;
                 $notification->receiver_id = $item->vendor_id;
                 $notification->receiver_type = 'V';

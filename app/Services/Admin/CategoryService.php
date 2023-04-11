@@ -61,6 +61,8 @@ class CategoryService
                 $message = "Data added";
             }
             $category->name = $request['name'];
+            $category->type = $request['type'];
+            $category->icon = $request['icon'];
             $category->order = $request['order'];
             $category->status = isset($request['status']) ? 1 : 0;
             $category->save();

@@ -352,3 +352,7 @@ table>thead>tr>td {
 .show {
     display: block !important;
 }
+
+.mr-2 {
+    margin-right: 15px;
+}

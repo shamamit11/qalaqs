@@ -68,7 +68,6 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/brand/status', 'status')->name('admin-brand-status');
         Route::get('/brand/add', 'addEdit')->name('admin-brand-add');
         Route::post('/brand/addaction', 'addAction')->name('admin-brand-addaction');
-        Route::post('/brand/imagedelete', 'imageDelete')->name('admin-brand-imagedelete');
         Route::post('/brand/delete', 'delete')->name('admin-brand-delete');
     });
 
@@ -114,8 +113,7 @@ Route::group(['middleware' => 'adminauth'], function () {
 
     Route::controller('ProductController')->group(function () {
         Route::get('/product', 'index')->name('admin-product');
-        Route::get('/product/add', 'addEdit')->name('admin-product-add');
-        Route::post('/product/addaction', 'addAction')->name('admin-product-addaction');
+        Route::get('/product/view', 'view')->name('admin-product-view');
         Route::post('/product/status', 'status')->name('admin-product-status');
         Route::post('/product/delete', 'delete')->name('admin-product-delete');
     });

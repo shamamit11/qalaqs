@@ -67,3 +67,26 @@ if (!function_exists('generateOrderID')) {
         return $order_id;
     }
 }
+
+function getRatingStar($num) {
+    switch($num) {
+        case 1:
+            $star = "★☆☆☆☆";
+            break;
+        case 2:
+            $star = "★★☆☆☆";
+            break;
+        case 3:
+            $star = "★★★☆☆";
+            break;
+        case 4:
+            $star = "★★★★☆";
+            break;
+        case 5:
+            $star = "★★★★★";
+            break;
+        default:
+            $star = "☆☆☆☆☆";
+    }
+    return $star;
+}

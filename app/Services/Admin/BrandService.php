@@ -60,16 +60,10 @@ class BrandService
                 $brand = new Brand;
                 $message = "Data added";
             }
-
-            if (preg_match('#^data:image.*?base64,#', $request['image'])) {
-                $image = $this->StoreBase64Image($request['image'], '/brand/');
-            } else {
-                $image = ($brand) ? $brand->image : '';
-            }
             $brand->name = $request['name'];
             $brand->order = $request['order'];
             $brand->status = isset($request['status']) ? 1 : 0;
-            $brand->image = $image;
+            $brand->image = $request['image'];
             $brand->save();
             $response['message'] = $message;
             $response['errors'] = false;
@@ -84,26 +78,7 @@ class BrandService
     {
         try {
             $id = $request->id;
-            $ras = Brand::findOrFail($id);
-            Storage::disk('public')->delete('/brand/' . $ras->image);
             Brand::where('id', $id)->delete();
-            return "success";
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function imageDelete($request)
-    {
-        try {
-            $id = $request->id;
-            $field_name = $request->field_name;
-            $ras = Brand::where('id', $id)->first();
-            if ($ras) {
-                Storage::disk('public')->delete('/brand/' . $ras->$field_name);
-                $ras->$field_name = '';
-                $ras->save();
-            }
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);

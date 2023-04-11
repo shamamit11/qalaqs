@@ -29,7 +29,7 @@ class EngineController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Engines';
-        $result = $this->engine->List($per_page, $page, $q);
+        $result = $this->engine->list($per_page, $page, $q);
         return view('admin.engine.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 

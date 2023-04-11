@@ -71,12 +71,13 @@ Route::controller('ProductController')->group(function () {
     Route::get('/year', 'year');
     Route::get('/engine', 'engine');
     Route::get('/category', 'category');
-    Route::get('/types', 'types');
     Route::get('/subcategory', 'subcategory');
     Route::post('/search-product', 'product');
     Route::get('/product/{id}', 'productDetail');
     Route::get('/feature-product', 'featuredProduct');
     Route::get('/landing-page-product', 'landingPageProduct');
+    Route::get('/other-categories', 'listOtherCategories');
+    Route::get('/other-categories-products/{category_id}', 'listProductByOtherCategories');
 });
 
 

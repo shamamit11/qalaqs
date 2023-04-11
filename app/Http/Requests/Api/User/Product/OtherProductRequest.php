@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Api\User\Product;
+
 use App\Http\Requests\ApiRequest;
 
-class BrandRequest extends ApiRequest
+class OtherProductRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +24,7 @@ class BrandRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'integer|nullable',
-            'name' => 'required',
-            'image' => 'sometimes',
-            'order' => 'required|integer',
-            'status' => 'nullable',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 }

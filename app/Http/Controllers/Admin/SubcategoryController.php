@@ -27,7 +27,7 @@ class SubcategoryController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Subcategory';
-        $result = $this->subcategory->List($per_page, $page, $q);
+        $result = $this->subcategory->list($per_page, $page, $q);
         return view('admin.subcategory.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 
@@ -41,8 +41,7 @@ class SubcategoryController extends Controller
         $nav = 'subcategory';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = ' Subcategory';
-        $data['title'] = ($id == 0) ? "Add Subcategory" : "Edit Subcategory";
+        $data['title'] = $page_title = ($id == 0) ? "Add Subcategory" : "Edit Subcategory";
         $data['action'] = route('admin-subcategory-addaction');
         $data['order'] = getMax('subcategories', 'order');
         $data['categories'] = Category::where('status', 1)->orderBy('order', 'asc')->get();
