@@ -1,4 +1,5 @@
 <?php
+use App\Models\ItemStatusUpdate;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -95,4 +96,10 @@ function getRatingStar($num) {
 function getNewProductsCount() {
     $products = Product::where('admin_approved', 0)->count();
     return $products;
+}
+
+function getItemStatus($order_id, $order_item_id) {
+    $data = ItemStatusUpdate::where([['order_id', $order_id],['order_item_id', $order_item_id]])->orderBy('updated_at', 'desc')->first();
+    $status = $data->order_status->name;
+    return $status;
 }

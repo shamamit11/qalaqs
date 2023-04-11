@@ -20,8 +20,19 @@
                 </li>
 
                 <li class="menu-title mt-2">Sales</li>
-                <li> <a href="#"> <i class="mdi mdi-cart"></i> <span> Orders </span> </a> </li>
-                <li> <a href="#"> <i class="mdi mdi-autorenew"></i> <span> Returns </span> </a> </li>
+                <li class="{{ $nav == 'order' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-orders') }}" class="{{ $nav == 'order' ? 'active' : '' }}">
+                        <i class="mdi mdi-cart"></i>
+                        <span> Orders </span>
+                    </a>
+                </li>
+                
+                <li class="{{ $nav == 'return' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-returns') }}" class="{{ $nav == 'return' ? 'active' : '' }}">
+                        <i class="mdi mdi-autorenew"></i>
+                        <span> Returns </span>
+                    </a>
+                </li>
 
                 <li class="menu-title mt-2">Products</li>
                 <li class="{{ $nav == 'product' ? 'menuitem-active' : '' }}">
@@ -90,7 +101,11 @@
                     </a> </li>
 
                 <li class="menu-title mt-2">Customers</li>
-                <li> <a href="#"> <i class="mdi mdi-account-group"></i> <span> Customers </span> </a>
+                <li class="{{ $nav == 'user' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-users') }}" class="{{ $nav == 'user' ? 'active' : '' }}">
+                        <i class="mdi mdi-account-group"></i>
+                        <span> Customers </span>
+                    </a>
                 </li>
 
                 <li class="menu-title mt-2">App Configuration</li>
@@ -100,9 +115,6 @@
                         <span> App Banners </span>
                     </a>
                 </li>
-                <li class="menu-title mt-2">General Configuration</li>
-                <li> <a href="#"> <i class="mdi mdi-cogs"></i> <span> Site Settings </span> </a> </li>
-
             </ul>
         </div>
         <!-- End Sidebar -->

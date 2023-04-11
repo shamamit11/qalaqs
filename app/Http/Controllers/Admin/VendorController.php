@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-//se App\Http\Requests\Admin\VendorRequest;
+use App\Models\VendorReview;
 use App\Services\Admin\VendorService;
 use Illuminate\Http\Request;
 
@@ -27,7 +27,7 @@ class VendorController extends Controller
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = 'Vendors';
         $result = $this->vendor->list($per_page, $page, $q);
-        return view('admin.vendor.index', compact('nav', 'sub_nav', 'page_title'), $result);
+        return view('admin.vendors.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 
     public function status(Request $request)
@@ -35,22 +35,17 @@ class VendorController extends Controller
         $this->vendor->status($request);
     }
 
-    // public function addEdit(Request $request)
-    // {
-    //     $nav = 'vendor';
-    //     $sub_nav = '';
-    //     $id = ($request->id) ? $request->id : 0;
-    //     $page_title = 'Product Vendors';
-    //     $data['title'] = ($id == 0) ? "Add Vendor" : "Edit Vendor";
-    //     $data['action'] = route('admin-vendor-addaction');
-    //     $data['row'] = Vendor::where('id', $id)->first();
-    //     return view('admin.vendor.add', compact('nav', 'sub_nav', 'page_title'), $data);
-    // }
-
-    // public function addAction(VendorRequest $request)
-    // {
-    //     return $this->vendor->store($request->validated());
-    // }
+    public function view(Request $request)
+    {
+        $nav = 'vendor';
+        $sub_nav = '';
+        $id = ($request->id) ? $request->id : 0;
+        $page_title = 'Vendor Details';
+        $data['title'] = ($id == 0) ? "Add Vendor" : "View Product";
+        $data['row'] = Vendor::where('id', $id)->first();
+        $data['reviews'] = VendorReview::where('vendor_id', $id)->get();
+        return view('admin.vendors.view', compact('nav', 'sub_nav', 'page_title'), $data);
+    }
 
     public function delete(Request $request)
     {
