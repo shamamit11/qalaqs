@@ -26,7 +26,7 @@ class BannerController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Banner';
-        $result = $this->banner->List($per_page, $page, $q);
+        $result = $this->banner->list($per_page, $page, $q);
         return view('admin.banner.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 

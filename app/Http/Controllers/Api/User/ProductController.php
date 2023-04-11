@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\Product\OtherProductRequest;
 use App\Services\Api\User\ProductService;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\User\Product\ProductRequest;
@@ -40,12 +41,16 @@ class ProductController extends Controller
         return $this->product->subcategory();
     }
 
-    public function types() {
-        return $this->product->types();
-    }
-
     public function product(ProductRequest $request) {
         return $this->product->product($request->validated());
+    }
+
+    public function listOtherCategories() {
+        return $this->product->listOtherCategories();
+    }
+
+    public function listProductByOtherCategories($category_id) {
+        return $this->product->listProductByOtherCategories($category_id);
     }
 
     public function productDetail($id) {

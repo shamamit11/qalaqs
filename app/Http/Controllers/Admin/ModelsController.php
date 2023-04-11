@@ -27,7 +27,7 @@ class ModelsController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Models';
-        $result = $this->model->List($per_page, $page, $q);
+        $result = $this->model->list($per_page, $page, $q);
         return view('admin.model.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 

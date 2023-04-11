@@ -26,7 +26,7 @@ class MakeController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Makes';
-        $result = $this->make->List($per_page, $page, $q);
+        $result = $this->make->list($per_page, $page, $q);
         return view('admin.make.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 

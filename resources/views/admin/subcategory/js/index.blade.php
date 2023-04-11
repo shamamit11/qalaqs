@@ -14,7 +14,7 @@
                 data: {
                     'id': id,
                     'val': val,
-                    'field_name': 'admin_approved',
+                    'field_name': 'status',
                     '_token': '{{ csrf_token() }}'
                 },
             });
@@ -47,21 +47,16 @@
                         },
                         success: function() {
                             $("#tr" + id).remove();
-                            swalWithBootstrapButtons.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
-                                'success'
-                            );
+                            toastr["success"]('Your data has been deleted.');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 500);
                         }
                     });
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        '',
-                        'error'
-                    )
+                    toastr["error"]('Cancelled.');
                 }
             })
         });

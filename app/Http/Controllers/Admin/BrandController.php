@@ -26,7 +26,7 @@ class BrandController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Brands';
-        $result = $this->brand->List($per_page, $page, $q);
+        $result = $this->brand->list($per_page, $page, $q);
         return view('admin.brand.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 
@@ -40,8 +40,7 @@ class BrandController extends Controller
         $nav = 'brand';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Brands';
-        $data['title'] = ($id == 0) ? "Add Brand" : "Edit Brand";
+        $data['title'] = $page_title = ($id == 0) ? "Add Brand" : "Edit Brand";
         $data['action'] = route('admin-brand-addaction');
         $data['order'] = getMax('brands', 'order');
         $data['row'] = Brand::where('id', $id)->first();

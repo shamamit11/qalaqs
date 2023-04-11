@@ -26,7 +26,7 @@ class CategoryController extends Controller
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Category';
-        $result = $this->category->List($per_page, $page, $q);
+        $result = $this->category->list($per_page, $page, $q);
         return view('admin.category.index', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 
@@ -40,8 +40,7 @@ class CategoryController extends Controller
         $nav = 'category';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = ' Category';
-        $data['title'] = ($id == 0) ? "Add Category" : "Edit Category";
+        $data['title'] = $page_title = ($id == 0) ? "Add Category" : "Edit Category";
         $data['action'] = route('admin-category-addaction');
         $data['order'] = getMax('categories', 'order');
         $data['row'] = Category::where('id', $id)->first();

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductReview;
+use App\Models\Suitablefor;
 use App\Services\Admin\ProductService;
 use Illuminate\Http\Request;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -34,16 +37,18 @@ class ProductController extends Controller
         $this->product->status($request);
     }
 
-    public function addEdit(Request $request)
+    public function view(Request $request)
     {
         $nav = 'product';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
-        $page_title = 'Product';
+        $page_title = 'Product Details';
         $data['title'] = ($id == 0) ? "Add Product" : "View Product";
-        $data['action'] = route('admin-product-addaction');
         $data['row'] = Product::where('id', $id)->first();
-        return view('admin.product.add', compact('nav', 'sub_nav', 'page_title'), $data);
+        $data['views'] = DB::table('product_views')->where('product_id', $id)->first();
+        $data['matches'] = Suitablefor::where('product_id', $id)->get();
+        $data['reviews'] = ProductReview::where('product_id', $id)->get();
+        return view('admin.product.view', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
     // public function addAction(ProductRequest $request)

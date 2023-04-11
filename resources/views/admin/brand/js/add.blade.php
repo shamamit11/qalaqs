@@ -1,123 +1,59 @@
 <script>
-function encodeImgtoBase64(file) {
-    var img = file;
-    var reader = new FileReader();
-    reader.onloadend = function() {
-        $("#btn_image_delete").removeClass('d-none');
-        $("#displayImg").removeClass('d-none');
-        $("#image").val(reader.result);
-        $("#displayImg").attr("src", reader.result);
-        $(".dropify-message").removeClass('d-block').addClass('d-none');
-    }
-    reader.readAsDataURL(img);
-}
+    $(document).ready(function() {
 
-$(document).ready(function() {
-
-    var dropArea = document.querySelector('.drag-area');
-    var input = dropArea.querySelector('input');
-    dropArea.onclick = () => {
-        input.click();
-    };
-    // when browse
-    input.addEventListener('change', function() {
-        file = this.files[0];
-        encodeImgtoBase64(file);
-    });
-    // when file is inside drag area
-    dropArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        encodeImgtoBase64(file);
-    });
-
-    // when file is dropped
-    dropArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        file = e.dataTransfer.files[0]; // grab single file even of user selects multiple files
-        encodeImgtoBase64(file);
-    });
-
-    $("#form").submit(function(e) {
-        e.preventDefault();
-        $('.btn-loading').prop('disabled', true)
-        $('.btn-loading').html(
-            '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...'
+        $("#form").submit(function(e) {
+            e.preventDefault();
+            $('.btn-loading').prop('disabled', true)
+            $('.btn-loading').html(
+                '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...'
             );
-        $.ajax({
-            type: 'post',
-            url: $('#form').attr('action'),
-            data: $("#form").serialize(),
-            success: function(data) {
-                $('.btn-loading').prop('disabled', false);
-                $('.btn-loading').html('Submit');
-                if (data.status_code == 201) {
-                    toastr["success"](data.message);
-                    window.location.href = "{{route('admin-brand')}}";
-                }
-            },
-            error: function(xhr) {
-                $('.btn-loading').prop('disabled', false);
-                $('.btn-loading').html('Submit');
-                if (xhr.status == 422) {
-                    var res = jQuery.parseJSON(xhr.responseText);
-                    if (res.error == 'validation') {
-                        toastr["error"]("Please check required field.");
-                        var messageLength = res.message.length;
-                        for (var i = 0; i < messageLength; i++) {
-                            for (const [key, value] of Object.entries(res.message[i])) {
-                                if (value) {
-                                    $('div.error').show();
-                                    $('#error_' + key).text(value);
+            $.ajax({
+                type: 'post',
+                url: $('#form').attr('action'),
+                data: $("#form").serialize(),
+                success: function(data) {
+                    $('.btn-loading').prop('disabled', false);
+                    $('.btn-loading').html('Submit');
+                    if (data.status_code == 201) {
+                        toastr["success"](data.message);
+                        window.location.href = "{{ route('admin-brand') }}";
+                    }
+                },
+                error: function(xhr) {
+                    $('.btn-loading').prop('disabled', false);
+                    $('.btn-loading').html('Submit');
+                    if (xhr.status == 422) {
+                        var res = jQuery.parseJSON(xhr.responseText);
+                        if (res.error == 'validation') {
+                            toastr["error"]("Please check required field.");
+                            var messageLength = res.message.length;
+                            for (var i = 0; i < messageLength; i++) {
+                                for (const [key, value] of Object.entries(res.message[i])) {
+                                    if (value) {
+                                        $('#' + key).addClass('inputerror');
+                                        $('#error_' + key).show();
+                                        $('#error_' + key).text(value);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
+            });
         });
     });
+</script>
+<script>
+    $("#button-image").click(function(e) {
+        e.preventDefault();
+        inputId = 'image';
+        window.open('/file-manager/fm-button', 'fm', 'width=1200,height=700');
+    });
 
-    confirmDelete = function(field_name) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        })
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
-            reverseButtons: false
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '{{ route("admin-brand-imagedelete")}}',
-                    type: 'POST',
-                    data: {
-                        'id': '{{ @$row->id }}',
-                        'field_name': field_name,
-                        '_token': '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        $("#btn_image_delete").addClass('d-none');
-                        $("#displayImg").addClass('d-none');
-                        $(".dropify-message").removeClass('d-none').addClass('d-block');
-                        $("#displayImg").attr("src", '');
-                        $("#image").val('');
-                        toastr["success"]('Data deleted.');
-                    }
-                });
-            } else if (
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                toastr["error"]('Cancelled.');
-            }
-        })
+    let inputId = '';
+
+    function fmSetLink($url) {
+        $("#" + inputId).val($url);
+        $("#" + inputId + "_link").attr("src", $url);
     }
-});
 </script>
