@@ -127,6 +127,7 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::get('/order/view', 'view')->name('admin-order-view');
         Route::get('/returns', 'returns')->name('admin-returns');
         Route::get('/return/view', 'returnView')->name('admin-return-view');
+        Route::post('/return/status', 'returnStatus')->name('admin-return-status');
     });
 
 });

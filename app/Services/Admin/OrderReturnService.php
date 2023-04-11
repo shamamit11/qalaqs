@@ -44,4 +44,17 @@ class OrderReturnService
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
+
+    public function status($request)
+    {
+        try {
+            OrderReturn::where('id', $request->id)
+                ->update([
+                    $request->field_name => $request->val,
+                ]);
+            return 'success';
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
 }

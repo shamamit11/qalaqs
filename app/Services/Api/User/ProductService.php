@@ -269,7 +269,9 @@ class ProductService
                     'height' => $product->height,
                     'width' => $product->width,
                     'length' => $product->length,
-                    'product_suitable_for' => $product_suitable
+                    'vendor_id' =>$product->vendor_id,
+                    'vendor_name' => $product->vendor->business_name,
+                    'product_suitable_for' => $product_suitable  
                 ];
 
                 $response['data'] = $product_data;

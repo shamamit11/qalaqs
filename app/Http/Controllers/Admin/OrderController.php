@@ -64,4 +64,10 @@ class OrderController extends Controller
         $data['row'] = $return = OrderReturn::where('id', $id)->first();
         return view('admin.order.returnview', compact('nav', 'sub_nav', 'page_title'), $data);
     }
+
+    public function returnStatus(Request $request)
+    {
+        $order_return = new OrderReturnService;
+        $order_return->status($request);
+    }
 }
