@@ -6,15 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\Account\UpdatePasswordRequest;
 use App\Http\Requests\Api\User\Account\UpdateProfileRequest;
 use App\Services\Api\User\AccountService;
-use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
-    protected $auth;
+    protected $account;
 
     public function __construct(AccountService $AccountService)
     {
         $this->account = $AccountService;
+    }
+
+    public function getProfile()
+    {
+        return $this->account->getProfile();
     }
 
     public function updateProfile(UpdateProfileRequest $request)

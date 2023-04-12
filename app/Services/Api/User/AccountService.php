@@ -11,6 +11,19 @@ class AccountService
 {
     use StoreImageTrait;
     
+    public function getProfile() {
+        try {
+            $id = Auth::guard('user-api')->id();
+            $user = User::findOrFail($id);
+            $response['data'] = $user;
+            $response['errors'] = false;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
+        } 
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
     public function updateProfile($request)
     {
         try {
