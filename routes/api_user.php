@@ -31,6 +31,7 @@ Route::controller('AuthController')->group(function () {
 Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
+        Route::get('/profile', 'getProfile');
         Route::post('/update-profile', 'updateProfile');
         Route::post('/update-password', 'updatePassword');
     });
