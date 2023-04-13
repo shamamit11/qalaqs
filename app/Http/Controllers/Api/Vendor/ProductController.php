@@ -67,7 +67,7 @@ class ProductController extends Controller
     }
 
     public function addSuitable(SuitableRequest $request) {
-        return $this->product->store($request->validated());
+        return $this->product->addSuitable($request->validated());
     }
 
     public function deleteSuitable($suitable_id) {

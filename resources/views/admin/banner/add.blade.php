@@ -13,7 +13,7 @@
                                 <form enctype="multipart/form-data" method="post" action="{{ $action }}" id="form">
                                     @csrf
                                     <input type="hidden" class="form-control" name="id"
-                                        value="{{ isset($row->id) ? $row->id : '' }}">
+                                        value="{{ isset($row->id) ? $row->id : 0 }}">
                                     <div class="mb-3">
                                         <label class="form-label"> Name</label>
                                         <input type="text" class="form-control" name="name" id="name"
