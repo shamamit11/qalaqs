@@ -131,7 +131,7 @@ return [
             'throttle' => 60,
         ],
 
-        'vendor' => [
+        'vendors' => [
             'provider' => 'vendors',
             'table' => 'password_reset_tokens',
             'expire' => 60,
