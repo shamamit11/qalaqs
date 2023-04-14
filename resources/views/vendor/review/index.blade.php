@@ -8,7 +8,7 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h3>{{ $page_title }}</h3>
-                                <nav class="navbar navbar-light">
+                                {{-- <nav class="navbar navbar-light">
                                     <form method="get" class="d-flex">
                                         <div class="input-group">
                                             @csrf
@@ -19,45 +19,29 @@
                                         </div>
                                     </form>
 
-                                </nav>
+                                </nav> --}}
                             </div>
                             <div class="card-body">
-                                @if ($returns->count() > 0)
+                                @if ($reviews->count() > 0)
                                     <table class="table">
                                         <thead class="table-light">
                                             <tr>
                                                 <th width="50">#</th>
-                                                <th width="200">Date</th>
-                                                <th width="150">Order ID</th>
-                                                <th width="">Customer</th>
-                                                <th style="text-align:center" width="150">Status</th>
-                                                <th style="text-align:center" width="120">Action</th>
+                                                <th width="180">Date</th>
+                                                <th width="200">Customer</th>
+                                                <th width="180">Rating</th>
+                                                <th width="">Reviews</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($returns as $return)
-                                                <tr id="tr{{ $return->id }}">
+                                            @foreach ($reviews as $review)
+                                                <tr id="tr{{ $review->id }}">
                                                     <td>{{ $count++ }}</td>
-                                                    <td>{{ $return->created_at }}</td>
-                                                    <td>{{ $return->order->order_id }}</td>
-                                                    <td>{{ $return->user->first_name }} {{ $return->user->last_name }}</td>
-                                                    <td style="text-align:center">
-                                                        @if ($return->status == 0)
-                                                            <span class="badge bg-danger"
-                                                                style="padding:6px; font-size:14px;">Open</span>
-                                                        @endif
-                                                        @if ($return->status == 1)
-                                                            <span class="badge bg-success"
-                                                                style="padding:6px; font-size:14px;">Closed</span>
-                                                        @endif  
-                                                    </td>
-                                                    <td style="text-align:center">
-                                                        <a href="{{ route('vendor-return-view', ['id=' . $return->id]) }}"
-                                                            class="btn btn-sm btn-warning rounded-pill"
-                                                            data-id="{{ $return->id }}"><span class="icon"><i
-                                                                    class='fas fa-eye'></i></span></a>
-
-                                                    </td>
+                                                    <td>{{ $review->created_at }}</td>
+                                                    <td>{{ $review->user->first_name }}
+                                                        {{ $review->user->last_name }}</td>
+                                                    <td class="text-warning">{{ getRatingStar($review->rating) }}</td>
+                                                    <td>{{ $review->reviews }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -68,7 +52,7 @@
                                             records.
                                         </div>
                                         <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <div class="float-end"> {{ $returns->links('pagination::bootstrap-4') }}
+                                            <div class="float-end"> {{ $reviews->links('pagination::bootstrap-4') }}
                                             </div>
                                         </div>
                                     </div>
@@ -83,4 +67,3 @@
             @include('vendor.includes.footer')
         </div>
     @endsection
-

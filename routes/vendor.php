@@ -56,7 +56,13 @@ Route::group(['middleware' => 'vendorauth'], function () {
     Route::controller('OrderController')->group(function () {
         Route::get('/order', 'index')->name('vendor-orders');
         Route::get('/order/view', 'view')->name('vendor-order-view');
-        Route::post('/order/updateaction', 'updateAction')->name('vendor-order-updateaction');
+        Route::post('/order/update-order-status', 'updateOrderStatus')->name('vendor-order-update-status');
+        Route::get('/returns', 'listReturns')->name('vendor-returns');
+        Route::get('/return/view', 'returnDetail')->name('vendor-return-view');
+    });
+
+    Route::controller('ReviewController')->group(function () {
+        Route::get('/reviews', 'index')->name('vendor-reviews');
     });
 
 });

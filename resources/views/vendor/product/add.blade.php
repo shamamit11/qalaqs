@@ -472,7 +472,7 @@
                                     <hr>
                                     <div class="mt-3 col-3">
                                         <label class="form-label"> Status</label>
-                                        <select name="status" id="status" class="selectize form-control">
+                                        <select name="status" id="status" class="selectize form-control selectized">
                                             <option value="1"
                                                 @if (@$row->status == '1') selected @endif>Active
                                             </option>

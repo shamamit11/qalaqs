@@ -54,66 +54,6 @@ class OrderService
         }
     }
 
-    public function list1() {
-        try {
-            $vendor_id = Auth::guard('vendor')->id();
-            $orderItems = OrderItem::where('vendor_id', $vendor_id)->orderBy('created_at', 'desc')->get()->makeHidden(['created_at', 'updated_at', 'delivery_distance', 'delivery_charge', 'cod_charge']);
-            
-            foreach($orderItems as $item) {
-                $order = Order::where('id', $item->order_id)->first();
-                $item->order_code = $order->order_id;
-
-                $product = Product::where('id', $item->product_id)->first();
-                $item->product_title = $product->title;
-                $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
-
-                $itemStatus = ItemStatusUpdate::where('order_item_id', $item->id)->orderBy('created_at', 'desc')->first();
-                $status = OrderStatus::where('id', $itemStatus->status_id)->first();
-                $item->status_code = $status->code;
-                $item->status_name = $status->name;
-
-                $item->created_date = date("d M Y", strtotime($item->created_at));
-                $item->updated_date = date("d M Y", strtotime($item->updated_at));
-            }
-
-            $response['data'] = $orderItems;
-            $response['errors'] = false;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function orderDetails($order_item_id) {
-        try {
-            $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $orderItem = OrderItem::where([['vendor_id', $vendor_id], ['id', $order_item_id]])->first()->makeHidden(['created_at', 'updated_at', 'delivery_distance', 'delivery_charge', 'cod_charge']);
-           
-            $order = Order::where('id', $orderItem->order_id)->first();
-            $orderItem->order_code = $order->order_id;
-
-            $product = Product::where('id', $orderItem->product_id)->first();
-            $orderItem->product_title = $product->title;
-            $orderItem->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
-
-            $itemStatus = ItemStatusUpdate::where('order_item_id', $orderItem->id)->orderBy('created_at', 'desc')->first();
-            $orderStatus = OrderStatus::where('id', $itemStatus->status_id)->first();
-            $orderItem->status_code = $orderStatus->code;
-            $orderItem->status_name = $orderStatus->name;
-
-            $orderItem->created_date = date("d M Y", strtotime($orderItem->created_at));
-            $orderItem->updated_date = date("d M Y", strtotime($orderItem->updated_at));
-       
-            $response['data'] = $orderItem;
-            $response['errors'] = false;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
     public function updateOrderStatus($request) {
         try {
             $itemStatus = ItemStatusUpdate::where('order_item_id', $request['order_item_id'])->first();
@@ -129,33 +69,34 @@ class OrderService
         }
     }
 
-    public function listReturns() {
+    public function listReturns($per_page, $page, $q) {
         try {
-            $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $orderReturns = OrderReturn::where([['vendor_id', $vendor_id]])->orderBy('created_at', 'desc')->get()->makeHidden(['created_at', 'updated_at']);
-            
-            foreach($orderReturns as $item) {
-                $order = Order::where('id', $item->order_id)->first();
-                $item->order_code = $order->order_id;
-
-                $product = Product::where('id', $item->product_id)->first();
-                $item->product_title = $product->title;
-                $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
-
-                $order = OrderItem::where('id', $item->order_item_id)->first();
-                $item->order_placed_on = date("d M Y", strtotime($order->created_at));
-
-                $itemStatus = ItemStatusUpdate::where('order_item_id', $item->order_item_id)->orderBy('created_at', 'desc')->first();
-                $orderStatus = OrderStatus::where('id', $itemStatus->status_id)->first();
-                $item->status_code = $orderStatus->code;
-                $item->status_name = $orderStatus->name;
+            $vendor_id = Auth::guard('vendor')->id();
+            $data['q'] = $q;
+            $query = OrderReturn::select('*');
+            if ($q) {
+                $search_key = $q;
+                $query->where(function ($qry) use ($search_key) {
+                    $qry->where('id', 'LIKE', '%' . $search_key . '%');
+                });
             }
-
-            $response['data'] = $orderReturns;
-            $response['errors'] = false;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
+            $data['returns'] = $query->where('vendor_id', $vendor_id)->orderBy('created_at', 'desc')->paginate($per_page);
+            $data['returns']->appends(array('q' => $q));
+            if ($page != 1) {
+                $data['total_data'] = $data['returns']->total();
+                $data['count'] = ($per_page * $page) - $per_page + 1;
+                $data['from_data'] = $data['count'];
+                $to_data = $page * $data['returns']->count();
+                $data['to_data'] = ($to_data > $data['from_data']) ? $to_data : $data['total_data'];
+            } else {
+                $data['total_data'] = $data['returns']->total();
+                $data['count'] = 1;
+                $data['from_data'] = 1;
+                $data['to_data'] = $data['returns']->count();
+            }
+            return $data;
+        }
+        catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -172,8 +113,8 @@ class OrderService
             $orderReturns->product_title = $product->title;
             $orderReturns->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
 
-            $order = OrderItem::where('id', $orderReturns->order_item_id)->first();
-            $orderReturns->order_placed_on = date("d M Y", strtotime($order->created_at));
+            $orderItem = OrderItem::where('id', $orderReturns->order_item_id)->first();
+            $orderReturns->order_placed_on = date("d M Y", strtotime($orderItem->created_at));
 
             $itemStatus = ItemStatusUpdate::where('order_item_id', $orderReturns->order_item_id)->orderBy('created_at', 'desc')->first();
             $orderStatus = OrderStatus::where('id', $itemStatus->status_id)->first();
