@@ -252,6 +252,3 @@
             @include('admin.includes.footer')
         </div>
     @endsection
-    @section('footer-scripts')
-        @include('admin.make.js.add')
-    @endsection

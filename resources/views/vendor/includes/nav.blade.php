@@ -24,7 +24,7 @@
                 </li>
 
                 <li class="{{ $nav == 'return' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-returns') }}" class="{{ $nav == 'return' ? 'active' : '' }}">
+                    <a href="{{ route('vendor-returns') }}" class="{{ $nav == 'return' ? 'active' : '' }}">
                         <i class="mdi mdi-autorenew"></i>
                         <span> Returns </span>
                     </a>
@@ -45,17 +45,18 @@
                     </a> 
                 </li>
 
-                <li> 
-                    <a href="#"> 
-                        <i class="mdi mdi-format-list-checkbox"></i> <span> Client Reviews </span>
-                    </a> 
+                <li class="{{ $nav == 'review' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('vendor-reviews') }}" class="{{ $nav == 'review' ? 'active' : '' }}">
+                        <i class="mdi mdi-account-group"></i>
+                        <span> Client Reviews </span>
+                    </a>
                 </li>
 
-                <li> 
+                {{-- <li> 
                     <a href="#"> 
                         <i class="mdi mdi-format-list-checkbox"></i> <span> Notifications </span>
                     </a> 
-                </li>
+                </li> --}}
                 <li class="menu-title mt-2">Reports & Stats</li>
                 <li class="{{ $nav == 'account' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('vendor-account-setting') }}" class="{{ $nav == 'account' ? 'active' : '' }}">
