@@ -43,7 +43,7 @@ class AuthService
             if ($token) {
                 $vendor = array('id' => Auth::guard('vendor-api')->user()->id);
                 $accesstoken = Auth::guard('vendor-api')->claims($vendor)->attempt($credentials);
-                $response['data'] = array('id' => Auth::guard('vendor-api')->user()->id, 'first_name' => Auth::guard('vendor-api')->user()->first_name, 'last_name' => Auth::guard('vendor-api')->user()->last_name, 'token' => $accesstoken);
+                $response['data'] = array('id' => Auth::guard('vendor-api')->user()->id, 'first_name' => Auth::guard('vendor-api')->user()->first_name, 'last_name' => Auth::guard('vendor-api')->user()->last_name, 'business_name' => Auth::guard('vendor-api')->user()->business_name, 'token' => $accesstoken);
                 $response['errors'] = false;
                 $response['status_code'] = 200;
                 return response()->json($response, 200);
