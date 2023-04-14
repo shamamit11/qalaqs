@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/update-profile', 'updateProfile');
         Route::post('/update-password', 'updatePassword');
         Route::post('/update-bank', 'updateBank');
+        Route::post('/expoPushTokens', 'updatePushToken');
     });
 
     Route::controller('ProductController')->group(function () {
