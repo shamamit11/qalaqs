@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\StoreImageTrait;
+use Str;
 
 class AccountService
 {
@@ -38,9 +39,19 @@ class AccountService
         try {
             $id = Auth::guard('vendor-api')->user()->id;
             $vendor = Vendor::where('id', $id)->first();
+
+            $base64image = $request['image'];
+
             Storage::disk('public')->delete('/vendor/' . $vendor->image);
 
-            $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
+            $extension = explode('/', explode(':', substr($base64image, 0, strpos($base64image, ';')))[1])[1];
+            $replace = substr($base64image, 0, strpos($base64image, ',')+1); 
+            $image = str_replace($replace, '', $base64image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(12).'.'.$extension;
+            Storage::disk('vendor')->put($imageName, base64_decode($image));
+
+            $vendor->image = $imageName;
             $vendor->save();
 
             $response['message'] = 'Success';
