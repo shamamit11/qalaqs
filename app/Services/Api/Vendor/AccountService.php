@@ -136,4 +136,24 @@ class AccountService
         }  
     }
 
+    public function updateProfileImage($request)
+    {
+        try {
+            $id = Auth::guard('vendor-api')->user()->id;
+            $vendor = Vendor::where('id', $id)->first();
+            Storage::disk('public')->delete('/vendor/' . $vendor->image);
+
+            $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
+            $vendor->save();
+
+            $response['message'] = 'Success';
+            $response['errors'] = false;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        } 
+    }
+
 }

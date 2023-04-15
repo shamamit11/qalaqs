@@ -48,4 +48,8 @@ class AccountController extends Controller
         return $this->account->updatePushToken($request);
     }
 
+    public function updateProfileImage(Request $request) {
+        return $this->account->updateProfileImage($request);
+    }
+
 }
