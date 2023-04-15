@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/cancel-account', 'cancelAccount');
         Route::post('/update-profile', 'updateProfile');
         Route::post('/update-password', 'updatePassword');
+        Route::get('/bank', 'getBankDetail');
         Route::post('/update-bank', 'updateBank');
         Route::post('/expoPushTokens', 'updatePushToken');
         Route::post('/updateProfileImage', 'updateProfileImage');
