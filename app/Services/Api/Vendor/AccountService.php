@@ -42,8 +42,10 @@ class AccountService
 
             $base64image = $request['image'];
 
-            Storage::disk('public')->delete('/vendor/' . $vendor->image);
-
+            if($vendor->image) {
+                Storage::disk('public')->delete('/vendor/' . $vendor->image);
+            }
+            
             $extension = explode('/', explode(':', substr($base64image, 0, strpos($base64image, ';')))[1])[1];
             $replace = substr($base64image, 0, strpos($base64image, ',')+1); 
             $image = str_replace($replace, '', $base64image);
