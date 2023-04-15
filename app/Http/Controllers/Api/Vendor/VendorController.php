@@ -26,4 +26,8 @@ class VendorController extends Controller
     public function notification() {
         return $this->vendor->notification();
     }
+
+    public function updateNotificationStatus(Request $request) {
+        return $this->vendor->updateNotificationStatus($request);
+    }
 }

@@ -94,9 +94,23 @@ class VendorService
     public function notification() {
         try {
             $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $notificationData = Notification::where([['receiver_id', $vendor_id], ['receiver_type', 'V']])->get();
+            $notificationData = Notification::where([['receiver_id', $vendor_id], ['receiver_type', 'V'], ['status', 0]])->get();
 
             $response['data'] = $notificationData;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function updateNotificationStatus($request) {
+        try {
+            $notification = Notification::where('id', $request['notification_id'])->first();
+            $notification->status = 1;
+            $response['message'] = 'Success';
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
