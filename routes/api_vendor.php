@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/profile', 'vendorDetail');
         Route::get('/stats', 'vendorStats');
         Route::get('/notification', 'notification');
+        Route::post('/update-notification', 'updateNotificationStatus');
     });
 
     Route::controller('OrderController')->group(function () {
