@@ -110,6 +110,7 @@ class VendorService
         try {
             $notification = Notification::where('id', $request['notification_id'])->first();
             $notification->status = 1;
+            $notification->save();
             $response['message'] = 'Success';
             $response['errors'] = null;
             $response['status_code'] = 200;
