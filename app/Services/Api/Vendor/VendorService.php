@@ -120,4 +120,21 @@ class VendorService
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
+
+    public function vendorReviews() {
+        try {
+            $vendor_id = Auth::guard('vendor-api')->user()->id;
+            $reviews = VendorReview::where('vendor_id', $vendor_id)->get();
+            foreach($reviews as $review) {
+                $review->ratingstar = getRatingStar($review->rating);
+            }
+            $response['data'] = $reviews;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
 }
