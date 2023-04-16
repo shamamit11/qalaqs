@@ -38,26 +38,6 @@ class ProductService
         }
     }
 
-    public function model()
-    {
-        try {
-            $model_data = array();
-            $models = Models::where('status', 1)->orderBy('name', 'asc')->get();
-            if ($models->count() > 0) {
-                foreach ($models as $model) {
-                    array_push($model_data, array('id' => $model->id, 'name' => $model->name, 'make_id' => $model->make_id));
-                }
-            }
-            $response['data'] = $model_data;
-            $response['message'] = null;
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
     public function getModelsByMakeId($request) {
         try {
             $models = Models::where([['status', 1], ['make_id', $request['make_id']]])->orderBy('name', 'asc')->get();
@@ -72,57 +52,50 @@ class ProductService
         }
     }
 
-    public function year()
-    {
+    public function getYearsByMakeAndModelId($request) {
         try {
-            $year_data = array();
-            $years = Year::where('status', 1)->orderBy('name', 'asc')->get();
-            if ($years->count() > 0) {
-                foreach ($years as $year) {
-                    array_push($year_data, array('id' => $year->id, 'name' => $year->name, 'make_id' => $year->make_id, 'model_id' => $year->model_id));
-                }
-            }
-            $response['data'] = $year_data;
-            $response['message'] = null;
-            $response['errors'] = null;
+            $years = Engine::where([
+                ['status', 1], 
+                ['make_id', $request['make_id']],
+                ['model_id', $request['model_id']]
+            ])->orderBy('name', 'asc')->get();
+
+            $response['data'] = $years;
+            $response['message'] = false;
+            $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        }
+        catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function engine()
-    {
+    public function getEnginesByMakeModelAndYearId($request) {
         try {
-            $engine_data = array();
-            $engines = Engine::where('status', 1)->orderBy('name', 'asc')->get();
-            if ($engines->count() > 0) {
-                foreach ($engines as $engine) {
-                    array_push($engine_data, array('id' => $engine->id, 'name' => $engine->name, 'make_id' => $engine->make_id, 'model_id' => $engine->model_id, 'year_id' => $engine->year_id));
-                }
-            }
-            $response['data'] = $engine_data;
-            $response['message'] = null;
-            $response['errors'] = null;
+            $engines = Engine::where([
+                ['status', 1], 
+                ['make_id', $request['make_id']],
+                ['model_id', $request['model_id']],
+                ['year_id', $request['year_id']]
+            ])->orderBy('name', 'asc')->get();
+
+            $response['data'] = $engines;
+            $response['message'] = false;
+            $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        }
+        catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
-
     public function category()
     {
         try {
             $category_data = array();
             $categories = Category::where('status', 1)->orderBy('order', 'asc')->get();
-            if ($categories->count() > 0) {
-                foreach ($categories as $category) {
-                    array_push($category_data, array('id' => $category->id, 'name' => $category->name));
-                }
-            }
-            $response['data'] = $category_data;
+            $response['data'] = $categories;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
@@ -132,17 +105,11 @@ class ProductService
         }
     }
 
-    public function subcategory()
+    public function getSubcategoryByCategoryId($request)
     {
         try {
-            $subcategory_data = array();
-            $subcategories = Subcategory::where('status', 1)->orderBy('order', 'asc')->get();
-            if ($subcategories->count() > 0) {
-                foreach ($subcategories as $subcategory) {
-                    array_push($subcategory_data, array('id' => $subcategory->id, 'name' => $subcategory->name, 'category_id' => $subcategory->category_id));
-                }
-            }
-            $response['data'] = $subcategory_data;
+            $subcategories = Subcategory::where([['status', 1], ['category_id', $request['category_id']]])->orderBy('order', 'asc')->get();
+            $response['data'] = $subcategories;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
