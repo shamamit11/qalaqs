@@ -126,6 +126,7 @@ class VendorService
             $vendor_id = Auth::guard('vendor-api')->user()->id;
             $reviews = VendorReview::where('vendor_id', $vendor_id)->get();
             foreach($reviews as $review) {
+                $review->user = $review->user->first_name. " " . $review->user->last_name;
                 $review->ratingstar = getRatingStar($review->rating);
             }
             $response['data'] = $reviews;
