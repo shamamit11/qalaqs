@@ -26,7 +26,10 @@ class ProductController extends Controller
     }
 
     public function getModelsByMakeId(Request $request) {
-        return $this->product->getModelsByMakeId($request);
+        $validate = $this->validate($request,[
+            'make_id'=>'required'
+        ]);
+        return $this->product->getModelsByMakeId($validate);
     }
 
     public function year() {
