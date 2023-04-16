@@ -58,6 +58,20 @@ class ProductService
         }
     }
 
+    public function getModelsByMakeId($make_id) {
+        try {
+            $models = Models::where([['status', 1], ['make_id', $make_id]])->orderBy('name', 'asc')->get();
+            $response['data'] = $models;
+            $response['message'] = false;
+            $response['errors'] = false;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function year()
     {
         try {

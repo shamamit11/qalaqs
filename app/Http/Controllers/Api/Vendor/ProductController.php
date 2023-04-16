@@ -25,6 +25,10 @@ class ProductController extends Controller
         return $this->product->model();
     }
 
+    public function getModelsByMakeId($make_id) {
+        return $this->product->getModelsByMakeId($make_id);
+    }
+
     public function year() {
         return $this->product->year();
     }
@@ -36,7 +40,6 @@ class ProductController extends Controller
     public function brand() {
         return $this->product->brand();
     }
-
 
     public function category() {
         return $this->product->category();
