@@ -25,8 +25,8 @@ class ProductController extends Controller
         return $this->product->model();
     }
 
-    public function getModelsByMakeId($make_id) {
-        return $this->product->getModelsByMakeId($make_id);
+    public function getModelsByMakeId(Request $request) {
+        return $this->product->getModelsByMakeId($request);
     }
 
     public function year() {

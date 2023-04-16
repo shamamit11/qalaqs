@@ -58,9 +58,9 @@ class ProductService
         }
     }
 
-    public function getModelsByMakeId($make_id) {
+    public function getModelsByMakeId($request) {
         try {
-            $models = Models::where([['status', 1], ['make_id', $make_id]])->orderBy('name', 'asc')->get();
+            $models = Models::where([['status', 1], ['make_id', $request['make_id']]])->orderBy('name', 'asc')->get();
             $response['data'] = $models;
             $response['message'] = false;
             $response['errors'] = false;
