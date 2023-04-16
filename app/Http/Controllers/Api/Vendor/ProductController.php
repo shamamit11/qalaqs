@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Vendor\Product\EngineRequest;
+use App\Http\Requests\Api\Vendor\Product\ModelRequest;
 use App\Http\Requests\Api\Vendor\Product\ProductRequest;
+use App\Http\Requests\Api\Vendor\Product\SubcategoryRequest;
 use App\Http\Requests\Api\Vendor\Product\SuitableRequest;
+use App\Http\Requests\Api\Vendor\Product\YearRequest;
 use App\Services\Api\Vendor\ProductService;
 use Illuminate\Http\Request;
 
@@ -21,23 +25,16 @@ class ProductController extends Controller
         return $this->product->make();
     }
 
-    public function model() {
-        return $this->product->model();
+    public function getModelsByMakeId(ModelRequest $request) {
+        return $this->product->getModelsByMakeId($request);
     }
 
-    public function getModelsByMakeId(Request $request) {
-        $validate = $this->validate($request,[
-            'make_id'=>'required'
-        ]);
-        return $this->product->getModelsByMakeId($validate);
+    public function getYearsByMakeAndModelId(YearRequest $request) {
+        return $this->product->getYearsByMakeAndModelId($request);
     }
 
-    public function year() {
-        return $this->product->year();
-    }
-
-    public function engine() {
-        return $this->product->engine();
+    public function getEnginesByMakeModelAndYearId(EngineRequest $request) {
+        return $this->product->getEnginesByMakeModelAndYearId($request);
     }
 
     public function brand() {
@@ -48,8 +45,8 @@ class ProductController extends Controller
         return $this->product->category();
     }
 
-    public function subcategory() {
-        return $this->product->subcategory();
+    public function getSubcategoryByCategoryId(SubcategoryRequest $request) {
+        return $this->product->getSubcategoryByCategoryId($request);
     }
 
     public function list() {
