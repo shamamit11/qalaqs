@@ -124,6 +124,20 @@ class AccountService
         }  
     }
 
+    public function getBankDetail() {
+        try {
+            $id = Auth::guard('vendor-api')->user()->id;
+            $bank = Bank::where('vendor_id', $id)->first();
+            $response['data'] = $bank;
+            $response['errors'] = false;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } 
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }  
+    }
+
     public function updateBank($request)
     {
         try {

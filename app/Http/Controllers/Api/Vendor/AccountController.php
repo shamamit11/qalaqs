@@ -38,6 +38,11 @@ class AccountController extends Controller
     {
         return $this->account->cancelAccount();
     }
+
+    public function getBankDetail() {
+        return $this->account->getBankDetail();
+    }
+    
     public function updateBank(BankRequest $request)
     {
         return $this->account->updateBank($request->validated());
