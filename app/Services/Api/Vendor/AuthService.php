@@ -23,6 +23,9 @@ class AuthService
             $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
             $vendor->license_image = isset($request['license_image']) ? $this->StoreImage($request['license_image'], '/vendor/') : null;
             $vendor->device_id = isset($request['device_id']) ? $request['device_id'] : null;
+            $vendor->status = 1;
+            $vendor->admin_approved = 1;
+            $vendor->is_deleted = 0;
             $vendor->save();
             $response['data'] = $vendor;
             $response['message'] = null;
