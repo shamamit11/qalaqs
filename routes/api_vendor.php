@@ -40,8 +40,8 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('ProductController')->group(function () {
         Route::get('/make', 'make');
         Route::post('/getModelsByMakeId', 'getModelsByMakeId');
-        Route::post('/getYearsByMakeAndModelId', 'getYearsByMakeAndModelId');
-        Route::post('/getEnginesByMakeModelAndYearId', 'getEnginesByMakeModelAndYearId');
+        // Route::post('/getYearsByMakeAndModelId', 'getYearsByMakeAndModelId');
+        // Route::post('/getEnginesByMakeModelAndYearId', 'getEnginesByMakeModelAndYearId');
         Route::get('/brand', 'brand');
         Route::get('/category', 'category');
         Route::get('/subcategory', 'subcategory');
