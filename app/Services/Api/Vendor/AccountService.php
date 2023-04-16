@@ -114,6 +114,8 @@ class AccountService
             $vendor = Vendor::findOrFail($id);
             if($vendor) {
                 $vendor->is_deleted = 1;
+                $vendor->status = 0;
+                $vendor->admin_approved = 0;
                 $vendor->save();
             }
             $response['message'] = 'Success';
