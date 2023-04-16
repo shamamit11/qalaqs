@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('ProductController')->group(function () {
         Route::get('/make', 'make');
         Route::get('/model', 'model');
-        Route::get('/getModels/{make_id}', 'getModelsByMakeId');
+        Route::post('/getModels', 'getModelsByMakeId');
         Route::get('/year', 'year');
         Route::get('/engine', 'engine');
         Route::get('/brand', 'brand');
