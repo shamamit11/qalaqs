@@ -54,7 +54,7 @@ class ProductService
 
     public function getYearsByMakeAndModelId($request) {
         try {
-            $years = Engine::where([
+            $years = Year::where([
                 ['status', 1], 
                 ['make_id', $request['make_id']],
                 ['model_id', $request['model_id']]
