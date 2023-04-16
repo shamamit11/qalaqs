@@ -37,7 +37,7 @@ class AuthService
     public function checkLogin($request)
     {
         try {
-            $credentials = array('email' => $request['email'], 'password' => $request['password']);
+            $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1, 'admin_approved' => 1);
             $token = Auth::guard('vendor-api')->attempt($credentials);
 
             if ($token) {
