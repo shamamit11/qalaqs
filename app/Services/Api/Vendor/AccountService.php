@@ -113,7 +113,8 @@ class AccountService
             $id = Auth::guard('vendor-api')->user()->id;
             $vendor = Vendor::findOrFail($id);
             if($vendor) {
-                $vendor->delete();
+                $vendor->is_deleted = 1;
+                $vendor->save();
             }
             $response['message'] = 'Success';
             $response['errors'] = false;
