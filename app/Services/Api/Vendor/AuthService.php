@@ -18,6 +18,8 @@ class AuthService
             $vendor->first_name = $request['first_name'];
             $vendor->last_name = $request['last_name'];
             $vendor->mobile = $request['mobile'];
+            $vendor->address = $request['address'];
+            $vendor->city = $request['city'];
             $vendor->email = $request['email'];
             $vendor->password =  Hash::make($request['password']);
             $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;

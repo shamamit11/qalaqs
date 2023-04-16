@@ -31,8 +31,10 @@ class RegisterVendorRequest extends ApiRequest
             'email' => 'required|email|unique:vendors,email',
             'password' => 'required',
             'account_type' => 'required',
-            'license_image' => 'required|image',
-            'device_id' => 'nullable'
+            'license_image' => 'required',
+            'device_id' => 'nullable',
+            'city' => 'nullable',
+            'address' => 'nullable',
         ];
     }
 }
