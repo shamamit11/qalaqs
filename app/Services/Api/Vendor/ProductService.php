@@ -189,16 +189,42 @@ class ProductService
             if ($request['id']) {
                 $id = $request['id'];
                 $product = Product::findOrFail($id);
+
+                if($request['main_image']) {
+                    Storage::disk('public')->delete('/product/' . $product->main_image);
+                    $product->main_image = $this->StoreImage($request['main_image'], '/product/');
+                }
+
+                if($request['image_01']) {
+                    Storage::disk('public')->delete('/product/' . $product->image_01);
+                    $product->image_01 = $this->StoreImage($request['image_01'], '/product/');
+                }
+
+                if($request['image_02']) {
+                    Storage::disk('public')->delete('/product/' . $product->image_02);
+                    $product->image_02 = $this->StoreImage($request['image_02'], '/product/');
+                }
+
+                if($request['image_03']) {
+                    Storage::disk('public')->delete('/product/' . $product->image_03);
+                    $product->image_03 = $this->StoreImage($request['image_03'], '/product/');
+                }
+
+                if($request['image_04']) {
+                    Storage::disk('public')->delete('/product/' . $product->image_04);
+                    $product->image_03 = $this->StoreImage($request['image_04'], '/product/');
+                }
+                
             } else {
                 $id = 0;
                 $product = new Product;
+                $product->main_image = isset($request['main_image']) ? $this->StoreImage($request['main_image'], '/product/') : null;
+                $product->image_01 = isset($request['image_01']) ? $this->StoreImage($request['image_01'], '/product/') : null;
+                $product->image_02 = isset($request['image_02']) ? $this->StoreImage($request['image_02'], '/product/') : null;
+                $product->image_03 = isset($request['image_03']) ? $this->StoreImage($request['image_03'], '/product/') : null;
+                $product->image_04 = isset($request['image_04']) ? $this->StoreImage($request['image_04'], '/product/') : null;
             }
             $product->vendor_id = Auth::guard('vendor-api')->user()->id;
-            $product->main_image = isset($request['main_image']) ? $this->StoreImage($request['main_image'], '/product/') : null;
-            $product->image_01 = isset($request['image_01']) ? $this->StoreImage($request['image_01'], '/product/') : null;
-            $product->image_02 = isset($request['image_02']) ? $this->StoreImage($request['image_02'], '/product/') : null;
-            $product->image_03 = isset($request['image_03']) ? $this->StoreImage($request['image_03'], '/product/') : null;
-            $product->image_04 = isset($request['image_04']) ? $this->StoreImage($request['image_04'], '/product/') : null;
             $product->title = $request['title'];
             $product->part_number = $request['part_number'];
             $product->sku = $request['sku'];

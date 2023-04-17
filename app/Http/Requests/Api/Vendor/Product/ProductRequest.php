@@ -25,7 +25,7 @@ class ProductRequest extends ApiRequest
     {
         return [
             'id' => 'required|integer',
-            'main_image' => 'required',
+            'main_image' => 'nullable',
             'image_01' => 'nullable',
             'image_02' => 'nullable',
             'image_03' => 'nullable',
