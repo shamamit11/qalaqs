@@ -54,7 +54,7 @@
                                                         @php
                                                             $status = getItemStatus($order->order->id, $order->id);
                                                         @endphp
-                                                        @if ($status == 'Processing')
+                                                        @if ($status == 'New')
                                                             <span class="badge bg-pink"
                                                                 style="padding:6px; font-size:14px;">New Order</span>
                                                         @endif
