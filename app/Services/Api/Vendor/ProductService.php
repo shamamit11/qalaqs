@@ -143,7 +143,7 @@ class ProductService
     public function listProducts() {
         try {
             $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'asc')->get();
+            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'asc')->get()->makeHidden(['make', 'model', 'year', 'engine', 'category', 'brand']);
             if($products->count() > 0) {
                 foreach ($products as $product) {
                     if($product['main_image']) {
@@ -161,7 +161,18 @@ class ProductService
                     if($product['image_04']) {
                         $product->image_04 = env('APP_URL').'/storage/product/'.$product['image_04'];
                     }
+                    $product->make_data = array("label" => $product->make->name, "value" => $product->make->id);
+                    $product->model_data = array("label" => $product->model->name, "value" => $product->model->id);
+                    $product->year_data = array("label" => $product->year->name, "value" => $product->year->id);
+                    $product->engine_data = array("label" => $product->engine->name, "value" => $product->engine->id);
+                    if($product->category_id) {
+                        $product->category_data = array("label" => $product->category->name, "value" => $product->category->id);
+                    }
+                    if($product->brand_id){
+                        $product->brand_data = array("label" => $product->brand->name, "value" => $product->brand->id);
+                    }
                 }
+            
             }
             $response['data'] = $products;
             $response['message'] = null;
