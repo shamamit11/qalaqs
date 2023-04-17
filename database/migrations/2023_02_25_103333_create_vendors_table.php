@@ -29,6 +29,7 @@ return new class extends Migration
             $table->boolean('email_verified')->default(0)->comment('0 = not verified, 1 = verified');
             $table->boolean('admin_approved')->default(0)->comment('0 = no, 1 = yes');
             $table->boolean('status')->nullable()->default(1)->comment('0 = inactive, 1 = active');
+            $table->boolean('is_deleted')->default(0)->comment('0 = No, 1 = Yes');
             $table->rememberToken();
             $table->string('device_id')->nullable();
             $table->timestamps();

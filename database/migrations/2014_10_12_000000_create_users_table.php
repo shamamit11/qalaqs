@@ -26,6 +26,7 @@ return new class extends Migration
             $table->enum('user_type', ['I', 'G'])->default('I')->comment('I = Individual, G = Garage');
             $table->rememberToken();
             $table->string('device_id')->nullable();
+            $table->boolean('is_deleted')->default(0)->comment('0 = No, 1 = Yes');
             $table->timestamps();
         });
     }
