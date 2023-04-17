@@ -86,7 +86,7 @@
                                                             @php
                                                                 $status = getItemStatus($item->order_id, $item->id);
                                                             @endphp
-                                                            @if ($status == 'Processing')
+                                                            @if ($status == 'New')
                                                                 <span class="badge bg-pink"
                                                                     style="padding:6px; font-size:14px;">New Order</span>
                                                             @endif
