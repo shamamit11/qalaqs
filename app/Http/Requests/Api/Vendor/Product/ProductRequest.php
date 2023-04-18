@@ -48,10 +48,10 @@ class ProductRequest extends ApiRequest
             'price' => 'required|numeric',
             'discount' => 'nullable|integer',
             'stock'=>'required|integer',
-            'weight'=>'required|numeric',
-            'height'=>'required|numeric',
-            'width'=>'required|numeric',
-            'length'=>'required|numeric',
+            'weight'=>'',
+            'height'=>'',
+            'width'=>'',
+            'length'=>'',
         ];
     }
 }

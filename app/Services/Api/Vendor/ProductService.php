@@ -105,6 +105,20 @@ class ProductService
         }
     }
 
+    public function getSubcategory($category_id)
+    {
+        try {
+            $subcategories = Subcategory::where([['status', 1], ['category_id',$category_id]])->orderBy('order', 'asc')->get();
+            $response['data'] = $subcategories;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function getSubcategoryByCategoryId($request)
     {
         try {
@@ -143,7 +157,7 @@ class ProductService
     public function listProducts() {
         try {
             $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'asc')->get()->makeHidden(['make', 'model', 'year', 'engine', 'category', 'brand']);
+            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'desc')->get()->makeHidden(['make', 'model', 'year', 'engine', 'category', 'brand']);
             if($products->count() > 0) {
                 foreach ($products as $product) {
                     if($product['main_image']) {
