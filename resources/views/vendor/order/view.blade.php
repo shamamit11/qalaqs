@@ -127,7 +127,7 @@
                                 </div>
 
                                
-                                @if($status == 'Processing' || $status == 'Confirmed' || $status == 'Ready')
+                                @if($status == 'New' || $status == 'Confirmed' || $status == 'Ready')
                                     <hr>
                                     <form enctype="multipart/form-data" method="post" id="form" action={{route('vendor-order-update-status')}}>
                                         @csrf
@@ -137,13 +137,11 @@
                                             <select name="status_id" id="status_id" class="selectize form-control">
                                                 @if($status == 'Confirmed')
                                                     <option value="3">Ready to Ship</option>
-                                                    <option value="4">Shipped</option>
                                                 @elseif($status == 'Ready')
                                                     <option value="4">Shipped</option>
                                                 @else
                                                     <option value="2">Confirmed</option>
                                                     <option value="3">Ready to Ship</option>
-                                                    <option value="4">Shipped</option>
                                                 @endif
                                             </select>
                                             <div class="error" id='error_status_id'></div>

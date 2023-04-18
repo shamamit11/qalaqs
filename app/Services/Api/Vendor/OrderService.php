@@ -25,6 +25,7 @@ class OrderService
                 $product = Product::where('id', $item->product_id)->first();
                 $item->product_title = $product->title;
                 $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+                $item->discount = $product->discount;
 
                 $itemStatus = ItemStatusUpdate::where('order_item_id', $item->id)->orderBy('created_at', 'desc')->first();
                 $status = OrderStatus::where('id', $itemStatus->status_id)->first();
