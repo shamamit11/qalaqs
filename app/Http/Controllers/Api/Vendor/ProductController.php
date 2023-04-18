@@ -45,6 +45,10 @@ class ProductController extends Controller
         return $this->product->category();
     }
 
+    public function getSubcategory($category_id) {
+        return $this->product->getSubcategory($category_id);
+    }
+
     public function getSubcategoryByCategoryId(SubcategoryRequest $request) {
         return $this->product->getSubcategoryByCategoryId($request);
     }

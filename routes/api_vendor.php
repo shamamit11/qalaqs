@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/getEnginesByMakeModelAndYearId', 'getEnginesByMakeModelAndYearId');
         Route::get('/brand', 'brand');
         Route::get('/category', 'category');
+        Route::get('/getSubcategory/{category_id}', 'getSubcategory');
         Route::get('/getSubcategoryByCategoryId', 'getSubcategoryByCategoryId');
         Route::get('/products', 'list');
         Route::get('/product/{id}', 'productDetail');
