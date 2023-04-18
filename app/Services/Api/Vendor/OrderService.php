@@ -20,11 +20,13 @@ class OrderService
             
             foreach($orderItems as $item) {
                 $order = Order::where('id', $item->order_id)->first();
+                $item->order_item_id = $item->id;
                 $item->order_code = $order->order_id;
 
                 $product = Product::where('id', $item->product_id)->first();
                 $item->product_title = $product->title;
                 $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+                $item->product_price = $product->price;
                 $item->discount = $product->discount;
 
                 $itemStatus = ItemStatusUpdate::where('order_item_id', $item->id)->orderBy('created_at', 'desc')->first();
