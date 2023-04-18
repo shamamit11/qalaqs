@@ -130,7 +130,7 @@ class ProductService
     public function listProducts() {
         try {
             $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'desc')->get()->makeHidden(['make', 'model', 'year', 'engine', 'category', 'brand']);
+            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'desc')->get()->makeHidden(['make', 'model', 'year', 'engine', 'category', 'subcategory', 'brand']);
             if($products->count() > 0) {
                 foreach ($products as $product) {
                     if($product['main_image']) {
@@ -154,6 +154,9 @@ class ProductService
                     $product->engine_data = array("label" => $product->engine->name, "value" => $product->engine->id);
                     if($product->category_id) {
                         $product->category_data = array("label" => $product->category->name, "value" => $product->category->id);
+                    }
+                    if($product->subcategory_id) {
+                        $product->subcategory_data = array("label" => $product->subcategory->name, "value" => $product->subcategory->id);
                     }
                     if($product->brand_id){
                         $product->brand_data = array("label" => $product->brand->name, "value" => $product->brand->id);
