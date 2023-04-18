@@ -18,17 +18,11 @@ class ProductService
 {
     use StoreImageTrait;
 
-    public function make()
+    public function getMakes()
     {
         try {
-            $make_data = array();
             $makes = Make::where('status', 1)->orderBy('name', 'asc')->get();
-            if ($makes->count() > 0) {
-                foreach ($makes as $make) {
-                    array_push($make_data, array('id' => $make->id, 'name' => $make->name, 'image' => Storage::disk('public')->url('make/' . $make->image)));
-                }
-            }
-            $response['data'] = $make_data;
+            $response['data'] = $makes;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
@@ -38,9 +32,9 @@ class ProductService
         }
     }
 
-    public function getModelsByMakeId($request) {
+    public function getModels($make_id) {
         try {
-            $models = Models::where([['status', 1], ['make_id', $request['make_id']]])->orderBy('name', 'asc')->get();
+            $models = Models::where([['status', 1], ['make_id', $make_id]])->orderBy('name', 'asc')->get();
             $response['data'] = $models;
             $response['message'] = false;
             $response['errors'] = false;
@@ -52,12 +46,12 @@ class ProductService
         }
     }
 
-    public function getYearsByMakeAndModelId($request) {
+    public function getYears($make_id, $model_id) {
         try {
             $years = Year::where([
                 ['status', 1], 
-                ['make_id', $request['make_id']],
-                ['model_id', $request['model_id']]
+                ['make_id', $make_id],
+                ['model_id', $model_id]
             ])->orderBy('name', 'asc')->get();
 
             $response['data'] = $years;
@@ -71,13 +65,13 @@ class ProductService
         }
     }
 
-    public function getEnginesByMakeModelAndYearId($request) {
+    public function getEngines($make_id, $model_id, $year_id) {
         try {
             $engines = Engine::where([
                 ['status', 1], 
-                ['make_id', $request['make_id']],
-                ['model_id', $request['model_id']],
-                ['year_id', $request['year_id']]
+                ['make_id', $make_id],
+                ['model_id', $model_id],
+                ['year_id', $year_id]
             ])->orderBy('name', 'asc')->get();
 
             $response['data'] = $engines;
@@ -93,7 +87,6 @@ class ProductService
     public function category()
     {
         try {
-            $category_data = array();
             $categories = Category::where('status', 1)->orderBy('order', 'asc')->get();
             $response['data'] = $categories;
             $response['message'] = null;
@@ -119,31 +112,11 @@ class ProductService
         }
     }
 
-    public function getSubcategoryByCategoryId($request)
-    {
-        try {
-            $subcategories = Subcategory::where([['status', 1], ['category_id', $request['category_id']]])->orderBy('order', 'asc')->get();
-            $response['data'] = $subcategories;
-            $response['message'] = null;
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
     public function brand()
     {
         try {
-            $brand_data = array();
             $brands = Brand::where('status', 1)->orderBy('order', 'asc')->get();
-            if ($brands->count() > 0) {
-                foreach ($brands as $brand) {
-                    array_push($brand_data, array('id' => $brand->id, 'name' => $brand->name));
-                }
-            }
-            $response['data'] = $brand_data;
+            $response['data'] = $brands;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;

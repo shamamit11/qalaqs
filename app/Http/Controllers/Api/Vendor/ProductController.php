@@ -21,20 +21,20 @@ class ProductController extends Controller
         $this->product = $ProductService;
     }
 
-    public function make() {
-        return $this->product->make();
+    public function getMakes() {
+        return $this->product->getMakes();
     }
 
-    public function getModelsByMakeId(ModelRequest $request) {
-        return $this->product->getModelsByMakeId($request);
+    public function getModels($make_id) {
+        return $this->product->getModels($make_id);
     }
 
-    public function getYearsByMakeAndModelId(YearRequest $request) {
-        return $this->product->getYearsByMakeAndModelId($request);
+    public function getYears($make_id, $model_id) {
+        return $this->product->getYears($make_id, $model_id);
     }
 
-    public function getEnginesByMakeModelAndYearId(EngineRequest $request) {
-        return $this->product->getEnginesByMakeModelAndYearId($request);
+    public function getEngines($make_id, $model_id, $year_id) {
+        return $this->product->getEngines($make_id, $model_id, $year_id);
     }
 
     public function brand() {
@@ -47,10 +47,6 @@ class ProductController extends Controller
 
     public function getSubcategory($category_id) {
         return $this->product->getSubcategory($category_id);
-    }
-
-    public function getSubcategoryByCategoryId(SubcategoryRequest $request) {
-        return $this->product->getSubcategoryByCategoryId($request);
     }
 
     public function list() {
