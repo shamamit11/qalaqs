@@ -20,7 +20,6 @@ class OrderService
             
             foreach($orderItems as $item) {
                 $order = Order::where('id', $item->order_id)->first();
-                $item->order_item_id = $item->id;
                 $item->order_code = $order->order_id;
 
                 $product = Product::where('id', $item->product_id)->first();
