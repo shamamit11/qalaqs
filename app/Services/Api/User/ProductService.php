@@ -23,8 +23,8 @@ class ProductService
             $products = Product::where($conditions_top_deal)->orderBy('created_at', 'desc')->take(3)->get();
             if ($products->count() > 0) {
                 foreach ($products as $product) {
-                    if ($product['main_image']) {
-                        $product->main_image = env('APP_URL') . '/storage/product/' . $product['main_image'];
+                    if ($product->main_image) {
+                        $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
                     }
                 }
             }
@@ -45,8 +45,8 @@ class ProductService
             $products = Product::where($conditions_home)->orderBy('created_at', 'desc')->take(12)->get();
             if ($products->count() > 0) {
                 foreach ($products as $product) {
-                    if ($product['main_image']) {
-                        $product->main_image = env('APP_URL') . '/storage/product/' . $product['main_image'];
+                    if ($product->main_image) {
+                        $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
                     }
                 }
             }
