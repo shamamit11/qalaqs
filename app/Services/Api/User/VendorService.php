@@ -15,6 +15,7 @@ class VendorService
         try {
             $vendor_array = [];
             $vendor = Vendor::where('id', $vendor_id)->first();
+            $vendor->image = env('APP_URL') . '/storage/vendor/' . $vendor->image;
 
             $product = Product::where('vendor_id', $vendor_id)->get();
             $vendor->total_products = count($product);
@@ -29,8 +30,12 @@ class VendorService
             $rate = VendorReview::where('vendor_id', $vendor_id)->sum('rating');
             $rate_count = VendorReview::where('vendor_id', $vendor_id)->count();
             if($rate_count > 0) {
-                $vendor->average_rating = floor($rate / $rate_count);
+                $average_rating = floor($rate / $rate_count);
+            } 
+            else {
+                $average_rating = 0;
             }
+            $vendor->rating = getRatingStar($average_rating);
 
             $reviews = VendorReview::where('vendor_id', $vendor_id)->get();
             $vendor->reviews = $reviews;
