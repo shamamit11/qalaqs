@@ -68,7 +68,7 @@ Route::controller('VendorController')->group(function () {
 Route::controller('ProductController')->group(function () {
     Route::get('/homeTopDeals', 'homeTopDeals');
     Route::get('/homeFeaturedProducts', 'homeFeaturedProducts');
-    
+
     Route::get('/make', 'make');
     Route::get('/model', 'model');
     Route::get('/year', 'year');
@@ -77,8 +77,7 @@ Route::controller('ProductController')->group(function () {
     Route::get('/subcategory', 'subcategory');
     Route::post('/search-product', 'product');
     Route::get('/product/{id}', 'productDetail');
-    Route::get('/feature-product', 'featuredProduct');
-    Route::get('/landing-page-product', 'landingPageProduct');
+
     Route::get('/other-categories', 'listOtherCategories');
     Route::get('/other-categories-products/{category_id}', 'listProductByOtherCategories');
 });
