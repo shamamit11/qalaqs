@@ -38,6 +38,9 @@ class VendorService
             $vendor->rating = getRatingStar($average_rating);
 
             $reviews = VendorReview::where('vendor_id', $vendor_id)->get();
+            foreach($reviews as $rev) {
+                $rev->rating = getRatingStar($rev->rating);
+            }
             $vendor->reviews = $reviews;
 
             $vendor_array['detail'] = $vendor;
