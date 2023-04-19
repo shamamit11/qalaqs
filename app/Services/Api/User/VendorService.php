@@ -42,7 +42,7 @@ class VendorService
 
             $vendor_array['detail'] = $vendor;
 
-            $response['data'] = $vendor_array;
+            $response['data'] = $vendor;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
