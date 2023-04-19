@@ -16,15 +16,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
-    public function topDeals($count)
+    public function topDeals($limit)
     {
         try {
             $conditions = [['discount', '>', '0'], ['admin_approved', '1'], ['status', 1]];
-            if($count = 0) {
+            if($limit == 0) {
                 $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
             } 
             else {
-                $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($count)->get();
+                $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
             }
             
             if ($products->count() > 0) {
@@ -44,15 +44,15 @@ class ProductService
         }
     }
 
-    public function featuredProducts($count)
+    public function featuredProducts($limit)
     {
         try {
             $conditions = [['status', '1'], ['admin_approved', '1']];
-            if($count = 0) {
+            if($limit == 0) {
                 $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
             } 
             else {
-                $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($count)->get();
+                $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
             }
             
             if ($products->count() > 0) {
