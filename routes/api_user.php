@@ -66,6 +66,9 @@ Route::controller('VendorController')->group(function () {
 });
 
 Route::controller('ProductController')->group(function () {
+    Route::get('/homeTopDeals', 'homeTopDeals');
+    Route::get('/homeFeaturedProducts', 'homeFeaturedProducts');
+    
     Route::get('/make', 'make');
     Route::get('/model', 'model');
     Route::get('/year', 'year');
