@@ -8,9 +8,9 @@ class BannerService
 {
     public function list() {
         try {
-            $banners = Banner::where('status', 1)->orderBy('order', 'asc')->get();
+            $banners = Banner::where('status', 1)->orderBy('order', 'asc')->get()->makeHidden('id', 'name', 'image', 'order', 'status', 'created_at', 'updated_at');
             foreach($banners as $item) {
-                $item->main_image = env('APP_URL') . '/storage/banners/' . $item->image;
+                $item->img = env('APP_URL') . '/storage/banners/' . $item->image;
             }
             $response['data'] = $banners;
             $response['message'] = null;
