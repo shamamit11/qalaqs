@@ -145,6 +145,7 @@ class ProductService
                     'part_type' => $product->part_type,
                     'market' => $product->market,
                     'warranty' => $product->warranty,
+                    'category_type' => $product->category->type,
                     'category' => $product->category->name,
                     'subcategory' => $product->subcategory->name,
                     'price' => $product->price,
