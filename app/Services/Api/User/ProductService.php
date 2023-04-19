@@ -16,11 +16,17 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
-    public function homeTopDeals()
+    public function topDeals($count = 0)
     {
         try {
-            $conditions_top_deal = [['discount', '>', '0'], ['admin_approved', '1'], ['status', 1]];
-            $products = Product::where($conditions_top_deal)->orderBy('created_at', 'desc')->take(3)->get();
+            $conditions = [['discount', '>', '0'], ['admin_approved', '1'], ['status', 1]];
+            if($count = 0) {
+                $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
+            } 
+            else {
+                $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($count)->get();
+            }
+            
             if ($products->count() > 0) {
                 foreach ($products as $product) {
                     if ($product->main_image) {
@@ -38,11 +44,17 @@ class ProductService
         }
     }
 
-    public function homeFeaturedProducts()
+    public function featuredProducts($count = 0)
     {
         try {
-            $conditions_home = [['status', '1'], ['admin_approved', '1']];
-            $products = Product::where($conditions_home)->orderBy('created_at', 'desc')->take(12)->get();
+            $conditions = [['status', '1'], ['admin_approved', '1']];
+            if($count = 0) {
+                $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
+            } 
+            else {
+                $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($count)->get();
+            }
+            
             if ($products->count() > 0) {
                 foreach ($products as $product) {
                     if ($product->main_image) {
@@ -60,7 +72,7 @@ class ProductService
             return response()->json(['errors' => $e->getMessage()], 400);
         } 
     }
-
+    
     public function addProductView($id)
     {
         $prodView = DB::table('product_views')->where('product_id', $id)->first();
