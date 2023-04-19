@@ -40,7 +40,7 @@ class VendorService
             $reviews = VendorReview::where('vendor_id', $vendor_id)->get()->makeHidden('user');
             foreach($reviews as $rev) {
                 $rev->rating = getRatingStar($rev->rating);
-                $rev->client = $rev->user->first_name . " " . $rev->user->first_name;
+                $rev->client = $rev->user->first_name . " " . $rev->user->last_name;
             }
             $vendor->reviews = $reviews;
 
