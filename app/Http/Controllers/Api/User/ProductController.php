@@ -17,12 +17,12 @@ class ProductController extends Controller
         $this->product = $ProductService;
     }
 
-    public function homeTopDeals() {
-        return $this->product->homeTopDeals();
+    public function topDeals($count) {
+        return $this->product->topDeals($count);
     }
 
-    public function homeFeaturedProducts() {
-        return $this->product->homeFeaturedProducts();
+    public function featuredProducts($count) {
+        return $this->product->featuredProducts($count);
     }
     
     public function productDetail($id) {
