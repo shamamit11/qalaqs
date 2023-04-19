@@ -17,6 +17,26 @@ class ProductController extends Controller
         $this->product = $ProductService;
     }
 
+    public function homeTopDeals() {
+        return $this->product->homeTopDeals();
+    }
+
+    public function homeFeaturedProducts() {
+        return $this->product->homeFeaturedProducts();
+    }
+    
+    public function productDetail($id) {
+        $this->product->addProductView($id);
+        return $this->product->productDetail($id);
+    }
+
+
+
+
+
+
+
+
     public function make() {
         return $this->product->make();
     }
@@ -53,17 +73,5 @@ class ProductController extends Controller
         return $this->product->listProductByOtherCategories($category_id);
     }
 
-    public function productDetail($id) {
-        $this->product->addProductView($id);
-        return $this->product->productDetail($id);
-    }
-
-    public function featuredProduct() {
-        return $this->product->featuredProduct();
-    }
-
-    public function landingPageProduct() {
-        return $this->product->landingPageProduct();
-    }
-
+    
 }
