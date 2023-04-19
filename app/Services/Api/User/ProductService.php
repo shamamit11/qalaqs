@@ -9,6 +9,7 @@ use App\Models\Models;
 use App\Models\SubCategory;
 use App\Models\Review;
 use App\Models\Suitablefor;
+use App\Models\VendorReview;
 use App\Models\Year;
 use App\Models\Type;
 use Illuminate\Support\Facades\DB;
@@ -88,6 +89,91 @@ class ProductService
                 'product_id' => $id,
                 'views' => 1
             ]);
+        }
+    }
+
+    public function productDetail($id)
+    {
+        try {
+            $product_data = array();
+            $product = Product::find($id);
+            $product_suitable = array();
+            $suitable_for = Suitablefor::where([['product_id', $product->id]])->get();
+
+            if (count($suitable_for) > 0) {
+                foreach ($suitable_for as $item) {
+                    $make = Make::where('id', $item->make_id)->first();
+                    $model = Models::where('id', $item->model_id)->first();
+                    $year = Year::where('id', $item->year_id)->first();
+                    $engine = Engine::where('id', $item->engine_id)->first();
+                    $product_suitable[] = [
+                        'make' => $make->name,
+                        'model' => $model->name,
+                        'year' => $year->name,
+                        'engine' => $engine->name
+                    ];
+
+                }
+            }
+
+            $rate = VendorReview::where('vendor_id', $product->vendor_id)->sum('rating');
+            $rate_count = VendorReview::where('vendor_id', $product->vendor_id)->count();
+            if($rate_count > 0) {
+                $average_rating = floor($rate / $rate_count);
+            } 
+            else {
+                $average_rating = 0;
+            }
+
+            if ($product) {
+                $product_data[] = [
+                    'main_image' => env('APP_URL') . '/storage/product/' . $product->main_image,
+                    'image_01' => env('APP_URL') . '/storage/product/' . $product->image_01,
+                    'image_02' => env('APP_URL') . '/storage/product/' . $product->image_02,
+                    'image_03' => env('APP_URL') . '/storage/product/' . $product->image_03,
+                    'image_04' => env('APP_URL') . '/storage/product/' . $product->image_04,
+                    'title' => $product->title,
+                    'part_number' => $product->part_number,
+                    'sku' => $product->sku,
+                    'make' => $product->make->name,
+                    'model' => $product->model->name,
+                    'year' => $product->year->name,
+                    'engine' => $product->engine->name,
+                    'manufacturer' => $product->manufacturer,
+                    'origin' => $product->origin,
+                    'brand' => isset($product->brand_id) ? $product->brand->name : "",
+                    'part_type' => $product->part_type,
+                    'market' => $product->market,
+                    'warranty' => $product->warranty,
+                    'category' => $product->category->name,
+                    'subcategory' => $product->subcategory->name,
+                    'price' => $product->price,
+                    'discount' => $product->discount,
+                    'stock' => $product->stock,
+                    'weight' => $product->weight,
+                    'height' => $product->height,
+                    'width' => $product->width,
+                    'length' => $product->length,
+                    'vendor_id' => $product->vendor_id,
+                    'vendor_name' => $product->vendor->business_name,
+                    'vendor_rating' => getRatingStar($average_rating),
+                    'product_suitable_for' => $product_suitable
+                ];
+
+                $response['data'] = $product_data;
+                $response['message'] = null;
+                $response['errors'] = null;
+                $response['status_code'] = 200;
+                return response()->json($response, 200);
+            } else {
+                $response['data'] = false;
+                $response['message'] = null;
+                $response['errors'] = null;
+                $response['status_code'] = 200;
+                return response()->json($response, 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -303,81 +389,6 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function productDetail($id)
-    {
-        try {
-            $product_data = array();
-            $product = Product::find($id);
-            $product_suitable = array();
-            $suitable_for = Suitablefor::where([['product_id', $product->id]])->get();
-
-            if (count($suitable_for) > 0) {
-                foreach ($suitable_for as $item) {
-                    $make = Make::where('id', $item->make_id)->first();
-                    $model = Models::where('id', $item->model_id)->first();
-                    $year = Year::where('id', $item->year_id)->first();
-                    $engine = Engine::where('id', $item->engine_id)->first();
-                    $product_suitable[] = [
-                        'make' => $make->name,
-                        'model' => $model->name,
-                        'year' => $year->name,
-                        'engine' => $engine->name
-                    ];
-
-                }
-            }
-
-            if ($product) {
-                $product_data[] = [
-                    'main_image' => env('APP_URL') . '/storage/product/' . $product->main_image,
-                    'image_01' => env('APP_URL') . '/storage/product/' . $product->image_01,
-                    'image_02' => env('APP_URL') . '/storage/product/' . $product->image_02,
-                    'image_03' => env('APP_URL') . '/storage/product/' . $product->image_03,
-                    'image_04' => env('APP_URL') . '/storage/product/' . $product->image_04,
-                    'title' => $product->title,
-                    'part_number' => $product->part_number,
-                    'sku' => $product->sku,
-                    'make' => $product->make->name,
-                    'model' => $product->model->name,
-                    'year' => $product->year->name,
-                    'engine' => $product->engine->name,
-                    'manufacturer' => $product->manufacturer,
-                    'origin' => $product->origin,
-                    'brand' => isset($product->brand_id) ? $product->brand->name : "",
-                    'part_type' => $product->part_type,
-                    'market' => $product->market,
-                    'warranty' => $product->warranty,
-                    'category' => $product->category->name,
-                    'subcategory' => $product->subcategory->name,
-                    'price' => $product->price,
-                    'discount' => $product->discount,
-                    'stock' => $product->stock,
-                    'weight' => $product->weight,
-                    'height' => $product->height,
-                    'width' => $product->width,
-                    'length' => $product->length,
-                    'vendor_id' => $product->vendor_id,
-                    'vendor_name' => $product->vendor->business_name,
-                    'product_suitable_for' => $product_suitable
-                ];
-
-                $response['data'] = $product_data;
-                $response['message'] = null;
-                $response['errors'] = null;
-                $response['status_code'] = 200;
-                return response()->json($response, 200);
-            } else {
-                $response['data'] = false;
-                $response['message'] = null;
-                $response['errors'] = null;
-                $response['status_code'] = 200;
-                return response()->json($response, 200);
-            }
         } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
