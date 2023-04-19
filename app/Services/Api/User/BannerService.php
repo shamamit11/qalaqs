@@ -8,7 +8,7 @@ class BannerService
 {
     public function list() {
         try {
-            $banners = Banner::where('status', 1)->orderBy('order', 'asc')->get()->makeHidden('id', 'name', 'image', 'order', 'status', 'created_at', 'updated_at');
+            $banners = Banner::where('status', 1)->orderBy('order', 'asc')->get()->makeHidden(['id', 'name', 'image', 'order', 'status', 'created_at', 'updated_at']);
             foreach($banners as $item) {
                 $item->img = env('APP_URL') . '/storage/banners/' . $item->image;
             }
