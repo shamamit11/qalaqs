@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
-    public function topDeals($count = 0)
+    public function topDeals($count)
     {
         try {
             $conditions = [['discount', '>', '0'], ['admin_approved', '1'], ['status', 1]];
@@ -44,7 +44,7 @@ class ProductService
         }
     }
 
-    public function featuredProducts($count = 0)
+    public function featuredProducts($count)
     {
         try {
             $conditions = [['status', '1'], ['admin_approved', '1']];
