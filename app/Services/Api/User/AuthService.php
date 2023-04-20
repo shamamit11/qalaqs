@@ -20,6 +20,8 @@ class AuthService
             $user->email = $request['email'];
             $user->password =  Hash::make($request['password']);
             $user->device_id = isset($request['device_id']) ? $request['device_id'] : null;
+            $user->status = 1;
+            $user->is_deleted = 0;
             $user->save();
             $response['data'] = $user;
             $response['message'] = null;
@@ -34,7 +36,7 @@ class AuthService
     public function checkLogin($request)
     {
         try {
-            $credentials = array('email' => $request['email'], 'password' => $request['password']);
+            $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1);
             $token = Auth::guard('user-api')->attempt($credentials);
             if ($token) {
                 $user = array('id' => Auth::guard('user-api')->user()->id);
