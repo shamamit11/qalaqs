@@ -7,9 +7,28 @@ use Illuminate\Support\Facades\Auth;
 
 class AddressService
 {
-    public function addAddress($request) {
+
+    public function list() {
         try {
-            $address = new UserAddress();
+            $user_id = Auth::guard('user-api')->id();
+            $address = UserAddress::where('user_id', $user_id)->orderBy('name', 'asc')->get();
+            $response['data'] = $address;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+    public function addEdit($request) {
+        try {
+            if ($request['id']) {
+                $id = $request['id'];
+                $address = UserAddress::findOrFail($id);
+            } else {
+                $address = new UserAddress();
+            }
             $address->user_id  = Auth::guard('user-api')->id();
             $address->name =  $request['name'];
             $address->building = $request['building'];
@@ -17,7 +36,7 @@ class AddressService
             $address->city = $request['city'];
             $address->country = $request['country'];
             $address->mobile = $request['mobile'];
-            $address->is_default = $request['is_default'];
+            $address->is_default = isset($request['is_default']) ? $request['is_default'] : '';
             $address->save();
             $response['data'] = true;
             $response['message'] = null;
@@ -29,25 +48,11 @@ class AddressService
         }
     }
 
-    public function list() {
+    public function getAddress($id) {
         try {
             $user_id = Auth::guard('user-api')->id();
-            $address_data = array();
-            $address = UserAddress::where('user_id', $user_id)->orderBy('name', 'asc')->get();
-            if ($address->count() > 0) {
-                foreach ($address as $value) {
-                    $address_data[] = [ 'id' => $value->id,
-                                       'name' => $value->name,
-                                       'building' => $value->building,
-                                       'street_name' => $value->street_name,
-                                       'city' => $value->city,
-                                       'country' => $value->country,
-                                       'mobile' => $value->mobile,
-                                       'is_default' => $value->is_default,
-                        ];
-                }
-            }
-            $response['data'] = $address_data;
+            $address = UserAddress::where([['user_id', $user_id], ['id', $id]])->first();
+            $response['data'] = $address;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
@@ -56,4 +61,20 @@ class AddressService
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
+
+    public function deleteAddress($id) {
+        try {
+            $user_id = Auth::guard('user-api')->id();
+            $address = UserAddress::where([['user_id', $user_id], ['id', $id]])->first();
+            $address->delete();
+            $response['message'] = "success";
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    
 }

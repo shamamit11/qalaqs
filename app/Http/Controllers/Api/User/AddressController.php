@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Services\Api\User\AddressService;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\User\Address\addAddressRequest;
+use App\Http\Requests\Api\User\Address\AddressRequest;
 
 class AddressController extends Controller
 {
@@ -16,12 +16,22 @@ class AddressController extends Controller
         $this->address = $AddressService;
     }
 
-    function addAddress(addAddressRequest $request) {
-        return $this->address->addAddress($request->validated());
-    }
-
     function list() {
         return $this->address->list();
     }
+
+    public function addEdit(AddressRequest $request) {
+        return $this->address->addEdit($request->validated());
+    }
+
+    public function getAddress($id) {
+        return $this->address->getAddress($id);
+    }
+
+    public function deleteAddress($id) {
+        return $this->address->deleteAddress($id);
+    }
+
+    
 
 }

@@ -41,8 +41,10 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/update-notification', 'updateNotificationStatus');
     });
 
-    Route::post('user-add-address', 'AddressController@addAddress');
-    Route::get('user-address', 'AddressController@list');
+    Route::get('/listaddress', 'AddressController@list');
+    Route::post('/address/addEdit', 'AddressController@addEdit');
+    Route::post('/address/{id}', 'AddressController@getAddress');
+    Route::post('/address-delete/{id}', 'AddressController@deleteAddress');
 
     Route::controller('CartController')->group(function () {
         Route::get('/cart/{cart_session_id}', 'list');
@@ -62,6 +64,8 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/orders/recent', 'recentOrders');
         Route::get('/orders/recentDetail/{id}', 'recentOrderDetail');
         Route::post('/orders/createReturns', 'createOrderReturns');
+        Route::get('/orders/listReturns', 'listReturns');
+        Route::get('/orders/returns/{return_id}', 'returnDetail');
     });
 
 });

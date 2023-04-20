@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\User\Address;
 
 use App\Http\Requests\ApiRequest;
 
-class addAddressRequest extends ApiRequest
+class AddressRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,8 +30,7 @@ class addAddressRequest extends ApiRequest
             'city' => 'required',
             'country' => 'required',
             'mobile' => 'required',
-            'is_default' => 'required',
-
+            'is_default' => '',
         ];
     }
 }
