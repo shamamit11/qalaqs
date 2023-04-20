@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Api\User;
 
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,9 @@ class AccountService
         try {
             $id = Auth::guard('user-api')->id();
             $user = User::findOrFail($id);
+            if($user->image) {
+                $user->image = env('APP_URL').'/storage/user/'.$user->image;
+            }
             $response['data'] = $user;
             $response['errors'] = false;
             $response['status_code'] = 201;
@@ -31,6 +35,7 @@ class AccountService
             $user = User::findOrFail($id);
             $user->first_name = $request['first_name'];
             $user->last_name = $request['last_name'];
+            $user->business_name = isset($request['business_name']) ? $request['business_name']: null;
             $user->mobile = $request['mobile'];
             $user->device_id = isset($request['device_id']) ? $request['device_id']: null;
             $user->save();
@@ -41,6 +46,26 @@ class AccountService
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
+    }
+
+    public function updateProfileImage($request)
+    {
+        try {
+            $id = Auth::guard('user-api')->user()->id;
+            $user = User::where('id', $id)->first();
+            Storage::disk('public')->delete('/user/' . $user->image);
+
+            $user->image = isset($request['image']) ? $this->StoreImage($request['image'], '/user/') : null;
+            $user->save();
+
+            $response['message'] = 'Success';
+            $response['errors'] = false;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        } 
     }
 
     public function updatePassword($request)
@@ -95,6 +120,55 @@ class AccountService
         $response['errors'] = false;
         $response['status_code'] = 200;
         return response()->json($response, 200);
+    }
+
+    public function cancelAccount()
+    {
+        try {
+            $id = Auth::guard('user-api')->user()->id;
+            $user = User::findOrFail($id);
+            if($user) {
+                $user->is_deleted = 1;
+                $user->status = 0;
+                $user->save();
+            }
+            $response['message'] = 'Success';
+            $response['errors'] = false;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }  
+    }
+
+    public function notification() {
+        try {
+            $user_id = Auth::guard('user-api')->user()->id;
+            $notificationData = Notification::where([['receiver_id', $user_id], ['receiver_type', 'U'], ['status', 0]])->orderBy('created_at', 'desc')->get();
+
+            $response['data'] = $notificationData;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function updateNotificationStatus($request) {
+        try {
+            $notification = Notification::where('id', $request['notification_id'])->first();
+            $notification->status = 1;
+            $notification->save();
+            $response['message'] = 'Success';
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
     }
 
 }

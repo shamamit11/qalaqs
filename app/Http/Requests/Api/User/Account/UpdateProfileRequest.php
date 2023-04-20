@@ -26,6 +26,7 @@ class UpdateProfileRequest extends ApiRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
+            'business_name' => '',
             'mobile' => 'required',
         ];
     }
