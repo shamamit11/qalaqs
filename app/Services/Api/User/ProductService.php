@@ -178,6 +178,44 @@ class ProductService
         }
     }
 
+    public function listOtherCategories()
+    {
+        try {
+            $categories = Category::where([['status', 1], ['type', 'other']])->orderBy('order', 'asc')->get();
+            $response['data'] = $categories;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function listProductByOtherCategories($category_id)
+    {
+        try {
+            $conditions = [['status', '1'], ['admin_approved', '1'], ['category_id', $category_id]];
+            $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
+
+            if ($products->count() > 0) {
+                foreach ($products as $product) {
+                    if ($product->main_image) {
+                        $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
+                    }
+                }
+            }
+            $response['data'] = $products;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        } 
+    }
+
 
 
 
@@ -386,58 +424,6 @@ class ProductService
                 }
             }
             $response['data'] = $product_data;
-            $response['message'] = null;
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function listOtherCategories()
-    {
-        try {
-            $categories = Category::where([['status', 1], ['type', 'other']])->orderBy('order', 'asc')->get();
-            $response['data'] = $categories;
-            $response['message'] = null;
-            $response['errors'] = null;
-            $response['status_code'] = 200;
-            return response()->json($response, 200);
-        } catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
-        }
-    }
-
-    public function listProductByOtherCategories($category_id)
-    {
-        try {
-            $conditions = array(
-                'category_id' => $category_id,
-                'status' => 1,
-                'admin_approved' => 1
-            );
-            $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
-            if ($products->count() > 0) {
-                foreach ($products as $product) {
-                    if ($product['main_image']) {
-                        $product->main_image = env('APP_URL') . '/storage/product/' . $product['main_image'];
-                    }
-                    if ($product['image_01']) {
-                        $product->image_01 = env('APP_URL') . '/storage/product/' . $product['image_01'];
-                    }
-                    if ($product['image_02']) {
-                        $product->image_02 = env('APP_URL') . '/storage/product/' . $product['image_02'];
-                    }
-                    if ($product['image_03']) {
-                        $product->image_03 = env('APP_URL') . '/storage/product/' . $product['image_03'];
-                    }
-                    if ($product['image_04']) {
-                        $product->image_04 = env('APP_URL') . '/storage/product/' . $product['image_04'];
-                    }
-                }
-            }
-            $response['data'] = $products;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
