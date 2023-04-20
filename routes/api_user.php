@@ -33,7 +33,12 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('logout', 'logout');
         Route::get('/profile', 'getProfile');
         Route::post('/update-profile', 'updateProfile');
+        Route::get('/cancel-account', 'cancelAccount');
         Route::post('/update-password', 'updatePassword');
+        Route::post('/expoPushTokens', 'updatePushToken');
+        Route::post('/updateProfileImage', 'updateProfileImage');
+        Route::get('/notification', 'notification');
+        Route::post('/update-notification', 'updateNotificationStatus');
     });
 
     Route::post('user-add-address', 'AddressController@addAddress');
