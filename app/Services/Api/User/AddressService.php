@@ -2,7 +2,6 @@
 namespace App\Services\Api\User;
 
 use App\Models\UserAddress;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 class AddressService
@@ -36,7 +35,7 @@ class AddressService
             $address->city = $request['city'];
             $address->country = $request['country'];
             $address->mobile = $request['mobile'];
-            $address->is_default = isset($request['is_default']) ? $request['is_default'] : '';
+            $address->is_default = isset($request['is_default']) ? $request['is_default'] : 0;
             $address->save();
             $response['data'] = true;
             $response['message'] = null;
