@@ -375,8 +375,9 @@ class OrderService
             $orderItems = DB::table('order_items')
                 ->leftJoin('orders', 'orders.id', '=', 'order_items.order_id')
                 ->leftJoin('products', 'products.id', '=', 'order_items.product_id')
+                ->leftJoin('item_status_updates', 'item_status_updates.order_item_id', '=', 'order_items.id')
                 ->select('order_items.*', 'products.title', 'products.main_image')
-                ->where([['orders.user_id', $user_id], ['orders.created_at', '>=', $date]])
+                ->where([['orders.user_id', $user_id], ['orders.created_at', '>=', $date], ['item_status_updates.status_id', 5]])
                 ->orderBy('order_items.created_at', 'desc')
                 ->get();
 
