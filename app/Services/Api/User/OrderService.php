@@ -427,6 +427,37 @@ class OrderService
         }
     }
 
+    public function listReturns() {
+        try {
+            $user_id = Auth::guard('user-api')->user()->id;
+            $orderReturns = OrderReturn::where([['user_id', $user_id]])->orderBy('created_at', 'desc')->get()->makeHidden(['created_at', 'updated_at']);
+            
+            foreach($orderReturns as $item) {
+                $order = Order::where('id', $item->order_id)->first();
+                $item->order_code = $order->order_id;
+
+                $product = Product::where('id', $item->product_id)->first();
+                $item->product_title = $product->title;
+                $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+
+                $order = OrderItem::where('id', $item->order_item_id)->first();
+                $item->order_placed_on = date("d M Y", strtotime($order->created_at));
+
+                $itemStatus = ItemStatusUpdate::where('order_item_id', $item->order_item_id)->orderBy('created_at', 'desc')->first();
+                $orderStatus = OrderStatus::where('id', $itemStatus->status_id)->first();
+                $item->status_code = $orderStatus->code;
+                $item->status_name = $orderStatus->name;
+            }
+
+            $response['data'] = $orderReturns;
+            $response['errors'] = false;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function createOrderReturns($request)
     {
         try {
