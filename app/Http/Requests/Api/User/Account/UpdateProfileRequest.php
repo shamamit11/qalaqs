@@ -28,6 +28,7 @@ class UpdateProfileRequest extends ApiRequest
             'last_name' => 'required',
             'business_name' => '',
             'mobile' => 'required',
+            'device_id' => ''
         ];
     }
 }
