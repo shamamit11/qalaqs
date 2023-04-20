@@ -43,8 +43,8 @@ Route::group(['middleware' => ['auth.jwt']], function () {
 
     Route::get('/listaddress', 'AddressController@list');
     Route::post('/address/addEdit', 'AddressController@addEdit');
-    Route::post('/address/{id}', 'AddressController@getAddress');
-    Route::post('/address-delete/{id}', 'AddressController@deleteAddress');
+    Route::get('/address/{id}', 'AddressController@getAddress');
+    Route::get('/address-delete/{id}', 'AddressController@deleteAddress');
 
     Route::controller('CartController')->group(function () {
         Route::get('/cart/{cart_session_id}', 'list');
