@@ -39,6 +39,10 @@ class OrderController extends Controller
         return $this->order->getOrderDetails($order_id);
     }
 
+    public function listReturns() {
+        return $this->order->listReturns();
+    }
+
     public function recentOrders() {
         return $this->order->recentOrders();
     }
