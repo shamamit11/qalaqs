@@ -24,6 +24,7 @@ class AddressRequest extends ApiRequest
     public function rules()
     {
         return [
+            'id' => 'required',
             'name' => 'required',
             'building' => 'required',
             'street_name' => 'required',
