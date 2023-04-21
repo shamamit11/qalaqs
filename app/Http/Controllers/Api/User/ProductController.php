@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\Product\OtherProductRequest;
 use App\Services\Api\User\ProductService;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\User\Product\ProductRequest;
+use App\Http\Requests\Api\User\Product\SearchRequest;
 
 class ProductController extends Controller
 {
@@ -30,39 +30,20 @@ class ProductController extends Controller
         return $this->product->productDetail($id);
     }
 
-
-
-
-
-
-
-
-    public function make() {
-        return $this->product->make();
+    public function getMakes() {
+        return $this->product->getMakes();
     }
 
-    public function model() {
-        return $this->product->model();
+    public function getModels($make_id) {
+        return $this->product->getModels($make_id);
     }
 
-    public function year() {
-        return $this->product->year();
+    public function getYears($make_id, $model_id) {
+        return $this->product->getYears($make_id, $model_id);
     }
 
-    public function engine() {
-        return $this->product->engine();
-    }
-
-    public function category() {
-        return $this->product->category();
-    }
-
-    public function subcategory() {
-        return $this->product->subcategory();
-    }
-
-    public function product(ProductRequest $request) {
-        return $this->product->product($request->validated());
+    public function searchResult(SearchRequest $request) {
+        return $this->product->searchResult($request->validated());
     }
 
     public function listOtherCategories() {
@@ -71,7 +52,5 @@ class ProductController extends Controller
 
     public function listProductByOtherCategories($category_id) {
         return $this->product->listProductByOtherCategories($category_id);
-    }
-
-    
+    }   
 }

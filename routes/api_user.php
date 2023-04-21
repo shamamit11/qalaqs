@@ -78,12 +78,12 @@ Route::controller('ProductController')->group(function () {
     Route::get('/topDeals/{limit}', 'topDeals');
     Route::get('/featuredProducts/{limit}', 'featuredProducts');
 
-    Route::get('/make', 'make');
-    Route::get('/model', 'model');
-    Route::get('/year', 'year');
-    Route::get('/engine', 'engine');
+    Route::get('/make', 'getMakes');
+    Route::get('/getModels/{make_id}', 'getModels');
+    Route::get('/getYears/{make_id}/{model_id}', 'getYears');
     Route::get('/category', 'category');
-    Route::get('/subcategory', 'subcategory');
+    Route::get('/getSubcategory/{category_id}', 'getSubcategory');
+
     Route::post('/search-product', 'product');
     Route::get('/product/{id}', 'productDetail');
 
