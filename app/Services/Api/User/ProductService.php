@@ -206,7 +206,7 @@ class ProductService
         }
     }
 
-    public function category()
+    public function getCategories()
     {
         try {
             $categories = Category::where('status', 1)->orderBy('order', 'asc')->get();
@@ -220,7 +220,7 @@ class ProductService
         }
     }
 
-    public function getSubcategory($category_id)
+    public function getSubcategories($category_id)
     {
         try {
             $subcategories = Subcategory::where([['status', 1], ['category_id',$category_id]])->orderBy('order', 'asc')->get();

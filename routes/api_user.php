@@ -81,8 +81,8 @@ Route::controller('ProductController')->group(function () {
     Route::get('/make', 'getMakes');
     Route::get('/getModels/{make_id}', 'getModels');
     Route::get('/getYears/{make_id}/{model_id}', 'getYears');
-    Route::get('/category', 'category');
-    Route::get('/getSubcategory/{category_id}', 'getSubcategory');
+    Route::get('/category', 'getCategories');
+    Route::get('/getSubcategory/{category_id}', 'getSubcategories');
 
     Route::post('/search-product', 'product');
     Route::get('/product/{id}', 'productDetail');
