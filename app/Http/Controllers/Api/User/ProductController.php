@@ -42,6 +42,14 @@ class ProductController extends Controller
         return $this->product->getYears($make_id, $model_id);
     }
 
+    public function getCategories() {
+        return $this->product->getCategories();
+    }
+
+    public function getSubcategories($category_id) {
+        return $this->product->getSubcategories($category_id);
+    }
+
     public function searchResult(SearchRequest $request) {
         return $this->product->searchResult($request->validated());
     }
