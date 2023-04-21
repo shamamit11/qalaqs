@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Engine;
 use App\Models\Make;
 use App\Models\Models;
-use App\Models\SubCategory;
+use App\Models\Subcategory;
 use App\Models\Review;
 use App\Models\Suitablefor;
 use App\Models\VendorReview;
