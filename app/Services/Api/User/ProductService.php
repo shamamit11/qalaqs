@@ -77,7 +77,7 @@ class ProductService
     public function productDetail($id)
     {
         try {
-            $product = Product::find($id)->makeHidden(['make', 'model', 'year', 'engine', 'category', 'subcategory', 'brand']);
+            $product = Product::find($id)->makeHidden(['make', 'model', 'year', 'engine', 'category', 'subcategory', 'brand', 'vendor']);
 
             $rate = VendorReview::where('vendor_id', $product->vendor_id)->sum('rating');
             $rate_count = VendorReview::where('vendor_id', $product->vendor_id)->count();
