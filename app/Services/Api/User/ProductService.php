@@ -209,7 +209,7 @@ class ProductService
     public function getCategories()
     {
         try {
-            $categories = Category::where('status', 1)->orderBy('order', 'asc')->get();
+            $categories = Category::where([['status', 1], ['type', 'default']])->orderBy('order', 'asc')->get();
             $response['data'] = $categories;
             $response['message'] = null;
             $response['errors'] = null;
