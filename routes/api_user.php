@@ -84,7 +84,7 @@ Route::controller('ProductController')->group(function () {
     Route::get('/category', 'getCategories');
     Route::get('/getSubcategory/{category_id}', 'getSubcategories');
 
-    Route::post('/search-product', 'product');
+    Route::post('/searchResult', 'searchResult');
     Route::get('/product/{id}', 'productDetail');
 
     Route::get('/other-categories', 'listOtherCategories');
