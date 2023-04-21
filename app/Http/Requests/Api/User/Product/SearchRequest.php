@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\User\Product;
 
 use App\Http\Requests\ApiRequest;
 
-class ProductRequest extends ApiRequest
+class SearchRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,7 @@ class ProductRequest extends ApiRequest
             'subcategory_id' => 'required|exists:subcategories,id',
             'make_id' => 'required|exists:makes,id',
             'model_id' => 'required|exists:models,id',
-            'year_id' => 'required|exists:years,id',
-            'engine_id' => 'required|exists:engines,id',
+            'year_id' => 'required|exists:years,id'
         ];
     }
 }
