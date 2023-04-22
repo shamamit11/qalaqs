@@ -95,6 +95,11 @@ class AuthService
                 $message->to($request['email']);
                 $message->subject('Reset Password Code from Qalaqs');
             });
+
+            $response['message'] = "success";
+            $response['errors'] = false;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
         }
         catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
