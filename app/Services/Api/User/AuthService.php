@@ -79,13 +79,13 @@ class AuthService
             $user_first_name = $user->first_name;
             $token = random_int(1000, 9999);
 
-            $checkIfTokenExists = DB::table('password_resets')->where('email', $request['email'])->first();
+            $checkIfTokenExists = DB::table('password_reset_tokens')->where('email', $request['email'])->first();
 
             if($checkIfTokenExists) {
-                DB::table('password_resets')->where('email', $request['email'])->delete();
+                DB::table('password_reset_tokens')->where('email', $request['email'])->delete();
             }
 
-            DB::table('password_resets')->insert([
+            DB::table('password_reset_tokens')->insert([
                 'email' => $request['email'],
                 'token' => $token,
                 'created_at' => Carbon::now(),
@@ -109,10 +109,10 @@ class AuthService
     public function resetPassword($request)
     {
         try {
-            $updatePassword = DB::table('password_resets')->where([['email', $request['email']], ['token', $request['token']]])->first();
+            $updatePassword = DB::table('password_reset_tokens')->where([['email', $request['email']], ['token', $request['token']]])->first();
             if ($updatePassword) {
                 User::where('email', $updatePassword->email)->update(['password' => Hash::make($request['new_password'])]);
-                DB::table('password_resets')->where(array('email' => $updatePassword->email, 'token' => $updatePassword->token))->delete();
+                DB::table('password_reset_tokens')->where(array('email' => $updatePassword->email, 'token' => $updatePassword->token))->delete();
                 $response['data'] = true;
                 $response['errors'] = false;
                 $response['status_code'] = 200;
