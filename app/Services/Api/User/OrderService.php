@@ -133,8 +133,8 @@ class OrderService
             if ($xml_array['Result'] == '999') {
                 $response['message'] = $xml_array['ResultExplanation'];
                 $response['errors'] = true;
-                $response['status_code'] = 999;
-                return response()->json($response, 999);
+                $response['status_code'] = 400;
+                return response()->json($response, 400);
             } 
             
             if ($xml_array['Result'] == '902') {
@@ -161,11 +161,6 @@ class OrderService
 
                 $createOrder = $this->createOrder($data);
                 return $createOrder;
-
-                // $response['message'] = $xml_array['ResultExplanation'];
-                // $response['errors'] = false;
-                // $response['status_code'] = 200;
-                // return response()->json($response, 200);
             }
 
         } 
@@ -270,6 +265,11 @@ class OrderService
                 $statusUpdates->status_id = 1;
                 $statusUpdates->updated_by = 'system';
                 $statusUpdates->save();
+
+                //update product stock
+                $new_stock = $product->stock - $item->item_count;
+                $product->stock = $new_stock;
+                $product->save();
 
                 //update notification table
                 $vendorData = Vendor::where('id', $item->vendor_id)->first();
