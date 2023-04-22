@@ -28,6 +28,30 @@ Route::controller('AuthController')->group(function () {
     Route::get('refresh-token', 'refreshToken')->name('refresh-token');
 });
 
+Route::get('/banner', 'BannerController@list');
+
+Route::controller('ProductController')->group(function () {
+    Route::get('/topDeals/{limit}', 'topDeals');
+    Route::get('/featuredProducts/{limit}', 'featuredProducts');
+
+    Route::get('/make', 'getMakes');
+    Route::get('/getModels/{make_id}', 'getModels');
+    Route::get('/getYears/{make_id}/{model_id}', 'getYears');
+    Route::get('/category', 'getCategories');
+    Route::get('/getSubcategory/{category_id}', 'getSubcategories');
+
+    Route::post('/searchResult', 'searchResult');
+    Route::get('/product/{id}', 'productDetail');
+
+    Route::get('/other-categories', 'listOtherCategories');
+    Route::get('/other-categories-products/{category_id}', 'listProductByOtherCategories');
+});
+
+Route::controller('VendorController')->group(function () {
+    Route::get('/vendor/{vendor_id}', 'vendorDetail');
+    Route::post('/vendor/addReview', 'addReview');
+});
+
 Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
@@ -41,10 +65,12 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/update-notification', 'updateNotificationStatus');
     });
 
-    Route::get('/listaddress', 'AddressController@list');
-    Route::post('/address/addEdit', 'AddressController@addEdit');
-    Route::get('/address/{id}', 'AddressController@getAddress');
-    Route::get('/address-delete/{id}', 'AddressController@deleteAddress');
+    Route::controller('AddressController')->group(function () {
+        Route::get('/listaddress', 'list');
+        Route::post('/address/addEdit', 'addEdit');
+        Route::get('/address/{id}', 'getAddress');
+        Route::get('/address-delete/{id}', 'deleteAddress');
+    });
 
     Route::controller('CartController')->group(function () {
         Route::get('/cart/{cart_session_id}', 'list');
@@ -69,26 +95,3 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     });
 
 });
-Route::controller('VendorController')->group(function () {
-    Route::get('/vendor/{vendor_id}', 'vendorDetail');
-    Route::post('/vendor/addReview', 'addReview');
-});
-
-Route::controller('ProductController')->group(function () {
-    Route::get('/topDeals/{limit}', 'topDeals');
-    Route::get('/featuredProducts/{limit}', 'featuredProducts');
-
-    Route::get('/make', 'getMakes');
-    Route::get('/getModels/{make_id}', 'getModels');
-    Route::get('/getYears/{make_id}/{model_id}', 'getYears');
-    Route::get('/category', 'getCategories');
-    Route::get('/getSubcategory/{category_id}', 'getSubcategories');
-
-    Route::post('/searchResult', 'searchResult');
-    Route::get('/product/{id}', 'productDetail');
-
-    Route::get('/other-categories', 'listOtherCategories');
-    Route::get('/other-categories-products/{category_id}', 'listProductByOtherCategories');
-});
-
-Route::get('/banner', 'BannerController@list');
