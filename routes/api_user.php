@@ -21,11 +21,8 @@ Route::controller('AuthController')->group(function () {
     Route::post('/check-login', 'checkLogin')->name('check-login');
     Route::get('/refresh-token', 'refreshToken');
     Route::post('/register-user', 'registerUser');
-
-    // Route::post('forget-password', 'forgetPassword')->name('forget-password');
-    // Route::get('reset-password/{token}', 'resetPassword')->name('reset-password');
-    // Route::post('reset-password', 'savePassword')->name('save-password');
-    Route::get('refresh-token', 'refreshToken')->name('refresh-token');
+    Route::post('/forget-password', 'forgetPassword');
+    Route::post('/reset-password', 'resetPassword');
 });
 
 Route::get('/banner', 'BannerController@list');

@@ -2,9 +2,12 @@
 namespace App\Services\Api\User;
 
 use App\Models\User;
+use DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\StoreImageTrait;
+use Illuminate\Support\Facades\Mail;
 
 class AuthService
 {
@@ -65,6 +68,56 @@ class AuthService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function forgotPassword($request) {
+        try {
+            $user = User::where('email', $request['email'])->first();
+            $user_first_name = $user->first_name;
+            $token = random_int(1000, 9999);
+
+            $checkIfTokenExists = DB::table('password_resets')->where('email', $request['email'])->first();
+
+            if($checkIfTokenExists) {
+                DB::table('password_resets')->where('email', $request['email'])->delete();
+            }
+
+            DB::table('password_resets')->insert([
+                'email' => $request['email'],
+                'token' => $token,
+                'created_at' => Carbon::now(),
+            ]);
+
+            Mail::send('email.user.forgot_password', ['token' => $token, 'name' => $user_first_name], function ($message) use ($request) {
+                $message->to($request['email']);
+                $message->subject('Reset Password Code from Qalaqs');
+            });
+        }
+        catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function resetPassword($request)
+    {
+        try {
+            $updatePassword = DB::table('password_resets')->where('token', $request['token'])->first();
+            if ($updatePassword) {
+                User::where('email', $updatePassword->email)->update(['password' => Hash::make($request['new_password'])]);
+                DB::table('password_resets')->where(array('email' => $updatePassword->email, 'token' => $updatePassword->token))->delete();
+                $response['data'] = true;
+                $response['errors'] = false;
+                $response['status_code'] = 200;
+                return response()->json($response, 200);
+            } else {
+                $response['data'] = false;
+                $response['errors'] = false;
+                $response['status_code'] = 401;
+                return response()->json($response, 401);
+            }
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }

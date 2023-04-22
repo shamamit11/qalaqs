@@ -1,4 +1,4 @@
-@extends('email.supplier.layout')
+@extends('email.vendor.layout')
 @section('content')
 <div id="wrapper" dir="ltr"
     style="background-color: #f7f7f7; margin: 0; padding: 70px 0; width: 100%; -webkit-text-size-adjust: none;">
