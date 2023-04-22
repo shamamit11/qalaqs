@@ -23,6 +23,7 @@ class ResetPasswordRequest extends ApiRequest
     public function rules()
     {
         return [
+            'email' => 'required',
             'new_password' => 'required',
             'token' => 'required',
         ];

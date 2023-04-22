@@ -104,7 +104,7 @@ class AuthService
     public function resetPassword($request)
     {
         try {
-            $updatePassword = DB::table('password_resets')->where('token', $request['token'])->first();
+            $updatePassword = DB::table('password_resets')->where([['email', $request['email']], ['token', $request['token']]])->first();
             if ($updatePassword) {
                 User::where('email', $updatePassword->email)->update(['password' => Hash::make($request['new_password'])]);
                 DB::table('password_resets')->where(array('email' => $updatePassword->email, 'token' => $updatePassword->token))->delete();
