@@ -25,7 +25,7 @@ class RegisterUserRequest extends ApiRequest
     {
         return [
             'user_type' => 'required',
-            'business_name' => 'required',
+            'business_name' => '',
             'first_name' => 'required',
             'last_name' => 'required',
             'mobile' => 'required',
