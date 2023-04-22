@@ -18,11 +18,8 @@ Route::controller('AuthController')->group(function () {
     Route::post('/check-login', 'checkLogin');
     Route::get('/refresh-token', 'refreshToken');
     Route::post('/register-vendor', 'registerVendor');
-
-    
-    // Route::post('forget-password', 'forgetPassword');
-    // Route::get('reset-password/{token}', 'resetPassword');
-    // Route::post('reset-password', 'savePassword');
+    Route::post('/forget-password', 'forgetPassword');
+    Route::post('/reset-password', 'resetPassword');
 });
 
 Route::group(['middleware' => ['auth.jwt']], function () {

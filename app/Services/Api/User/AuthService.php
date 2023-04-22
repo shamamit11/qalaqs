@@ -110,6 +110,7 @@ class AuthService
     {
         try {
             $updatePassword = DB::table('password_reset_tokens')->where([['email', $request['email']], ['token', $request['token']]])->first();
+            
             if ($updatePassword) {
                 User::where('email', $updatePassword->email)->update(['password' => Hash::make($request['new_password'])]);
                 DB::table('password_reset_tokens')->where(array('email' => $updatePassword->email, 'token' => $updatePassword->token))->delete();
@@ -117,7 +118,8 @@ class AuthService
                 $response['errors'] = false;
                 $response['status_code'] = 200;
                 return response()->json($response, 200);
-            } else {
+            } 
+            else {
                 $response['data'] = false;
                 $response['errors'] = false;
                 $response['status_code'] = 401;
