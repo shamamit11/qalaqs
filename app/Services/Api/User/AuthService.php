@@ -13,7 +13,7 @@ class AuthService
         try {
             $user = new User();
             $user->user_type =  $request['user_type'];
-            $user->business_name = $request['business_name'];
+            $user->business_name = isset($request['business_name']) ? $request['business_name'] : null;;
             $user->first_name = $request['first_name'];
             $user->last_name = $request['last_name'];
             $user->mobile = $request['mobile'];
