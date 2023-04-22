@@ -140,15 +140,15 @@ class OrderService
             if ($xml_array['Result'] == '902') {
                 $response['message'] = $xml_array['ResultExplanation'];
                 $response['errors'] = true;
-                $response['status_code'] = 406;
-                return response()->json($response, 406);
+                $response['status_code'] = 400;
+                return response()->json($response, 400);
             } 
             
             if ($xml_array['Result'] == '200') {
                 $response['message'] = $xml_array['ResultExplanation'];
                 $response['errors'] = true;
-                $response['status_code'] = 208;
-                return response()->json($response, 208);
+                $response['status_code'] = 400;
+                return response()->json($response, 400);
             } 
             
             if ($xml_array['Result'] == '000') {
