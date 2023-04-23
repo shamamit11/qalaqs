@@ -7,9 +7,10 @@ use App\Models\OrderItem;
 use App\Models\OrderReturn;
 use App\Models\OrderStatus;
 use App\Models\Product;
-use Illuminate\Support\Carbon;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use ExpoSDK\Expo;
+use ExpoSDK\ExpoMessage;
 
 class OrderService
 { 
@@ -80,6 +81,26 @@ class OrderService
             $itemStatus = ItemStatusUpdate::where('order_item_id', $request['order_item_id'])->first();
             $itemStatus->status_id = $request['status_id'];
             $itemStatus->save();
+
+            $order_item = OrderItem::where('id', $itemStatus->order_item_id)->first();
+            $product_data = Product::where('id', $order_item->product_id)->first();
+            $order_status = OrderStatus::where('id', $request['status_id'])->first();
+            $user_data = User::where('id', $itemStatus->user_id)->first();
+
+            //send Push Notification to User
+            $messages = (new ExpoMessage([
+                'title' => 'Qalaqs:',
+                'body' => "Your Order - " . $product_data->title . " is " . $order_status->name,
+            ]))
+                ->setData(['id' => $itemStatus->id, "_displayInForeground" => true])
+                ->setChannelId('default')
+                ->setBadge(0)
+                ->playSound();
+
+            $defaultRecipients = [$user_data->device_id];
+            $expo = new Expo();
+            $expo->send($messages)->to($defaultRecipients)->push();
+
             $response['message'] = 'success';
             $response['errors'] = false;
             $response['status_code'] = 201;

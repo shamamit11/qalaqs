@@ -17,8 +17,8 @@ use App\Models\Vendor;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
-use Zepson\Dpo\Dpo;
+use ExpoSDK\Expo;
+use ExpoSDK\ExpoMessage;
 
 class OrderService
 {
@@ -282,6 +282,20 @@ class OrderService
                 $notification->message = "You have received New Order Request for - " . $product->title;
                 $notification->status = 0;
                 $notification->save();
+
+                //send push notification to vendor
+                $messages = (new ExpoMessage([
+                    'title' => 'Qalaqs:',
+                    'body' => "You have received New Order Request for - " . $product->title,
+                ]))
+                    ->setData(['id' => $orderData->id, "_displayInForeground" => true])
+                    ->setChannelId('default')
+                    ->setBadge(0)
+                    ->playSound();
+
+                $defaultRecipients = [$vendorData->device_id];
+                $expo = new Expo();
+                $expo->send($messages)->to($defaultRecipients)->push();
             }
 
             //delete items from cart and cart_items
@@ -491,9 +505,23 @@ class OrderService
             $notification->receiver_id = $request['vendor_id'];
             $notification->receiver_type = 'V';
             $notification->title = "Order Returns";
-            $notification->message = "You have received Order Returnd for - " . $productData->title;
+            $notification->message = "You have received Order Returns for - " . $productData->title;
             $notification->status = 0;
             $notification->save();
+
+            //send push notification
+            $messages = (new ExpoMessage([
+                'title' => 'Qalaqs:',
+                'body' => "You have received Order Returns for - " . $productData->title,
+            ]))
+                ->setData(['id' => $request['order_id'], "_displayInForeground" => true])
+                ->setChannelId('default')
+                ->setBadge(0)
+                ->playSound();
+
+            $defaultRecipients = [$vendorData->device_id];
+            $expo = new Expo();
+            $expo->send($messages)->to($defaultRecipients)->push();
 
             $response['message'] = 'success';
             $response['errors'] = false;
