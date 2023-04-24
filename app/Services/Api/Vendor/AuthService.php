@@ -13,9 +13,10 @@ class AuthService
 {
     use StoreImageTrait;
     public function registerVendor($request) {
+        $date = date_create();
         try {
             $vendor = new Vendor();
-            $vendor->vendor_code = rand(11111111, 99999999);
+            $vendor->vendor_code = date_timestamp_get($date);
             $vendor->account_type =  $request['account_type'];
             $vendor->business_name = $request['business_name'];
             $vendor->first_name = $request['first_name'];
@@ -28,24 +29,42 @@ class AuthService
             $vendor->image = isset($request['image']) ? $this->StoreImage($request['image'], '/vendor/') : null;
             $vendor->license_image = isset($request['license_image']) ? $this->StoreImage($request['license_image'], '/vendor/') : null;
             $vendor->device_id = isset($request['device_id']) ? $request['device_id'] : null;
-            $vendor->status = 1;
-            $vendor->admin_approved = 1;
+            $vendor->status = 0;
+            $vendor->admin_approved = 0;
+            $vendor->email_verified = 0;
             $vendor->is_deleted = 0;
             $vendor->save();
+
+            //send verification email
+            $token = encode_param($vendor->vendor_code);
+            $emailData = [
+                'first_name' => $vendor->first_name,
+                'token' => $token
+            ];
+            Mail::send('email.vendor.verify_account', $emailData, function ($message) use ($request) {
+                $message->to($request['email']);
+                $message->subject('Qalaqs: Verify Your Account');
+            });
+
             $response['data'] = $vendor;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 201;
             return response()->json($response, 201);
-        } catch (\Exception$e) {
+        } 
+        catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
+    }
+
+    public function verifyEmail($request) {
+
     }
 
     public function checkLogin($request)
     {
         try {
-            $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1, 'admin_approved' => 1);
+            $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1, 'admin_approved' => 1, 'email_verified' => 1);
             $token = Auth::guard('vendor-api')->attempt($credentials);
 
             if ($token) {
