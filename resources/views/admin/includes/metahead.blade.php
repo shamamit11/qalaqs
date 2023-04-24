@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.16/sweetalert2.min.css" integrity="sha512-NvuRGlPf6cHpxQqBGnPe7fPoACpyrjhlSNeXVUY7BZAj1nNhuNpRBq3osC4yr2vswUEuHq2HtCsY2vfLNCndYA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<link rel="stylesheet" href="{{ asset('assets/libs/file-manager/css/file-manager.css') }}">
+<link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}"/>
 <link rel="stylesheet" href="{{ asset('assets/libs/selectize/css/selectize.bootstrap3.css') }}"/>
 </head>
