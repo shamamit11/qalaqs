@@ -91,7 +91,7 @@ class AuthService
 
     public function forgotPassword($request) {
         try {
-            $user = User::where('email', $request['email'])->first();
+            $user = User::where([['email', $request['email']], ['is_deleted', 0]])->first();
             $user_first_name = $user->first_name;
             $token = random_int(1000, 9999);
 
