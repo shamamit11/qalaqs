@@ -13,8 +13,11 @@ class AuthService
 {
     use StoreImageTrait;
     public function registerUser($request) {
+        $date = date_create();
+
         try {
             $user = new User();
+            $user->user_code = date_timestamp_get($date);
             $user->user_type =  $request['user_type'];
             $user->business_name = isset($request['business_name']) ? $request['business_name'] : null;;
             $user->first_name = $request['first_name'];
@@ -23,9 +26,22 @@ class AuthService
             $user->email = $request['email'];
             $user->password =  Hash::make($request['password']);
             $user->device_id = isset($request['device_id']) ? $request['device_id'] : null;
-            $user->status = 1;
+            $user->status = 0;
             $user->is_deleted = 0;
+            $user->email_verified = 0;
             $user->save();
+
+            //send verification email
+            $token = encode_param($user->user_code);
+            $emailData = [
+                'first_name' => $user->first_name,
+                'token' => $token
+            ];
+            Mail::send('email.user.verify_account', $emailData, function ($message) use ($request) {
+                $message->to($request['email']);
+                $message->subject('Qalaqs: Verify Your Account');
+            });
+
             $response['data'] = $user;
             $response['message'] = null;
             $response['errors'] = null;
@@ -39,7 +55,7 @@ class AuthService
     public function checkLogin($request)
     {
         try {
-            $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1);
+            $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1, 'email_verified' => 1);
             $token = Auth::guard('user-api')->attempt($credentials);
             if ($token) {
                 $user = array('id' => Auth::guard('user-api')->user()->id);

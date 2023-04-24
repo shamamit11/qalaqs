@@ -2,6 +2,21 @@
 use App\Models\ItemStatusUpdate;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
+
+if (!function_exists('encode_param')) {
+    function encode_param($param)
+    {
+        return Crypt::encryptString($param);
+    }
+}
+
+if (!function_exists('decode_param')) {
+    function decode_param($param)
+    {
+        return Crypt::decryptString($param);
+    }
+}
 
 if (!function_exists('time_elapsed_string')) {
     function time_elapsed_string($datetime, $full = false)
@@ -65,41 +80,50 @@ if (!function_exists('generateOrderID')) {
     function generateOrderID()
     {
         $date = date_create();
-        $order_id = "QLS-".date_timestamp_get($date);
+        $order_id = "QLS-" . date_timestamp_get($date);
         return $order_id;
     }
 }
 
-function getRatingStar($num) {
-    switch($num) {
-        case 1:
-            $star = "★☆☆☆☆";
-            break;
-        case 2:
-            $star = "★★☆☆☆";
-            break;
-        case 3:
-            $star = "★★★☆☆";
-            break;
-        case 4:
-            $star = "★★★★☆";
-            break;
-        case 5:
-            $star = "★★★★★";
-            break;
-        default:
-            $star = "☆☆☆☆☆";
+if (!function_exists('getRatingStar')) {
+    function getRatingStar($num)
+    {
+        switch ($num) {
+            case 1:
+                $star = "★☆☆☆☆";
+                break;
+            case 2:
+                $star = "★★☆☆☆";
+                break;
+            case 3:
+                $star = "★★★☆☆";
+                break;
+            case 4:
+                $star = "★★★★☆";
+                break;
+            case 5:
+                $star = "★★★★★";
+                break;
+            default:
+                $star = "☆☆☆☆☆";
+        }
+        return $star;
     }
-    return $star;
 }
 
-function getNewProductsCount() {
-    $products = Product::where('admin_approved', 0)->count();
-    return $products;
+if (!function_exists('getNewProductsCount')) {
+    function getNewProductsCount()
+    {
+        $products = Product::where('admin_approved', 0)->count();
+        return $products;
+    }
 }
 
-function getItemStatus($order_id, $order_item_id) {
-    $data = ItemStatusUpdate::where([['order_id', $order_id],['order_item_id', $order_item_id]])->orderBy('updated_at', 'desc')->first();
-    $status = $data->order_status->name;
-    return $status;
+if (!function_exists('getItemStatus')) {
+    function getItemStatus($order_id, $order_item_id)
+    {
+        $data = ItemStatusUpdate::where([['order_id', $order_id], ['order_item_id', $order_item_id]])->orderBy('updated_at', 'desc')->first();
+        $status = $data->order_status->name;
+        return $status;
+    }
 }
