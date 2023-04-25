@@ -34,4 +34,15 @@ Route::group(['middleware' => 'courierauth'], function () {
         Route::get('/account/bank', 'bank')->name('courier-account-bank');
         Route::post('/account/bank/addaction', 'updateBank')->name('courier-account-bank-addaction');
     });
+
+    Route::controller('OrderController')->group(function () {
+        Route::get('/orders', 'index')->name('courier-orders');
+        Route::get('/order/view', 'view')->name('courier-order-view');
+        Route::get('/returns', 'returns')->name('courier-returns');
+        Route::get('/return/view', 'returnView')->name('courier-return-view');
+        Route::post('/return/status', 'returnStatus')->name('courier-return-status');
+
+        Route::post('/product/status', 'status')->name('courier-product-status');
+        Route::post('/product/delete', 'delete')->name('courier-product-delete');
+    });
 });

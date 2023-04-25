@@ -1,4 +1,4 @@
-@extends('vendor.layout')
+@extends('courier.layout')
 @section('content')
     <div class="content-page">
         <div class="content">
@@ -30,7 +30,9 @@
                                                 <th width="200">Date</th>
                                                 <th width="150">Order ID</th>
                                                 <th width="">Customer</th>
-                                                <th style="text-align:center" width="150">Status</th>
+                                                <th width="">Vendor</th>
+                                                <th>Trans ID</th>
+                                                <th style="text-align:center" width="">Status</th>
                                                 <th style="text-align:center" width="120">Action</th>
                                             </tr>
                                         </thead>
@@ -41,22 +43,24 @@
                                                     <td>{{ $return->created_at }}</td>
                                                     <td>{{ $return->order->order_id }}</td>
                                                     <td>{{ $return->user->first_name }} {{ $return->user->last_name }}</td>
+                                                    <td>{{ $return->vendor->business_name }}</td>
+                                                    <td>{{ $return->order->payment_transaction_id }}</td>
+                                                    <td style="text-align:center"><label class="switch"
+                                                        style="margin: 0 auto">
+                                                        <input class="switch-input switch-status" type="checkbox"
+                                                            data-id="{{ $return->id }}"
+                                                            data-status-value="{{ $return->status }}"
+                                                            @if ($return->status == 0) checked @endif /> <span
+                                                            class="switch-label" data-on="Closed"
+                                                            data-off="Open"></span> <span
+                                                            class="switch-handle"></span> </label></td>
                                                     <td style="text-align:center">
-                                                        @if ($return->status == 0)
-                                                            <span class="badge bg-danger"
-                                                                style="padding:6px; font-size:14px;">Open</span>
-                                                        @endif
-                                                        @if ($return->status == 1)
-                                                            <span class="badge bg-success"
-                                                                style="padding:6px; font-size:14px;">Closed</span>
-                                                        @endif  
-                                                    </td>
-                                                    <td style="text-align:center">
-                                                        <a href="{{ route('vendor-return-view', ['id=' . $return->id]) }}"
+                                                        <a href="{{ route('courier-return-view', ['id=' . $return->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"
                                                             data-id="{{ $return->id }}"><span class="icon"><i
                                                                     class='fas fa-eye'></i></span></a>
 
+                                                        
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -80,7 +84,10 @@
                     </div>
                 </div>
             </div>
-            @include('vendor.includes.footer')
+            @include('courier.includes.footer')
         </div>
+    @endsection
+    @section('footer-scripts')
+        @include('courier.order.js.return')
     @endsection
 

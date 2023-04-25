@@ -1,6 +1,7 @@
 <?php
 use App\Models\ItemStatusUpdate;
 use App\Models\Product;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 
@@ -125,5 +126,48 @@ if (!function_exists('getItemStatus')) {
         $data = ItemStatusUpdate::where([['order_id', $order_id], ['order_item_id', $order_item_id]])->orderBy('updated_at', 'desc')->first();
         $status = $data->order_status->name;
         return $status;
+    }
+}
+
+if (!function_exists('getItemStatusLabel')) {
+    function getItemStatusLabel($status_name)
+    {
+        $label = '';
+        if($status_name == 'Processing') {
+            $label = '<h4><span class="badge bg-primary">New Order</span></h4>';
+        }
+        if($status_name == 'New') {
+            $label = '<h4><span class="badge bg-primary">New Order</span></h4>';
+        }
+        if($status_name == 'Confirmed') {
+            $label = '<h4><span class="badge bg-info">Confirmed</span></h4>';
+        }
+        if($status_name == 'Ready') {
+            $label = '<h4><span class="badge bg-pink">Ready for Delivery</span></h4>';
+        }
+        if($status_name == 'Shipped') {
+            $label = '<h4><span class="badge bg-secondary">Shipped</span></h4>';
+        }
+        if($status_name == 'Completed') {
+            $label = '<h4><span class="badge bg-success">Completed</span></h4>';
+        }
+        if($status_name == 'Cancelled') {
+            $label = '<h4><span class="badge bg-danger">Cancelled</span></h4>';
+        }
+        if($status_name == 'Exchange') {
+            $label = '<h4><span class="badge bg-warning">Exchange</span></h4>';
+        }
+        if($status_name == 'Return') {
+            $label = '<h4><span class="badge bg-warning">Return</span></h4>';
+        }
+        return $label;
+    }
+}
+
+if (!function_exists('getVendorDataByProductId')) {
+    function getVendorDataByProductId($vendor_id)
+    {
+        $vendor = Vendor::where('id', $vendor_id)->first();
+        return $vendor;
     }
 }

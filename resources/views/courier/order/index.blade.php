@@ -1,4 +1,4 @@
-@extends('vendor.layout')
+@extends('courier.layout')
 @section('content')
     <div class="content-page">
         <div class="content">
@@ -28,14 +28,13 @@
                                             <tr>
                                                 <th width="50">#</th>
                                                 <th width="200">Date</th>
-                                                <th width="180">Order ID</th>
-                                                <th width="">Product</th>
+                                                <th width="150">Order ID</th>
                                                 <th width="">Customer</th>
-                                                <th style="text-align:center" width="120">Items#</th>
-                                                <th width="120">Total</th>
-                                                <th width="130">Commission</th>
-                                                <th width="130">Status</th>
-                                                <th style="text-align:center" width="120">Action</th>
+                                                <th style="text-align:center" width="100">Items#</th>
+                                                <th width="110">Total (AED)</th>
+                                                <th>Trans ID</th>
+                                                <th  style="text-align:center" width="100">Pay Type</th>
+                                                <th style="text-align:center" width="100">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -43,57 +42,20 @@
                                                 <tr id="tr{{ $order->id }}">
                                                     <td>{{ $count++ }}</td>
                                                     <td>{{ $order->created_at }}</td>
-                                                    <td>{{ $order->order->order_id }}</td>
-                                                    <td>{{ $order->product->title }}</td>
-                                                    <td>{{ $order->order->user->first_name }}
-                                                        {{ $order->order->user->last_name }}</td>
+                                                    <td>{{ $order->order_id }}</td>
+                                                    <td>{{ $order->user->first_name }} {{ $order->user->last_name }}</td>
                                                     <td style="text-align:center">{{ $order->item_count }}</td>
-                                                    <td>AED {{ $order->sub_total }}</td>
-                                                    <td>AED {{ $order->sub_total * 0.2 }}</td>
-                                                    <td>
-                                                        @php
-                                                            $status = getItemStatus($order->order->id, $order->id);
-                                                        @endphp
-                                                        @if ($status == 'New')
-                                                            <span class="badge bg-pink"
-                                                                style="padding:6px; font-size:14px;">New Order</span>
-                                                        @endif
-                                                        @if ($status == 'Confirmed')
-                                                            <span class="badge bg-blue"
-                                                                style="padding:6px; font-size:14px;">Confirmed</span>
-                                                        @endif
-                                                        @if ($status == 'Ready')
-                                                            <span class="badge bg-info"
-                                                                style="padding:6px; font-size:14px;">Ready to Ship</span>
-                                                        @endif
-                                                        @if ($status == 'Shipped')
-                                                            <span class="badge bg-info"
-                                                                style="padding:6px; font-size:14px;">Shipped</span>
-                                                        @endif
-                                                        @if ($status == 'Completed')
-                                                            <span class="badge bg-success"
-                                                                style="padding:6px; font-size:14px;">Completed</span>
-                                                        @endif
-                                                        @if ($status == 'Cancelled')
-                                                            <span class="badge bg-danger"
-                                                                style="padding:6px; font-size:14px;">Cancelled</span>
-                                                        @endif
-                                                        @if ($status == 'Exchange')
-                                                            <span class="badge bg-warning"
-                                                                style="padding:6px; font-size:14px;">Exchange</span>
-                                                        @endif
-                                                        @if ($status == 'Refund')
-                                                            <span class="badge bg-secondary"
-                                                                style="padding:6px; font-size:14px;">Refund</span>
-                                                        @endif
-                                                    </td>
+                                                    <td>{{ $order->grand_total }}</td>
+                                                    <td>{{ $order->payment_transaction_id }}</td>
+                                                    <td style="text-align:center">{{ $order->payment_method }}</td>
+                                                    
                                                     <td style="text-align:center">
-                                                        <a href="{{ route('vendor-order-view', ['id=' . $order->id]) }}"
+                                                        <a href="{{ route('courier-order-view', ['id=' . $order->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"
                                                             data-id="{{ $order->id }}"><span class="icon"><i
                                                                     class='fas fa-eye'></i></span></a>
 
-
+                                                        
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -117,6 +79,9 @@
                     </div>
                 </div>
             </div>
-            @include('vendor.includes.footer')
+            @include('courier.includes.footer')
         </div>
+    @endsection
+    @section('footer-scripts')
+        @include('courier.order.js.index')
     @endsection

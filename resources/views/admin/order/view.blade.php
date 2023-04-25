@@ -35,30 +35,30 @@
                                                         <td>AED {{ $row->sub_total }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">VAT ({{$row->vat_percentage}}%)</th>
+                                                        <th scope="row">VAT ({{ $row->vat_percentage }}%)</th>
                                                         <td>AED {{ $row->tax_total }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">Delivery Charge</th>
                                                         <td>AED {{ $row->delivery_charge }}</td>
                                                     </tr>
-                                                    @if($row->promo_code)
-                                                    <tr>
-                                                        <th scope="row">Promo Code</th>
-                                                        <td>AED {{ $row->promo_code }}</td>
-                                                    </tr>
+                                                    @if ($row->promo_code)
+                                                        <tr>
+                                                            <th scope="row">Promo Code</th>
+                                                            <td>AED {{ $row->promo_code }}</td>
+                                                        </tr>
                                                     @endif
-                                                    @if($row->promo_type)
-                                                    <tr>
-                                                        <th scope="row">Promo Type</th>
-                                                        <td>AED {{ $row->promo_type }}</td>
-                                                    </tr>
+                                                    @if ($row->promo_type)
+                                                        <tr>
+                                                            <th scope="row">Promo Type</th>
+                                                            <td>AED {{ $row->promo_type }}</td>
+                                                        </tr>
                                                     @endif
-                                                    @if($row->promo_value)
-                                                    <tr>
-                                                        <th scope="row">Promo Value</th>
-                                                        <td>AED {{ $row->promo_value }}</td>
-                                                    </tr>
+                                                    @if ($row->promo_value)
+                                                        <tr>
+                                                            <th scope="row">Promo Value</th>
+                                                            <td>AED {{ $row->promo_value }}</td>
+                                                        </tr>
                                                     @endif
                                                     <tr>
                                                         <th scope="row">Grand Total</th>
@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if(count($items) > 0)
+                                @if (count($items) > 0)
                                     <div class="row mt-3">
                                         <h4 class="mb-2 header-title text-muted">Order Items</h4>
                                         <div class="table-responsive table-bordered ">
@@ -118,15 +118,35 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($items as $val)
+                                                    @foreach ($items as $val)
+                                                        <tr
+                                                            style="background-color: rgb(175, 255, 218); vertical-align: middle">
+                                                            <td colspan="6">
+                                                                @php
+                                                                    $vendor = getVendorDataByProductId($val->product->vendor_id);
+                                                                    $order_status = getItemStatus($row->id, $val->id);
+                                                                    $order_status_label = getItemStatusLabel($order_status);
+                                                                @endphp
+                                                                <span> <strong>Vendor:</strong>
+                                                                    {{ $vendor->business_name }} </span>
+                                                                <span style="margin-left: 20px"> <strong>Pickup
+                                                                        Address:</strong> {{ $vendor->address }},
+                                                                    {{ $vendor->city }} </span>
+                                                                <span style="margin-left: 20px"> <strong>Contact
+                                                                        Number:</strong> {{ $vendor->mobile }} </span>
+
+                                                            </td>
+                                                        </tr>
                                                         <tr>
                                                             <td>
-                                                                <div style="width:120px; padding:10px; background-color: #fff; border-radius: 10px;">
-                                                                    <img src="{{ asset('/storage/product/'.$val->product->main_image)}}" width="100">
+                                                                <div
+                                                                    style="width:120px; padding:10px; background-color: #fff; border-radius: 10px;">
+                                                                    <img src="{{ asset('/storage/product/' . $val->product->main_image) }}"
+                                                                        width="100">
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                {{$val->product->title}}
+                                                                {{ $val->product->title }}
                                                             </td>
                                                             <td style="text-align: center"> {{ $val->item_count }}</td>
                                                             <td> AED {{ $val->amount }}</td>

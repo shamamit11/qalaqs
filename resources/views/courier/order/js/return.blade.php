@@ -9,7 +9,7 @@
             $(this).attr("data-status-value", val);
             var id = $(this).attr('data-id');
             $.ajax({
-                url: '{{ route('admin-return-status') }}',
+                url: '{{ route('courier-return-status') }}',
                 type: 'POST',
                 data: {
                     'id': id,
