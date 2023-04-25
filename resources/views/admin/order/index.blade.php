@@ -27,14 +27,14 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th width="50">#</th>
-                                                <th width="200">Date</th>
-                                                <th width="200">Order ID</th>
+                                                <th width="150">Date</th>
+                                                <th width="150">Order ID</th>
                                                 <th width="">Customer</th>
-                                                <th style="text-align:center" width="120">Items#</th>
-                                                <th width="120">Total (AED)</th>
+                                                <th style="text-align:center" width="100">Items#</th>
+                                                <th width="110">Total (AED)</th>
                                                 <th>Trans ID</th>
-                                                <th width="120">Pay Type</th>
-                                                <th style="text-align:center" width="120">Action</th>
+                                                <th  style="text-align:center" width="100">Pay Type</th>
+                                                <th style="text-align:center" width="100">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,7 +47,7 @@
                                                     <td style="text-align:center">{{ $order->item_count }}</td>
                                                     <td>{{ $order->grand_total }}</td>
                                                     <td>{{ $order->payment_transaction_id }}</td>
-                                                    <td>{{ $order->payment_method }}</td>
+                                                    <td style="text-align:center">{{ $order->payment_method }}</td>
                                                     
                                                     <td style="text-align:center">
                                                         <a href="{{ route('admin-order-view', ['id=' . $order->id]) }}"
