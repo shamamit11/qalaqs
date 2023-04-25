@@ -27,7 +27,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th width="50">#</th>
-                                                <th width="150">Date</th>
+                                                <th width="200">Date</th>
                                                 <th width="150">Order ID</th>
                                                 <th width="">Customer</th>
                                                 <th style="text-align:center" width="100">Items#</th>
