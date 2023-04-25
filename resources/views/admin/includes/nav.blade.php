@@ -108,6 +108,14 @@
                     </a>
                 </li>
 
+                <li class="menu-title mt-2">Couriers</li>
+                <li class="{{ $nav == 'courier' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-couriers') }}" class="{{ $nav == 'courier' ? 'active' : '' }}">
+                        <i class="mdi mdi-truck-delivery"></i>
+                        <span> Couriers </span>
+                    </a>
+                </li>
+
                 <li class="menu-title mt-2">App Configuration</li>
                 <li class="{{ $nav == 'banner' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('admin-banner') }}" class="{{ $nav == 'banner' ? 'active' : '' }}">

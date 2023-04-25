@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('makes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->text('icon')->nullable();
             $table->boolean('status')->nullable()->default(1)->comment('0 = hide, 1 = show');
             $table->timestamps();
         });

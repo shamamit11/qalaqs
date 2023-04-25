@@ -22,6 +22,10 @@ class AuthController extends Controller
     public function login()
     {
         $page_title = 'Vendor Login';
+        $isLoggedIn = Auth::guard('vendor')->user();
+        if($isLoggedIn) {
+            return redirect(route('vendor-dashboard'));
+        }
         return view('vendor.auth.login', compact('page_title'));
     }
 

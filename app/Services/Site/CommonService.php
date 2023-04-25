@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Site;
 
+use App\Models\Courier;
 use App\Models\Vendor;
 use App\Models\User;
 
@@ -42,6 +43,29 @@ class CommonService
                 return redirect()->route('account-not-verified');
             }
            
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function verifyCourierAccount($token, $code)
+    {
+        try {
+            $decoded_token = decode_param($token);
+            $decoded_code = decode_param($code);
+            $courier = Courier::where([['courier_code', $decoded_code], ['verification_code', $decoded_token]])->first();
+
+            if($courier) {
+                $courier->verification_code = '';
+                $courier->status = 1;
+                $courier->is_deleted = 0;
+                $courier->email_verified = 1;
+                $courier->save();
+                return redirect()->route('account-verified');
+            }
+            else {
+                return redirect()->route('account-not-verified');
+            }
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }

@@ -130,4 +130,14 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/return/status', 'returnStatus')->name('admin-return-status');
     });
 
+    Route::controller('CourierController')->group(function () {
+        Route::get('/couriers', 'index')->name('admin-couriers');
+        Route::get('/courier/view', 'view')->name('admin-courier-view');
+        Route::post('/courier/status', 'status')->name('admin-courier-status');
+        Route::get('/courier/add', 'addEdit')->name('admin-courier-add');
+        Route::post('/courier/addaction', 'addAction')->name('admin-courier-addaction');
+        Route::post('/courier/delete', 'delete')->name('admin-courier-delete');
+        Route::post('/courier/imagedelete', 'imageDelete')->name('admin-courier-imagedelete');
+    });
+
 });

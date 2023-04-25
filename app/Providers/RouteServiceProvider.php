@@ -21,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected $siteNamespace = 'App\Http\Controllers\Site';
     protected $vendorNamespace = 'App\Http\Controllers\Vendor';
+    protected $courierNamespace = 'App\Http\Controllers\Courier';
     protected $adminNamespace = 'App\Http\Controllers\Admin';
     protected $apiNamespace = 'App\Http\Controllers\Api\User';
     protected $apiVendorNamespace = 'App\Http\Controllers\Api\Vendor';
@@ -53,6 +54,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->vendorNamespace)
                 ->group(base_path('routes/vendor.php'));
 
+            Route::middleware('courier')
+                ->prefix('courier')
+                ->namespace($this->courierNamespace)
+                ->group(base_path('routes/courier.php'));
+
             Route::middleware('web')
                 ->namespace($this->siteNamespace)
                 ->group(base_path('routes/web.php'));
@@ -64,7 +70,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting(): void
     {
-        RateLimiter::for('api', function (Request $request) {
+        RateLimiter::for ('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }

@@ -57,7 +57,7 @@
                         <i class="mdi mdi-format-list-checkbox"></i> <span> Notifications </span>
                     </a> 
                 </li> --}}
-                <li class="menu-title mt-2">Reports & Stats</li>
+                <li class="menu-title mt-2">Settings</li>
                 <li class="{{ $nav == 'account' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('vendor-account-setting') }}" class="{{ $nav == 'account' ? 'active' : '' }}">
                         <i class="mdi mdi-cog"></i>

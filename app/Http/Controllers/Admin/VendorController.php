@@ -41,7 +41,7 @@ class VendorController extends Controller
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
         $page_title = 'Vendor Details';
-        $data['title'] = ($id == 0) ? "Add Vendor" : "View Product";
+        $data['title'] = ($id == 0) ? "Add Vendor" : "View Vendor";
         $data['row'] = Vendor::where('id', $id)->first();
         $data['reviews'] = VendorReview::where('vendor_id', $id)->get();
         return view('admin.vendors.view', compact('nav', 'sub_nav', 'page_title'), $data);

@@ -23,6 +23,11 @@ class CommonController extends Controller
         return $this->common->verifyUserAccount($token);
     }
 
+    public function verifyCourierAccount($token, $code)
+    {
+        return $this->common->verifyCourierAccount($token, $code);
+    }
+
     public function accountVerified() {
         return view('site.verification.verified');
     }
