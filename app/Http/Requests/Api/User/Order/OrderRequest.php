@@ -25,9 +25,10 @@ class OrderRequest extends ApiRequest
     {
         return [
             'cart_session_id' => 'required',
+            'shipping_address_id' => 'required',
             'shipping_charge' => 'required',
             'transaction_id' => 'required',
-            'shipping_address_id' => 'required'
+            'payment_method' => 'required',
         ];
     }
 }

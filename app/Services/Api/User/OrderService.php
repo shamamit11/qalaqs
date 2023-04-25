@@ -176,6 +176,7 @@ class OrderService
             $shipping_address_id = $request['shipping_address_id'];
             $shipping_charge = $request['shipping_charge'];
             $transaction_id = $request['transaction_id'];
+            $payment_method = $request['payment_method'];
 
             $cartData = Cart::where([['user_id', $user_id], ['session_id', $cart_session_id]])->first();
             $item_count = $cartData->item_count;
@@ -236,7 +237,7 @@ class OrderService
             $orderData->order_note = '';
             $orderData->cancel_reason_id = 0;
             $orderData->cancel_note = '';
-            $orderData->payment_method = 'CC';
+            $orderData->payment_method = isset($payment_method) ? $payment_method : 'CC';
             $orderData->payment_transaction_id = $transaction_id;
             $orderData->save();
 
