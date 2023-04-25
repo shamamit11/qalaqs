@@ -114,7 +114,7 @@
                                                         <th style="text-align: center" width="150">Item</th>
                                                         <th width="150">Unit Price</th>
                                                         <th width="150">Sub Total</th>
-                                                        <th width="150">Status</th>
+                                                        <th width="170" style="text-align: center">Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
