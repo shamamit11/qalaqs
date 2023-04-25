@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
     Route::controller('OrderController')->group(function () {
         Route::post('/order/generatePaymentToken', 'generatePaymentToken');
         Route::post('/order/processPayment', 'processPayment');
+        Route::post('/order/createOrder', 'createOrder');
         Route::get('/orders', 'listOrders');
         Route::get('/order/detail/{order_id}', 'getOrderDetails');
         Route::get('/orders/recent', 'recentOrders');
