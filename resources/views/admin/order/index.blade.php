@@ -33,6 +33,7 @@
                                                 <th style="text-align:center" width="120">Items#</th>
                                                 <th width="120">Total (AED)</th>
                                                 <th>Trans ID</th>
+                                                <th width="120">Pay Type</th>
                                                 <th style="text-align:center" width="120">Action</th>
                                             </tr>
                                         </thead>
@@ -46,6 +47,7 @@
                                                     <td style="text-align:center">{{ $order->item_count }}</td>
                                                     <td>{{ $order->grand_total }}</td>
                                                     <td>{{ $order->payment_transaction_id }}</td>
+                                                    <td>{{ $order->payment_method }}</td>
                                                     
                                                     <td style="text-align:center">
                                                         <a href="{{ route('admin-order-view', ['id=' . $order->id]) }}"
