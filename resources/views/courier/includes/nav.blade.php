@@ -27,12 +27,21 @@
 
                 
 
-                <li class="menu-title mt-2">Delivery Orders</li>
-                <li> 
-                    <a href="#"> 
-                        <i class="mdi mdi-format-list-checkbox"></i> <span> Orders </span>
-                    </a> 
+                <li class="menu-title mt-2">Orders & Returns</li>
+                <li class="{{ $nav == 'order' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('courier-orders') }}" class="{{ $nav == 'order' ? 'active' : '' }}">
+                        <i class="mdi mdi-cart"></i>
+                        <span> Orders </span>
+                    </a>
                 </li>
+                
+                {{-- <li class="{{ $nav == 'return' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('courier-returns') }}" class="{{ $nav == 'return' ? 'active' : '' }}">
+                        <i class="mdi mdi-autorenew"></i>
+                        <span> Returns </span>
+                    </a>
+                </li> --}}
+
                 <li> 
                     <a href="#"> 
                         <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
