@@ -18,5 +18,6 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/vendor/verify-account/{token}', 'CommonController@verifyVendorAccount')->name('verify-account-vendor');
 Route::get('/user/verify-account/{token}', 'CommonController@verifyUserAccount')->name('verify-account-user');
+Route::get('/courier/verify-account/{token}/{code}', 'CommonController@verifyCourierAccount')->name('verify-account-courier');
 Route::get('/account-verified', 'CommonController@accountVerified')->name('account-verified');
 Route::get('/account-not-verified', 'CommonController@accountNotVerified')->name('account-not-verified');

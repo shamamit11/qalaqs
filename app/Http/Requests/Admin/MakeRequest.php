@@ -25,6 +25,7 @@ class MakeRequest extends ApiRequest
         return [
             'id' => 'integer|nullable',
             'name' => 'required',
+            'icon' => 'nullable',
             'status' => 'nullable',
         ];
     }

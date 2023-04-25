@@ -22,6 +22,10 @@ class AuthController extends Controller
     public function login()
     {
         $page_title = 'Login';
+        $isLoggedIn = Auth::guard('admin')->user();
+        if($isLoggedIn) {
+            return redirect(route('admin-dashboard'));
+        }
         return view('admin.auth.login', compact('page_title'));
     }
 

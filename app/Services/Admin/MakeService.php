@@ -61,6 +61,7 @@ class MakeService
                 $message = "Data added";
             }
             $make->name = $request['name'];
+            $make->icon = $request['icon'];
             $make->status = isset($request['status']) ? 1 : 0;
             $make->save();
             $response['message'] = $message;

@@ -69,6 +69,7 @@ class SubcategoryService
             $subcategory->category_id = $request['category_id'];
             $subcategory->name = $request['name'];
             $subcategory->order = $request['order'];
+            $subcategory->icon = $request['icon'];
             $subcategory->status = isset($request['status']) ? 1 : 0;
             $subcategory->save();
             $response['message'] = $message;

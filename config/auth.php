@@ -51,6 +51,11 @@ return [
             'provider' => 'vendors',
         ],
 
+        'courier' => [
+            'driver' => 'session',
+            'provider' => 'couriers',
+        ],
+
         'vendor-api' => [
             'driver' => 'jwt',
             'provider' => 'vendors',
@@ -95,6 +100,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Vendor::class,
         ],
+
+        'couriers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Courier::class,
+        ],
     ],
 
     /*
@@ -133,6 +143,13 @@ return [
 
         'vendors' => [
             'provider' => 'vendors',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'couriers' => [
+            'provider' => 'couriers',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

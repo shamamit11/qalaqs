@@ -26,7 +26,7 @@ class CategoryRequest extends ApiRequest
             'id' => 'integer|nullable',
             'name' => 'required',
             'type' => 'required',
-            'icon' => 'required',
+            'icon' => 'nullable',
             'order' => 'required|integer',
             'status' => 'nullable',
         ];

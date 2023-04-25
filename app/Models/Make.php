@@ -9,6 +9,6 @@ class Make extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['make_id', 'model_id', 'year_id', 'name', 'status'];
+    protected $fillable = ['make_id', 'model_id', 'year_id', 'name', 'icon', 'status'];
 
 }

@@ -26,6 +26,7 @@ class SubcategoryRequest extends ApiRequest
             'id' => 'integer|nullable',
             'category_id' => 'required|exists:categories,id',
             'name' => 'required',
+            'icon' => 'nullable',
             'order' => 'required|integer',
             'status' => 'nullable',
         ];
