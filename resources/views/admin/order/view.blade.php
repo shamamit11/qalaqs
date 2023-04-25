@@ -137,7 +137,7 @@
 
                                                             </td>
                                                         </tr>
-                                                        <tr>
+                                                        <tr style="vertical-align: middle">
                                                             <td>
                                                                 <div
                                                                     style="width:120px; padding:10px; background-color: #fff; border-radius: 10px;">
@@ -151,7 +151,7 @@
                                                             <td style="text-align: center"> {{ $val->item_count }}</td>
                                                             <td> AED {{ $val->amount }}</td>
                                                             <td> AED {{ $val->sub_total }}</td>
-                                                            <td> {{ getItemStatus($row->id, $val->id) }}</td>
+                                                            <td style="text-align: center"> {!! $order_status_label !!}</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
