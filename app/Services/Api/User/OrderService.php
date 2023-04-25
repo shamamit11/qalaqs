@@ -156,7 +156,8 @@ class OrderService
                     "cart_session_id" => $request['cart_session_id'],
                     "shipping_address_id" => $request['shipping_address_id'],
                     "shipping_charge" => $request['shipping_charge'],
-                    "transaction_id" => $request['transaction_token']
+                    "transaction_id" => $request['transaction_token'],
+                    "payment_method" => "CC"
                 );
 
                 $createOrder = $this->createOrder($data);
