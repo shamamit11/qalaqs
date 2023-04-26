@@ -20,6 +20,29 @@
                                             value="{{ old('name', isset($row->name) ? $row->name : '') }}">
                                         <div class="error" id='error_name'></div>
                                     </div>
+
+                                    <div class="mb-3 col-8">
+                                        <div class="mb-2">
+                                            <label class="form-label">Icon</label>
+                                            <div class="input-group">
+                                                <input type="text" id="icon" class="form-control"
+                                                    name="icon" aria-label="Icon"
+                                                    aria-describedby="button-icon"
+                                                    value="{{ old('icon', isset($row->icon) ? $row->icon : '') }}"
+                                                    readonly>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary" type="button"
+                                                        id="button-icon">Select</button>
+                                                </div>
+                                            </div>
+                                            <div class="error" id='error_icon'></div>
+                                        </div>
+                                        @php
+                                            $icon_link = (isset($row->icon) ? $row->icon : asset('assets/admin/images/icon.png'));
+                                        @endphp
+                                        <img src="{{ $icon_link }}" id="icon_link" class="icon-holder">
+                                    </div>
+                                    
                                     <div class="mb-3">
                                         <label class="form-label">Status</label>
                                         <label class="switch">

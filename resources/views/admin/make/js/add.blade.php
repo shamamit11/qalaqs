@@ -41,4 +41,22 @@
             });
         });
     });
+    $("input").change(function(e) {
+        var inputId = $(this).attr("id");
+        $("#" + inputId).removeClass('inputerror');
+    });
+</script>
+<script>
+    $("#button-icon").click(function(e) {
+        e.preventDefault();
+        inputId = 'icon';
+        window.open('/file-manager/fm-button', 'fm', 'width=1200,height=700');
+    });
+
+    let inputId = '';
+
+    function fmSetLink($url) {
+        $("#" + inputId).val($url);
+        $("#" + inputId + "_link").attr("src", $url);
+    }
 </script>
