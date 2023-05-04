@@ -42,7 +42,8 @@
                                                     <td>{{ $subcategory->name }}</td>
                                                     <td>{{ $subcategory->category->name }}</td>
                                                     <td style="text-align:center">{{ $subcategory->order }}</td>
-                                                    <td style="text-align:center"><label class="switch" style="margin: 0 auto">
+                                                    <td style="text-align:center"><label class="switch"
+                                                            style="margin: 0 auto">
                                                             <input class="switch-input switch-status" type="checkbox"
                                                                 data-id="{{ $subcategory->id }}"
                                                                 data-status-value="{{ $subcategory->status }}"
@@ -53,10 +54,13 @@
                                                             href="{{ route('admin-subcategory-add', ['id=' . $subcategory->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"><i
                                                                 class="fas fa-pen"></i></a>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-danger rounded-pill delete-row-btn"
-                                                            data-id="{{ $subcategory->id }}"><span class="icon"><i
-                                                                    class='fas fa-trash'></i></span></button>
+
+                                                        @if (checkIfUserIsSuperAdmin())
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-danger rounded-pill delete-row-btn"
+                                                                data-id="{{ $subcategory->id }}"><span class="icon"><i
+                                                                        class='fas fa-trash'></i></span></button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

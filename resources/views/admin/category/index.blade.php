@@ -50,10 +50,12 @@
                                                             href="{{ route('admin-category-add', ['id=' . $category->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"><i
                                                                 class="fas fa-pen"></i></a>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-danger rounded-pill delete-row-btn"
-                                                            data-id="{{ $category->id }}"><span class="icon"><i
-                                                                    class='fas fa-trash'></i></span></button>
+                                                        @if (checkIfUserIsSuperAdmin())
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-danger rounded-pill delete-row-btn"
+                                                                data-id="{{ $category->id }}"><span class="icon"><i
+                                                                        class='fas fa-trash'></i></span></button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
