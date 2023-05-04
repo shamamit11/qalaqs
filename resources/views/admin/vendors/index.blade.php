@@ -17,7 +17,8 @@
                                                     class="align-middle" data-feather="search"></i></button>
                                         </div>
                                     </form>
-
+                                    <a href="{{ route('admin-vendor-add') }}" class="btn btn-primary my-2 my-sm-0 ms-1">
+                                        Add</a>
                                 </nav>
                             </div>
                             <div class="card-body">

@@ -2,9 +2,14 @@
 namespace App\Services\Admin;
 
 use App\Models\Vendor;
+use Illuminate\Support\Facades\Hash;
+use App\Traits\StoreImageTrait;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class VendorService
 {
+    use StoreImageTrait;
     public function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
@@ -32,6 +37,74 @@ class VendorService
         }
     }
 
+    public function store($request)
+    {
+        $date = date_create();
+
+        try {
+            if ($request['id']) {
+                $id = $request['id'];
+                $vendor = Vendor::findOrFail($id);
+                $message = "Data updated";
+            } else {
+                $id = 0;
+                $vendor = new Vendor;
+                $vendor->vendor_code = date_timestamp_get($date);
+                $vendor->email = $request['email'];
+                $vendor->password = Hash::make($request['password']);
+                $message = "Data added";
+            }
+            $vendor->account_type =  $request['account_type'];
+            $vendor->business_name = $request['business_name'];
+            $vendor->first_name = $request['first_name'];
+            $vendor->last_name = $request['last_name'];
+            $vendor->mobile = $request['mobile'];
+            $vendor->address = $request['address'];
+            $vendor->city = $request['city'];
+
+            if (preg_match('#^data:image.*?base64,#', $request['image'])) {
+                $profile_image = $this->StoreBase64Image($request['image'], '/vendor/');
+            } else {
+                $profile_image = ($vendor) ? $vendor->image : '';
+            }
+
+            if (preg_match('#^data:image.*?base64,#', $request['license_image'])) {
+                $license_image = $this->StoreBase64Image($request['license_image'], '/vendor/');
+            } else {
+                $license_image = ($vendor) ? $vendor->license_image : '';
+            }
+
+            $vendor->image = $profile_image;
+            $vendor->license_image = $license_image;
+            $vendor->device_id = isset($request['device_id']) ? $request['device_id'] : null;
+            $vendor->status = 0;
+            $vendor->admin_approved = 0;
+            $vendor->email_verified = 0;
+            $vendor->is_deleted = 0;
+            $vendor->save();
+
+            //send verification email
+            if($request['id'] == 0 ) {
+                $token = encode_param($vendor->vendor_code);
+                $emailData = [
+                    'first_name' => $vendor->first_name,
+                    'token' => $token
+                ];
+                Mail::send('email.vendor.verify_account', $emailData, function ($message) use ($request) {
+                    $message->to($request['email']);
+                    $message->subject('Qalaqs: Verify Your Account');
+                });
+            }
+            
+            $response['message'] = $message;
+            $response['errors'] = false;
+            $response['status_code'] = 201;
+            return response()->json($response, 201);
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function status($request)
     {
         try {
@@ -52,6 +125,22 @@ class VendorService
             return "success";
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function imageDelete($request) {
+        try {
+            $id = $request->id;
+            $field_name = $request->field_name;
+            $ras = Vendor::where('id', $id)->first();
+            if ($ras) {
+                Storage::disk('public')->delete('/vendor/' . $ras->$field_name);
+                $ras->$field_name = '';
+                $ras->save();
+            }
+            return "success";
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 401);
         }
     }
 }

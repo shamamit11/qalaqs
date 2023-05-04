@@ -27,7 +27,7 @@ class BannerController extends Controller
 
         $nav = 'banner';
         $sub_nav = '';
-        $per_page = 10;
+        $per_page = 100;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Banner';

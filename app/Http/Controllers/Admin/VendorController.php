@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\VendorRequest;
 use App\Models\VendorReview;
 use App\Services\Admin\VendorService;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class VendorController extends Controller
     {
         $nav = 'vendor';
         $sub_nav = '';
-        $per_page = 10;
+        $per_page = 100;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = 'Vendors';
@@ -50,5 +51,25 @@ class VendorController extends Controller
     public function delete(Request $request)
     {
         return $this->vendor->delete($request);
+    }
+
+    public function addEdit(Request $request)
+    {
+        $nav = 'vendor';
+        $sub_nav = '';
+        $id = ($request->id) ? $request->id : 0;
+        $data['title'] = $page_title = ($id == 0) ? "Add Vendor" : "Edit Vendor";
+        $data['action'] = route('admin-vendor-addaction');
+        $data['row'] = Vendor::where('id', $id)->first();
+        return view('admin.vendors.add', compact('nav', 'sub_nav', 'page_title'), $data);
+    }
+
+    public function addAction(VendorRequest $request)
+    {
+        return $this->vendor->store($request->validated());
+    }
+
+    public function imageDelete(Request $request) {
+        echo $this->vendor->imageDelete($request);
     }
 }

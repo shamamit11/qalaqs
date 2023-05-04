@@ -49,8 +49,8 @@
                                                     <tr>
                                                         <th scope="row">Account Type</th>
                                                         <td>
-                                                            @if($row->account_type == 'I') Individual @endif
-                                                            @if($row->account_type == 'G') Garage @endif
+                                                            @if($row->account_type == 'Seller') Seller @endif
+                                                            @if($row->account_type == 'Garage') Garage @endif
                                                         </td>
                                                     </tr>
                                                     <tr>
