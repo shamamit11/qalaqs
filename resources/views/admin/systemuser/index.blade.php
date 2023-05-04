@@ -7,7 +7,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h3>{{ $page_title }}</h3>
+                                <h3>{{$page_title}}</h3>
                                 <nav class="navbar navbar-light">
                                     <form method="get" class="d-flex">
                                         <div class="input-group"> @csrf
@@ -17,52 +17,47 @@
                                                     class="align-middle" data-feather="search"></i></button>
                                         </div>
                                     </form>
-
+                                    <a href="{{ route('admin-systemuser-add') }}" class="btn btn-primary my-2 my-sm-0 ms-1">
+                                        Add</a>
                                 </nav>
                             </div>
                             <div class="card-body">
-                                @if ($vendors->count() > 0)
+                                @if ($system_users->count() > 0)
                                     <table class="table">
                                         <thead class="table-light">
                                             <tr>
                                                 <th width="50">#</th>
-                                                <th>Business Name</th>
-                                                <th>Contact Person</th>
-                                                <th>Address</th>
-                                                <th>Email</th>
-                                                <th>Mobile</th>
+                                                <th width="220">Name</th>
+                                                <th width="180">Username</th>
+                                                <th width="">Email</th>
+                                                <th style="text-align:center" width="100">User Type</th>
                                                 <th style="text-align:center" width="200">Status</th>
                                                 <th style="text-align:center" width="120">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($vendors as $vendor)
-                                                <tr id="tr{{ $vendor->id }}">
+                                            @foreach ($system_users as $systemuser)
+                                                <tr id="tr{{ $systemuser->id }}">
                                                     <td>{{ $count++ }}</td>
-                                                    <td>{{ $vendor->business_name }}</td>
-                                                    <td>{{ $vendor->first_name }} {{ $vendor->last_name }}</td>
-                                                    <td>{{ $vendor->address }}</td>
-                                                    <td>{{ $vendor->email }}</td>
-                                                    <td>{{ $vendor->mobile }}</td>
+                                                    <td>{{ $systemuser->name }}</td>
+                                                    <td>{{ $systemuser->username }}</td>
+                                                    <td>{{ $systemuser->email }}</td>
+                                                    <td style="text-align:center">{{ $systemuser->user_type }}</td>
                                                     <td><label class="switch" style="margin: 0 auto">
-                                                            <input class="switch-input switch-admin_approved"
-                                                                type="checkbox" data-id="{{ $vendor->id }}"
-                                                                data-admin_approved-value="{{ $vendor->admin_approved }}"
-                                                                @if ($vendor->admin_approved == 1) checked @endif />
-                                                            <span class="switch-label" data-on="Approved"
-                                                                data-off="Pending"></span> <span
-                                                                class="switch-handle"></span> </label></td>
-                                                    <td style="text-align:center">
-                                                        <a href="{{ route('admin-vendor-view', ['id=' . $vendor->id]) }}"
-                                                            class="btn btn-sm btn-warning rounded-pill"
-                                                            data-id="{{ $vendor->id }}"><span class="icon"><i
-                                                                    class='fas fa-eye'></i></span></a>
-                                                        @if (checkIfUserIsSuperAdmin())
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-danger rounded-pill delete-row-btn"
-                                                                data-id="{{ $vendor->id }}"><span class="icon"><i
-                                                                        class='fas fa-trash'></i></span></button>
-                                                        @endif
+                                                            <input class="switch-input switch-status" type="checkbox"
+                                                                data-id="{{ $systemuser->id }}"
+                                                                data-status-value="{{ $systemuser->status }}"
+                                                                @if ($systemuser->status == 1) checked @endif /> <span
+                                                                class="switch-label" data-on="Show" data-off="Hide"></span>
+                                                            <span class="switch-handle"></span> </label></td>
+                                                    <td style="text-align:center"><a
+                                                            href="{{ route('admin-systemuser-add', ['id=' . $systemuser->id]) }}"
+                                                            class="btn btn-sm btn-warning rounded-pill"><i
+                                                                class="fas fa-pen"></i></a>
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-danger rounded-pill delete-row-btn"
+                                                            data-id="{{ $systemuser->id }}"><span class="icon"><i
+                                                                    class='fas fa-trash'></i></span></button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -74,7 +69,7 @@
                                             records.
                                         </div>
                                         <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <div class="float-end"> {{ $vendors->links('pagination::bootstrap-4') }}
+                                            <div class="float-end"> {{ $system_users->links('pagination::bootstrap-4') }}
                                             </div>
                                         </div>
                                     </div>
@@ -90,5 +85,5 @@
         </div>
     @endsection
     @section('footer-scripts')
-        @include('admin.vendors.js.index')
+        @include('admin.systemuser.js.index')
     @endsection

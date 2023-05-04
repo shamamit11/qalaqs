@@ -39,7 +39,8 @@
                                                     <td>{{ $count++ }}</td>
                                                     <td>{{ $model->name }}</td>
                                                     <td>{{ $model->make->name }}</td>
-                                                    <td style="text-align:center"><label class="switch" style="margin: 0 auto">
+                                                    <td style="text-align:center"><label class="switch"
+                                                            style="margin: 0 auto">
                                                             <input class="switch-input switch-status" type="checkbox"
                                                                 data-id="{{ $model->id }}"
                                                                 data-status-value="{{ $model->status }}"
@@ -51,10 +52,12 @@
                                                             href="{{ route('admin-model-add', ['id=' . $model->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"><i
                                                                 class="fas fa-pen"></i></a>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-danger rounded-pill delete-row-btn"
-                                                            data-id="{{ $model->id }}"><span class="icon"><i
-                                                                    class='fas fa-trash'></i></span></button>
+                                                        @if (checkIfUserIsSuperAdmin())
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-danger rounded-pill delete-row-btn"
+                                                                data-id="{{ $model->id }}"><span class="icon"><i
+                                                                        class='fas fa-trash'></i></span></button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -1,3 +1,7 @@
+@php
+    $isStandardAdmin = checkIfUserIsStandardUser();
+    $isSuperAdmin = checkIfUserIsSuperAdmin();
+@endphp
 
 <div class="left-side-menu">
     <div class="h-100" data-simplebar>
@@ -12,37 +16,41 @@
                     </a>
                 </li>
 
-                <li class="{{ $nav == 'filemanager' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-filemanager') }}" class="{{ $nav == 'filemanager' ? 'active' : '' }}">
-                        <i class="mdi mdi-folder-cog"></i>
-                        <span> File Manager </span>
-                    </a>
-                </li>
+                @if ($isSuperAdmin)
+                    <li class="{{ $nav == 'filemanager' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-filemanager') }}" class="{{ $nav == 'filemanager' ? 'active' : '' }}">
+                            <i class="mdi mdi-folder-cog"></i>
+                            <span> File Manager </span>
+                        </a>
+                    </li>
 
-                <li class="menu-title mt-2">Sales</li>
-                <li class="{{ $nav == 'order' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-orders') }}" class="{{ $nav == 'order' ? 'active' : '' }}">
-                        <i class="mdi mdi-cart"></i>
-                        <span> Orders </span>
-                    </a>
-                </li>
-                
-                <li class="{{ $nav == 'return' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-returns') }}" class="{{ $nav == 'return' ? 'active' : '' }}">
-                        <i class="mdi mdi-autorenew"></i>
-                        <span> Returns </span>
-                    </a>
-                </li>
 
-                <li class="menu-title mt-2">Products</li>
-                <li class="{{ $nav == 'product' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-product') }}" class="{{ $nav == 'product' ? 'active' : '' }}"> <i class="mdi mdi-cube"></i>
-                        <span class="badge bg-danger rounded-pill float-end">{{getNewProductsCount()}}</span>
-                        <span> Products </span>
-                    </a>
-                </li>
+                    <li class="menu-title mt-2">Sales</li>
+                    <li class="{{ $nav == 'order' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-orders') }}" class="{{ $nav == 'order' ? 'active' : '' }}">
+                            <i class="mdi mdi-cart"></i>
+                            <span> Orders </span>
+                        </a>
+                    </li>
+
+                    <li class="{{ $nav == 'return' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-returns') }}" class="{{ $nav == 'return' ? 'active' : '' }}">
+                            <i class="mdi mdi-autorenew"></i>
+                            <span> Returns </span>
+                        </a>
+                    </li>
+
+                    <li class="menu-title mt-2">Products</li>
+                    <li class="{{ $nav == 'product' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-product') }}" class="{{ $nav == 'product' ? 'active' : '' }}"> <i
+                                class="mdi mdi-cube"></i>
+                            <span class="badge bg-danger rounded-pill float-end">{{ getNewProductsCount() }}</span>
+                            <span> Products </span>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="menu-title mt-2">Product Configuration</li>
-
                 <li class="{{ $nav == 'category' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('admin-category') }}" class="{{ $nav == 'category' ? 'active' : '' }}">
                         <i class="mdi mdi-collage"></i>
@@ -97,32 +105,45 @@
                         <span> Vendors </span>
                     </a>
                 </li>
-                <li> <a href="#"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
-                    </a> </li>
+                @if ($isSuperAdmin)
+                    <li> <a href="#"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
+                        </a> </li>
+                @endif
 
-                <li class="menu-title mt-2">Customers</li>
-                <li class="{{ $nav == 'user' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-users') }}" class="{{ $nav == 'user' ? 'active' : '' }}">
-                        <i class="mdi mdi-account-group"></i>
-                        <span> Customers </span>
-                    </a>
-                </li>
+                @if ($isSuperAdmin)
+                    <li class="menu-title mt-2">Customers</li>
+                    <li class="{{ $nav == 'user' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-users') }}" class="{{ $nav == 'user' ? 'active' : '' }}">
+                            <i class="mdi mdi-account-group"></i>
+                            <span> Customers </span>
+                        </a>
+                    </li>
 
-                <li class="menu-title mt-2">Couriers</li>
-                <li class="{{ $nav == 'courier' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-couriers') }}" class="{{ $nav == 'courier' ? 'active' : '' }}">
-                        <i class="mdi mdi-truck-delivery"></i>
-                        <span> Couriers </span>
-                    </a>
-                </li>
 
-                <li class="menu-title mt-2">App Configuration</li>
-                <li class="{{ $nav == 'banner' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-banner') }}" class="{{ $nav == 'banner' ? 'active' : '' }}">
-                        <i class="mdi mdi-collage"></i>
-                        <span> App Banners </span>
-                    </a>
-                </li>
+                    <li class="menu-title mt-2">Couriers</li>
+                    <li class="{{ $nav == 'courier' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-couriers') }}" class="{{ $nav == 'courier' ? 'active' : '' }}">
+                            <i class="mdi mdi-truck-delivery"></i>
+                            <span> Couriers </span>
+                        </a>
+                    </li>
+
+                    <li class="menu-title mt-2">App Configuration</li>
+                    <li class="{{ $nav == 'banner' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-banner') }}" class="{{ $nav == 'banner' ? 'active' : '' }}">
+                            <i class="mdi mdi-collage"></i>
+                            <span> App Banners </span>
+                        </a>
+                    </li>
+
+                    <li class="menu-title mt-2">Configuration</li>
+                    <li class="{{ $nav == 'systemuser' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-systemusers') }}" class="{{ $nav == 'systemuser' ? 'active' : '' }}">
+                            <i class="mdi mdi-account-circle"></i>
+                            <span> System Users </span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
         <!-- End Sidebar -->

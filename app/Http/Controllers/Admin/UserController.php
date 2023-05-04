@@ -18,6 +18,11 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $user_type = checkIfUserIsStandardUser();
+        if($user_type) {
+            return redirect()->route('admin-dashboard');
+        }
+
         $nav = 'user';
         $sub_nav = '';
         $per_page = 10;
@@ -35,6 +40,11 @@ class UserController extends Controller
 
     public function view(Request $request)
     {
+        $user_type = checkIfUserIsStandardUser();
+        if($user_type) {
+            return redirect()->route('admin-dashboard');
+        }
+
         $nav = 'user';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;

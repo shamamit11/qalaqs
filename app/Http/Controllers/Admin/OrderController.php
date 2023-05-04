@@ -21,6 +21,11 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
+        $user_type = checkIfUserIsStandardUser();
+        if($user_type) {
+            return redirect()->route('admin-dashboard');
+        }
+
         $nav = 'order';
         $sub_nav = '';
         $per_page = 10;
@@ -33,6 +38,11 @@ class OrderController extends Controller
 
     public function view(Request $request)
     {
+        $user_type = checkIfUserIsStandardUser();
+        if($user_type) {
+            return redirect()->route('admin-dashboard');
+        }
+
         $nav = 'order';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;
@@ -44,6 +54,11 @@ class OrderController extends Controller
 
     public function returns(Request $request)
     {
+        $user_type = checkIfUserIsStandardUser();
+        if($user_type) {
+            return redirect()->route('admin-dashboard');
+        }
+
         $nav = 'return';
         $sub_nav = '';
         $per_page = 10;
@@ -57,6 +72,11 @@ class OrderController extends Controller
 
     public function returnView(Request $request)
     {
+        $user_type = checkIfUserIsStandardUser();
+        if($user_type) {
+            return redirect()->route('admin-dashboard');
+        }
+
         $nav = 'return';
         $sub_nav = '';
         $id = ($request->id) ? $request->id : 0;

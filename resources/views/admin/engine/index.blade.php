@@ -43,7 +43,8 @@
                                                     <td>{{ $engine->make->name }}</td>
                                                     <td>{{ $engine->model->name }}</td>
                                                     <td>{{ $engine->year->name }}</td>
-                                                    <td style="text-align:center"><label class="switch" style="margin: 0 auto">
+                                                    <td style="text-align:center"><label class="switch"
+                                                            style="margin: 0 auto">
                                                             <input class="switch-input switch-status" type="checkbox"
                                                                 data-id="{{ $engine->id }}"
                                                                 data-status-value="{{ $engine->status }}"
@@ -55,10 +56,12 @@
                                                             href="{{ route('admin-engine-add', ['id=' . $engine->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"><i
                                                                 class="fas fa-pen"></i></a>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-danger rounded-pill delete-row-btn"
-                                                            data-id="{{ $engine->id }}"><span class="icon"><i
-                                                                    class='fas fa-trash'></i></span></button>
+                                                        @if (checkIfUserIsSuperAdmin())
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-danger rounded-pill delete-row-btn"
+                                                                data-id="{{ $engine->id }}"><span class="icon"><i
+                                                                        class='fas fa-trash'></i></span></button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

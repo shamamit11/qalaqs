@@ -171,3 +171,29 @@ if (!function_exists('getVendorDataByProductId')) {
         return $vendor;
     }
 }
+
+if (!function_exists('checkIfUserIsStandardUser')) {
+    function checkIfUserIsStandardUser()
+    {
+        $user_type = Auth::guard('admin')->user()->user_type;
+        if($user_type == 'U') {
+            return true;
+        } 
+        else {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('checkIfUserIsSuperAdmin')) {
+    function checkIfUserIsSuperAdmin()
+    {
+        $user_type = Auth::guard('admin')->user()->user_type;
+        if($user_type == 'S') {
+            return true;
+        } 
+        else {
+            return false;
+        }
+    }
+}

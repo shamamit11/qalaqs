@@ -35,6 +35,11 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/account/addaction', 'addAction')->name('admin-account-addaction');
         Route::get('/account/change-password', 'changePassword')->name('admin-account-change-password');
         Route::post('/account/update-password', 'updatePassword')->name('admin-account-update-password');
+        Route::get('/account/systemusers', 'systemUsers')->name('admin-systemusers');
+        Route::get('/account/systemusers/add', 'systemUserAdd')->name('admin-systemuser-add');
+        Route::post('/account/systemusers/addaction', 'systemUserAddAction')->name('admin-systemuser-addaction');
+        Route::post('/account/systemusers/status', 'systemUserStatus')->name('admin-systemuser-status');
+        Route::post('/account/systemusers/delete', 'deleteUser')->name('admin-systemuser-delete');
     });
     
     Route::controller('BannerController')->group(function () {
