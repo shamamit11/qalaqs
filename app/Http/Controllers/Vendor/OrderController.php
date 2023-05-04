@@ -26,7 +26,7 @@ class OrderController extends Controller
     {
         $nav = 'order';
         $sub_nav = '';
-        $per_page = 10;
+        $per_page = 100;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = 'My Orders';
@@ -53,7 +53,7 @@ class OrderController extends Controller
     public function listReturns(Request $request) {
         $nav = 'return';
         $sub_nav = '';
-        $per_page = 10;
+        $per_page = 100;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = 'Returns & Exchanges';

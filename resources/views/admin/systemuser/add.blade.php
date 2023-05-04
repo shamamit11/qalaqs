@@ -15,7 +15,7 @@
                                         id="form">
                                         @csrf
                                         <input type="hidden" class="form-control" name="id"
-                                            value="{{ isset($row->id) ? $row->id : '' }}">
+                                            value="{{ isset($row->id) ? $row->id : 0 }}">
 
                                         <div class="mb-3">
                                             <label class="form-label"> Name</label>
@@ -31,9 +31,13 @@
                                                     @if (@$row->user_type == 'S') selected @endif>
                                                     Super Admin
                                                 </option>
+                                                <option value="U"
+                                                    @if (@$row->user_type == 'U') selected @endif>
+                                                    Standard User
+                                                </option>
                                                 <option value="A"
                                                     @if (@$row->user_type == 'A') selected @endif>
-                                                    Standard Admin
+                                                    Accounts
                                                 </option>
                                             </select>
                                             <div class="error" id='error_user_type'></div>

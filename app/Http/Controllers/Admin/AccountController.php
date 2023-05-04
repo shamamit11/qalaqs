@@ -63,7 +63,7 @@ class AccountController extends Controller
         $nav = 'systemuser';
         $sub_nav = '';
         $page_title = 'System Users';
-        $per_page = 50;
+        $per_page = 100;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $result = $this->account->listUsers($per_page, $page, $q);
