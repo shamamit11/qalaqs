@@ -23,6 +23,42 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Category Name</label>
+                                                    <select name="category_id" id="category_id"
+                                                        class="select2 form-control">
+                                                        @if ($categories->count() > 0)
+                                                            @foreach ($categories as $category)
+                                                                <option value="{{ $category->id }}"
+                                                                    @if (@$row->category_id == $category->id) selected @endif>
+                                                                    {{ $category->name }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                    <div class="error" id='error_category_id'></div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Subcategory</label>
+                                                    <select name="subcategory_id" id="subcategory_id"
+                                                        class="select2 form-control">
+                                                        @if ($subcategories->count() > 0)
+                                                            @foreach ($subcategories as $subcategory)
+                                                                <option value="{{ $subcategory->id }}"
+                                                                    data-chained="{{ $subcategory->category_id }}"
+                                                                    @if (@$row->sub_category_id == $subcategory->id) selected @endif>
+                                                                    {{ $subcategory->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                    <div class="error" id='error_subcategory_id'></div>
+                                                </div>
+                                            </div>
+
+                                            
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">Make</label>
@@ -85,39 +121,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Category Name</label>
-                                                    <select name="category_id" id="category_id"
-                                                        class="select2 form-control">
-                                                        @if ($categories->count() > 0)
-                                                            @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}"
-                                                                    @if (@$row->category_id == $category->id) selected @endif>
-                                                                    {{ $category->name }}</option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    <div class="error" id='error_category_id'></div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Subcategory</label>
-                                                    <select name="subcategory_id" id="subcategory_id"
-                                                        class="select2 form-control">
-                                                        @if ($subcategories->count() > 0)
-                                                            @foreach ($subcategories as $subcategory)
-                                                                <option value="{{ $subcategory->id }}"
-                                                                    data-chained="{{ $subcategory->category_id }}"
-                                                                    @if (@$row->sub_category_id == $subcategory->id) selected @endif>
-                                                                    {{ $subcategory->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    <div class="error" id='error_subcategory_id'></div>
-                                                </div>
-                                            </div>
+                                            
 
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
