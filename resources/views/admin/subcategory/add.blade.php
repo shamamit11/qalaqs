@@ -21,7 +21,7 @@
                                                 @if ($categories->count() > 0)
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
-                                                            @if (@$row->product_category_id == $category->id) selected @endif>
+                                                            @if (@$row->category_id == $category->id) selected @endif>
                                                             {{ $category->name }}</option>
                                                     @endforeach
                                                 @endif
