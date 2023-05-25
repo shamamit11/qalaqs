@@ -22,7 +22,14 @@ class ProductService
     {
         try {
             $makes = Make::where('status', 1)->orderBy('name', 'asc')->get();
-            $response['data'] = $makes;
+
+            $fdata = [];
+            foreach($makes as $make) {
+                $fdata['id'] = $make->id;
+                $fdata['label'] = $make->name;
+                $fdata['icon'] = $make->icon;
+            }   
+            $response['data'] = $fdata;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
@@ -248,10 +255,11 @@ class ProductService
                 $product->brand_id = isset($request['brand_id']) ? $request['brand_id'] : NULL;
             }
             //$product->brand_id = isset($request['brand_id']) ? $request['brand_id'] : NULL;
-            
+
             $product->part_type = isset($request['part_type']) ? $request['part_type'] : NULL;
             $product->market = isset($request['market']) ? $request['market'] : NULL;
-            $product->warranty = isset($request['warranty']) ? $request['warranty'] : NULL;
+            
+            $product->warranty = isset($request['warranty']) ? $request['warranty'] : 0;
 
             if($request['category_id'] == 'undefined') {
                 $product->category_id = NULL;
