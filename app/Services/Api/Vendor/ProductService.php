@@ -248,10 +248,11 @@ class ProductService
                 $product->brand_id = isset($request['brand_id']) ? $request['brand_id'] : NULL;
             }
             //$product->brand_id = isset($request['brand_id']) ? $request['brand_id'] : NULL;
-            
+
             $product->part_type = isset($request['part_type']) ? $request['part_type'] : NULL;
             $product->market = isset($request['market']) ? $request['market'] : NULL;
-            $product->warranty = isset($request['warranty']) ? $request['warranty'] : NULL;
+            
+            $product->warranty = isset($request['warranty']) ? $request['warranty'] : 0;
 
             if($request['category_id'] == 'undefined') {
                 $product->category_id = NULL;
