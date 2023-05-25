@@ -21,15 +21,8 @@ class ProductService
     public function getMakes()
     {
         try {
-            $makes = Make::where('status', 1)->orderBy('name', 'asc')->get();
-
-            $fdata = [];
-            foreach($makes as $make) {
-                $fdata['id'] = $make->id;
-                $fdata['label'] = $make->name;
-                $fdata['icon'] = $make->icon;
-            }   
-            $response['data'] = $fdata;
+            $makes = Make::where('status', 1)->orderBy('name', 'asc')->get();  
+            $response['data'] = $makes;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
