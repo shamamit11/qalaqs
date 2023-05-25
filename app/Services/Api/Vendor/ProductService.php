@@ -198,18 +198,75 @@ class ProductService
             $product->title = isset($request['title']) ? $request['title'] : NULL;
             $product->part_number = isset($request['part_number']) ? $request['part_number'] : NULL;
             $product->sku = isset($request['sku']) ? $request['sku'] : NULL;
-            $product->make_id = isset($request['make_id']) ? $request['make_id'] : NULL;
-            $product->model_id = isset($request['model_id']) ? $request['model_id'] : NULL;
-            $product->year_id = isset($request['year_id']) ? $request['year_id'] : NULL;
-            $product->engine_id = isset($request['engine_id']) ? $request['engine_id'] : NULL;
+
+            if($request['make_id'] == 'undefined') {
+                $product->make_id = NULL;
+            } 
+            else {
+                $product->make_id = isset($request['make_id']) ? $request['make_id'] : NULL;
+            }
+
+            if($request['model_id'] == 'undefined') {
+                $product->model_id = NULL;
+            } 
+            else {
+                $product->model_id = isset($request['model_id']) ? $request['model_id'] : NULL;
+            }
+
+            if($request['year_id'] == 'undefined') {
+                $product->year_id = NULL;
+            } 
+            else {
+                $product->year_id = isset($request['year_id']) ? $request['year_id'] : NULL;
+            }
+
+            if($request['engine_id'] == 'undefined') {
+                $product->engine_id = NULL;
+            } 
+            else {
+                $product->engine_id = isset($request['engine_id']) ? $request['engine_id'] : NULL;
+            }
+            //$product->make_id = isset($request['make_id']) ? $request['make_id'] : NULL;
+            //$product->model_id = isset($request['model_id']) ? $request['model_id'] : NULL;
+            //$product->year_id = isset($request['year_id']) ? $request['year_id'] : NULL;
+            //$product->engine_id = isset($request['engine_id']) ? $request['engine_id'] : NULL;
+
             $product->manufacturer = isset($request['manufacturer']) ? $request['manufacturer'] : NULL;
-            $product->origin = isset($request['origin']) ? $request['origin'] : NULL;
-            $product->brand_id = isset($request['brand_id']) ? $request['brand_id'] : NULL;
+
+            if($request['origin'] == 'undefined') {
+                $product->origin = NULL;
+            } 
+            else {
+                $product->origin = isset($request['origin']) ? $request['origin'] : NULL;
+            }
+            //$product->origin = isset($request['origin']) ? $request['origin'] : NULL;
+
+            if($request['brand_id'] == 'undefined') {
+                $product->brand_id = NULL;
+            } 
+            else {
+                $product->brand_id = isset($request['brand_id']) ? $request['brand_id'] : NULL;
+            }
+            //$product->brand_id = isset($request['brand_id']) ? $request['brand_id'] : NULL;
+            
             $product->part_type = isset($request['part_type']) ? $request['part_type'] : NULL;
             $product->market = isset($request['market']) ? $request['market'] : NULL;
             $product->warranty = isset($request['warranty']) ? $request['warranty'] : NULL;
-            $product->category_id = isset($request['category_id']) ? $request['category_id'] : NULL;
-            $product->subcategory_id = isset($request['subcategory_id']) ? $request['subcategory_id'] : NULL;
+
+            if($request['category_id'] == 'undefined') {
+                $product->category_id = NULL;
+            } 
+            else {
+                $product->category_id = isset($request['category_id']) ? $request['category_id'] : NULL;
+            }
+            if($request['subcategory_id'] == 'undefined') {
+                $product->subcategory_id = NULL;
+            } 
+            else {
+                $product->subcategory_id = isset($request['subcategory_id']) ? $request['subcategory_id'] : NULL;
+            }
+            //$product->category_id = isset($request['category_id']) ? $request['category_id'] : NULL;
+            //$product->subcategory_id = isset($request['subcategory_id']) ? $request['subcategory_id'] : NULL;
             $product->price = isset($request['price']) ? $request['price'] : NULL;
             $product->discount = isset($request['discount']) ? $request['discount'] : NULL;
             $product->stock = isset($request['stock']) ? $request['stock'] : NULL;
