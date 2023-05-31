@@ -14,7 +14,11 @@
                                     @csrf
                                     <input type="hidden" class="form-control" name="id"
                                         value="{{ isset($row->id) ? $row->id : '' }}">
-                                    <div class="mb-3">
+                                    <input type="hidden" class="form-control" name="make_id"
+                                        value="{{ isset($row->make_id) ? $row->make_id : 1 }}">
+                                    <input type="hidden" class="form-control" name="model_id"
+                                        value="{{ isset($row->model_id) ? $row->model_id : 1 }}">
+                                    {{-- <div class="mb-3">
                                         <label class="form-label">Make Name</label>
                                         <select name="make_id" id="make_id" class="select2 form-control">
                                             @if ($makes->count() > 0)
@@ -26,8 +30,8 @@
                                             @endif
                                         </select>
                                         <div class="error" id='error_make_id'></div>
-                                    </div>
-                                    <div class="mb-3">
+                                    </div> --}}
+                                    {{-- <div class="mb-3">
                                         <label class="form-label"> Model Name</label>
                                         <select name="model_id" id="model_id" class="select2 form-control">
                                             @if ($models->count() > 0)
@@ -39,7 +43,7 @@
                                             @endif
                                         </select>
                                         <div class="error" id='error_model_id'></div>
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3">
                                         <label class="form-label"> Year</label>
                                         <input type="text" class="form-control" name="name" id="name"

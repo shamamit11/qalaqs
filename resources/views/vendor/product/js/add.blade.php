@@ -107,8 +107,8 @@
         $('.select2').select2();
         $(".selectize").selectize();
         $("#model_id").chained("#make_id");
-        $("#year_id").chained("#model_id");
-        $("#engine_id").chained("#year_id");
+        //$("#year_id").chained("#model_id");
+        //$("#engine_id").chained("#year_id");
         $("#subcategory_id").chained("#category_id");
     });
 </script>
