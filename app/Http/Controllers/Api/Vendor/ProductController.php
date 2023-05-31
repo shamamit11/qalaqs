@@ -3,14 +3,9 @@
 namespace App\Http\Controllers\Api\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Vendor\Product\EngineRequest;
-use App\Http\Requests\Api\Vendor\Product\ModelRequest;
 use App\Http\Requests\Api\Vendor\Product\ProductRequest;
-use App\Http\Requests\Api\Vendor\Product\SubcategoryRequest;
 use App\Http\Requests\Api\Vendor\Product\SuitableRequest;
-use App\Http\Requests\Api\Vendor\Product\YearRequest;
 use App\Services\Api\Vendor\ProductService;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -29,8 +24,12 @@ class ProductController extends Controller
         return $this->product->getModels($make_id);
     }
 
-    public function getYears($make_id, $model_id) {
-        return $this->product->getYears($make_id, $model_id);
+    // public function getYears($make_id, $model_id) {
+    //     return $this->product->getYears($make_id, $model_id);
+    // }
+
+    public function getYears() {
+        return $this->product->getYears();
     }
 
     public function getEngines($make_id, $model_id, $year_id) {
