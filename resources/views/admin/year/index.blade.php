@@ -28,8 +28,8 @@
                                             <tr>
                                                 <th width="50">#</th>
                                                 <th>Year</th>
-                                                <th width="250">Make</th>
-                                                <th width="250">Model</th>
+                                                {{-- <th width="250">Make</th>
+                                                <th width="250">Model</th> --}}
                                                 <th style="text-align:center" width="200">Status</th>
                                                 <th style="text-align:center" width="120">Action</th>
                                             </tr>
@@ -39,8 +39,8 @@
                                                 <tr id="tr{{ $year->id }}">
                                                     <td>{{ $count++ }}</td>
                                                     <td>{{ $year->name }}</td>
-                                                    <td>{{ $year->make->name }}</td>
-                                                    <td>{{ $year->model->name }}</td>
+                                                    {{-- <td>{{ $year->make->name }}</td>
+                                                    <td>{{ $year->model->name }}</td> --}}
                                                     <td style="text-align:center"><label class="switch"
                                                             style="margin: 0 auto">
                                                             <input class="switch-input switch-status" type="checkbox"
