@@ -46,12 +46,29 @@ class ProductService
         }
     }
 
-    public function getYears($make_id, $model_id) {
+    // public function getYears($make_id, $model_id) {
+    //     try {
+    //         $years = Year::where([
+    //             ['status', 1], 
+    //             ['make_id', $make_id],
+    //             ['model_id', $model_id]
+    //         ])->orderBy('name', 'asc')->get();
+
+    //         $response['data'] = $years;
+    //         $response['message'] = false;
+    //         $response['errors'] = false;
+    //         $response['status_code'] = 200;
+    //         return response()->json($response, 200);
+    //     }
+    //     catch (\Exception$e) {
+    //         return response()->json(['errors' => $e->getMessage()], 400);
+    //     }
+    // }
+
+    public function getYears() {
         try {
             $years = Year::where([
-                ['status', 1], 
-                ['make_id', $make_id],
-                ['model_id', $model_id]
+                ['status', 1]
             ])->orderBy('name', 'asc')->get();
 
             $response['data'] = $years;
