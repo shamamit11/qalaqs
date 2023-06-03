@@ -33,7 +33,7 @@ class VendorRequest extends ApiRequest
             'license_image' => 'required',
             'address' => 'required',
             'city' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:vendors,email',
             'password' => 'required',
             'verification_code' => '',
             'email_verified' => '',
