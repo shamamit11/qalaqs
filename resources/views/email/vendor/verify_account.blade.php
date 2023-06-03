@@ -41,7 +41,10 @@
                                   <b>Hello {{ $first_name }},</b>
                                   <br>
                                 </p>
-                                <p style="margin: 0 0 16px;">Thank you for registering with Qalaqs. To proceed further, please verify your account by clicking the link below:
+                                <p style="margin: 0 0 16px;">Thank you for registering with Qalaqs. To proceed further, please verify your account by clicking the link below. Once you are verified, you may use the following credentials for logging in to your account.</p>
+                                <p style="margin: 0 0 16px;">
+                                  Email: {{ $email }} <br>
+                                  Password: {{ $password }}
                                 </p>
                                 <p style="font-size:16px; font-weight: bold">
                                    <a href="{{route('verify-account-vendor', [$token])}}" style="color:blue; text-decoration:none" target="_blank">Click Here to Verify Your Account</a>

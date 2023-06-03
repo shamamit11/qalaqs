@@ -1,4 +1,63 @@
 <script>
+    function bankImageBrowser(element) {
+        var img = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            $("#btn_image_delete").removeClass('d-none');
+            $("#image").val(reader.result);
+            $("#displayImg").attr("src", reader.result);
+        }
+        reader.readAsDataURL(img);
+    }
+
+    function confirmDelete(field_name, data_val, img_id, btn_id) {
+        if(data_val) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ route('vendor-bank-imagedelete') }}',
+                        type: 'POST',
+                        data: {
+                            'id': '{{ @$user->id }}',
+                            'field_name': field_name,
+                            '_token': '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            $("#"+btn_id).addClass('d-none');
+                            $("#"+img_id).attr("src", "{{ asset('/assets/admin/images/browser.png')}}");
+                            $("#"+field_name).val('');
+                            toastr["success"]('Data deleted.');
+                            location.reload();
+                        }
+                    });
+                } 
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+                    toastr["error"]('Cancelled.');
+                }
+            })
+        } 
+        else {
+            $("#"+btn_id).addClass('d-none');
+            $("#"+img_id).attr("src", "{{ asset('/assets/admin/images/browser.png')}}");
+            $("#"+field_name).val('');
+        }
+    }
+
     $(document).ready(function() {
         $("#form").submit(function(e) {
             e.preventDefault();
@@ -14,8 +73,10 @@
                     $('.btn-loading').prop('disabled', false);
                     $('.btn-loading').html('Update Information');
                     if (data.status_code == 201) {
+                        console.log('Updated Successfully.')
                         toastr["success"]("Updated Successfully.");
-                        window.location.href = "{{route('vendor-account-bank')}}";
+                        window.location.reload();
+                        //window.location.href = "{{route('vendor-account-bank')}}";
                     }
                 },
                 error: function(xhr) {

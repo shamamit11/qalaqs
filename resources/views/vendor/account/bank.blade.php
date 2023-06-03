@@ -48,6 +48,37 @@
                                                 <div class="error" id='error_iban'></div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label"> Account Image</label>
+                                                        <br>
+                                                        <input type="file" name="file_image" id="file_image" class="d-none" onchange="bankImageBrowser(this)">
+                                                        <label type="button" for="file_image" class="btn btn-secondary">Choose File</label>
+                                                        <input name="image" type="hidden" id="image" value="{{ old('image', isset($row->image) ? $row->image : '') }}"/>
+                                                        <div>
+                                                            @if($row && $row->image)
+                                                                <div style="margin:5px 0 0 0;"> 
+                                                                    <img src="{{ asset('/storage/vendor/'.$row->image)}}" id="displayImg" class="file-image-preview">
+                                                                </div>
+                                                            @else
+                                                                <div style="margin:5px 0 0 0;"> 
+                                                                    <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayImg" class="file-image-preview">
+                                                                </div>
+                                                            @endif
+                                                            <div style="margin:5px 0 0 0;"
+                                                                class="{{ ($row && $row->image) ? 'd-block' : 'd-none' }}"
+                                                                id='btn_image_delete'>
+                                                                <button type="button" class="btn btn-xs btn-danger"
+                                                                    Onclick="confirmDelete('image', '{{$row->image}}', 'displayImg', 'btn_image_delete')">Remove Image</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="error" id='error_image'></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <button class="btn btn-primary btn-loading" type="submit"> Update Information</button>
                                 </form>

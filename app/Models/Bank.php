@@ -9,5 +9,5 @@ class Bank extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vendor_id', 'bank_name', 'account_name', 'account_no', 'iban' ];
+    protected $fillable = ['vendor_id', 'bank_name', 'account_name', 'account_no', 'iban', 'image' ];
 }

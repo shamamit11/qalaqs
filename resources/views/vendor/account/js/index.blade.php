@@ -42,6 +42,7 @@
                             $("#"+img_id).attr("src", "{{ asset('/assets/admin/images/browser.png')}}");
                             $("#"+field_name).val('');
                             toastr["success"]('Data deleted.');
+                            window.location.reload();
                         }
                     });
                 } 
@@ -73,7 +74,8 @@
                     $('.btn-loading').html('Update Information');
                     if (data.status_code == 201) {
                         toastr["success"]("Updated Successfully.");
-                        window.location.href = "{{route('vendor-account-setting')}}";
+                        window.location.reload();
+                        //window.location.href = "{{route('vendor-account-setting')}}";
                     }
                 },
                 error: function(xhr) {

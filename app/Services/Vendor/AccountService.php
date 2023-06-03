@@ -96,14 +96,37 @@ class AccountService
             $bank->account_name = $request['account_name'];
             $bank->account_no = $request['account_no'];
             $bank->iban = $request['iban'];
-            $bank->save();
 
+            if (preg_match('#^data:image.*?base64,#', $request['image'])) {
+                $bank_image = $this->StoreBase64Image($request['image'], '/vendor/');
+            } else {
+                $bank_image = ($bank) ? $bank->image : '';
+            }
+            $bank->image = $bank_image;
+            $bank->save();
             $response['data'] = $bank;
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function bankImageDelete($request) {
+        try {
+            $vendor_id = Auth::guard('vendor')->id();
+            $bank = Bank::where('vendor_id', $vendor_id)->first();
+            $field_name = $request->field_name;
+            $ras = Bank::where('id', $bank->id)->first();
+            if ($ras) {
+                Storage::disk('public')->delete('/vendor/' . $ras->$field_name);
+                $ras->$field_name = '';
+                $ras->save();
+            }
+            return "success";
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 401);
         }
     }
 

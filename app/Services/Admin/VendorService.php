@@ -88,6 +88,8 @@ class VendorService
                 $token = encode_param($vendor->vendor_code);
                 $emailData = [
                     'first_name' => $vendor->first_name,
+                    'email' => $request['email'],
+                    'password' => $request['password'],
                     'token' => $token
                 ];
                 Mail::send('email.vendor.verify_account', $emailData, function ($message) use ($request) {
