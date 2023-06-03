@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Admin;
 
+use App\Models\Bank;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\StoreImageTrait;
@@ -96,6 +97,22 @@ class VendorService
                     $message->to($request['email']);
                     $message->subject('Qalaqs: Verify Your Account');
                 });
+            }
+
+            //add bank details
+            if($request['id'] == 0 ) {
+                $bank = new Bank;
+                $bank->vendor_id = $vendor->id;
+                $bank->bank_name = $request['bank_name'] ? $request['bank_name'] : '';
+                $bank->account_name = $request['account_name'] ? $request['account_name'] : '';
+                $bank->account_no = $request['account_no'] ? $request['account_no'] : '';
+                $bank->iban = $request['iban'] ? $request['iban'] : '';
+                
+                if($request['bank_image']) {
+                    $bank_image = $this->StoreBase64Image($request['bank_image'], '/vendor/');
+                }
+                $bank->image = $bank_image;
+                $bank->save();
             }
             
             $response['message'] = $message;

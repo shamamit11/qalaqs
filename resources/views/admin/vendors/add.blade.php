@@ -112,8 +112,8 @@
                                         <div class="col-lg-6">
                                             <div class="mb-4">
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label class="form-label"> Profile Image <small> (150px X
+                                                    <div class="col-md-5">
+                                                        <label class="form-label"> Profile / Logo Image <small> (150px X
                                                                 150px)</small></label>
                                                         <br>
                                                         <input type="file" name="file_image" id="file_image"
@@ -150,7 +150,7 @@
 
                                             <div class="mb-4">
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-5">
                                                         <label class="form-label"> License Image</label>
                                                         <br>
                                                         <input type="file" name="file_license_image" id="file_license_image"
@@ -185,6 +185,71 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <h4 class="header-title">Bank Information</h4>
+                                        <p class="sub-header">
+                                            Please provide your bank information for financial transaction. We will use the following bank information to transfer your amount.
+                                        </p>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Bank Name</label>
+                                                <input class="form-control" name="bank_name"
+                                                    value="{{ old('bank_name', isset($row->bank_name) ? $row->bank_name : '') }}"
+                                                    type="text" id="bank_name">
+                                                <div class="error" id='error_bank_name'></div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Account Name</label>
+                                                    <input class="form-control" name="account_name"
+                                                        value="{{ old('account_name', isset($row->account_name) ? $row->account_name : '') }}"
+                                                        type="text" id="account_name">
+                                                    <div class="error" id='error_account_name'></div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Account Number</label>
+                                                <input class="form-control" name="account_no"
+                                                    value="{{ old('account_no', isset($row->account_no) ? $row->account_no : '') }}"
+                                                    type="text" id="account_no">
+                                                <div class="error" id='error_account_no'></div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">IBAN</label>
+                                                <input class="form-control" name="iban"
+                                                    value="{{ old('iban', isset($row->iban) ? $row->iban : '') }}"
+                                                    type="text" id="iban">
+                                                <div class="error" id='error_iban'></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label"> Account Image</label>
+                                                        <br>
+                                                        <input type="file" name="file_bank_image" id="file_bank_image" class="d-none" onchange="bankImageBrowser(this)">
+                                                        <label type="button" for="file_bank_image" class="btn btn-secondary">Choose File</label>
+                                                        <input name="bank_image" type="hidden" id="bank_image" value=""/>
+                                                        <div>
+                                                            <div style="margin:5px 0 0 0;"> 
+                                                                <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayBankImage" class="file-image-preview">
+                                                            </div>
+                                                            <div style="margin:5px 0 0 0;" class="d-none" id='btn_bank_image_delete'>
+                                                                <button type="button" class="btn btn-xs btn-danger"
+                                                                    Onclick="confirmDelete('bank_image', '', 'displayBankImage', 'btn_bank_image_delete')">Remove Image</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="error" id='error_bank_image'></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                    
+                                    </div>
+                                    
                                     <button class="btn btn-primary btn-loading" type="submit"> Submit</button>
                                 </form>
                             </div>
