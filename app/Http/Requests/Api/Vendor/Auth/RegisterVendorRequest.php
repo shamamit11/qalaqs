@@ -35,6 +35,11 @@ class RegisterVendorRequest extends ApiRequest
             'device_id' => 'nullable',
             'city' => 'nullable',
             'address' => 'nullable',
+            'bank_name' => '',
+            'account_name' => '',
+            'account_no' => '',
+            'iban' => '',
+            'bank_image' => ''
         ];
     }
 }

@@ -41,6 +41,11 @@ class VendorRequest extends ApiRequest
             'status' => '',
             'account_type' => 'required',
             'device_id' => '',
+            'bank_name' => '',
+            'account_name' => '',
+            'account_no' => '',
+            'iban' => '',
+            'bank_image' => ''
         ];
     }
 }

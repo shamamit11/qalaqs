@@ -21,6 +21,17 @@
         reader.readAsDataURL(img);
     }
 
+    function bankImageBrowser(element) {
+        var img = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            $("#btn_bank_image_delete").removeClass('d-none');
+            $("#bank_image").val(reader.result);
+            $("#displayBankImage").attr("src", reader.result);
+        }
+        reader.readAsDataURL(img);
+    }
+
     function confirmDelete(field_name, data_val, img_id, btn_id) {
         if(data_val) {
             const swalWithBootstrapButtons = Swal.mixin({
