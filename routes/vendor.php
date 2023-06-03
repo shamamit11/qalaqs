@@ -40,6 +40,7 @@ Route::group(['middleware' => 'vendorauth'], function () {
         Route::post('/account/imagedelete', 'imageDelete')->name('vendor-account-imagedelete');
         Route::get('/account/bank', 'bank')->name('vendor-account-bank');
         Route::post('/account/bank/addaction', 'updateBank')->name('vendor-account-bank-addaction');
+        Route::post('/account/bank-imagedelete', 'bankImageDelete')->name('vendor-bank-imagedelete');
     });
 
     Route::controller('ProductController')->group(function () {

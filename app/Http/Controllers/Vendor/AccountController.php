@@ -65,4 +65,8 @@ class AccountController extends Controller
         return $this->account->updateBank($request->validated());
     }
 
+    public function bankImageDelete(Request $request) {
+        echo $this->account->bankImageDelete($request);
+    }
+
 }

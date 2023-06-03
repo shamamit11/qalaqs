@@ -40,6 +40,11 @@
                               <div id="body_content_inner" style='color: #303030; font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 150%; text-align: left;'>
                                 <p style="margin-top: 16px; text-align:center; font-weight:bold">Your account has been verified. 
                                 </p>
+
+                                <p style="margin-top: 16px; text-align:center; font-weight:bold">
+                                  Please use the link below to login to Vendor Portal <br>
+                                  <a href="https://portal.qalaqs.com">https://portal.qalaqs.com</a>
+                                </p>
                                 
                                 <p style="margin-top: 16px; text-align:center;">Thank You.</p>
                                 <p>&nbsp; <br />

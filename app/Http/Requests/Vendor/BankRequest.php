@@ -26,7 +26,8 @@ class BankRequest extends ApiRequest
             'bank_name' => 'required',
             'account_name' => 'required',
             'account_no' => 'required',
-            'iban' => 'required'
+            'iban' => 'required',
+            'image' => 'required'
         ];
     }
 }
