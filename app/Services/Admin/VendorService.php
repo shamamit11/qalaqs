@@ -100,20 +100,29 @@ class VendorService
             }
 
             //add bank details
-            if($request['id'] == 0 ) {
+            if ($request['id']) {
+                $bank = Bank::where('vendor_id', $request['id'])->first();
+                $bank->vendor_id = $request['id'];
+            }
+            else { 
                 $bank = new Bank;
                 $bank->vendor_id = $vendor->id;
-                $bank->bank_name = $request['bank_name'] ? $request['bank_name'] : '';
-                $bank->account_name = $request['account_name'] ? $request['account_name'] : '';
-                $bank->account_no = $request['account_no'] ? $request['account_no'] : '';
-                $bank->iban = $request['iban'] ? $request['iban'] : '';
-                
-                if($request['bank_image']) {
-                    $bank_image = $this->StoreBase64Image($request['bank_image'], '/vendor/');
-                }
-                $bank->image = $bank_image;
-                $bank->save();
             }
+
+            $bank->bank_name = $request['bank_name'] ? $request['bank_name'] : '';
+            $bank->account_name = $request['account_name'] ? $request['account_name'] : '';
+            $bank->account_no = $request['account_no'] ? $request['account_no'] : '';
+            $bank->iban = $request['iban'] ? $request['iban'] : '';
+            
+            if (preg_match('#^data:image.*?base64,#', $request['bank_image'])) {
+                $bank_image = $this->StoreBase64Image($request['bank_image'], '/vendor/');
+            } else {
+                $bank_image = ($bank) ? $bank->image : '';
+            }
+
+            $bank->image = $bank_image;
+            $bank->save();
+        
             
             $response['message'] = $message;
             $response['errors'] = false;

@@ -73,15 +73,15 @@
                                                 <div class="error" id='error_mobile'></div>
                                             </div>
 
-                                            @if (@$row->id == 0)
-                                                <div class="mb-3">
-                                                    <label class="form-label">Email</label>
-                                                    <input class="form-control"
-                                                        value="{{ old('email', isset($row->email) ? $row->email : '') }}"
-                                                        type="text" name="email" id="email">
-                                                    <div class="error" id='error_email'></div>
-                                                </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input class="form-control"
+                                                    value="{{ old('email', isset($row->email) ? $row->email : '') }}"
+                                                    type="text" name="email" id="email" @if (@$row->id != 0) readonly @endif>
+                                                <div class="error" id='error_email'></div>
+                                            </div>
 
+                                            @if (@$row->id == 0)
                                                 <div class="mb-3">
                                                     <label class="form-label"> Password</label>
                                                     <input type="text" class="form-control" name="password"
@@ -195,7 +195,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Bank Name</label>
                                                 <input class="form-control" name="bank_name"
-                                                    value="{{ old('bank_name', isset($row->bank_name) ? $row->bank_name : '') }}"
+                                                    value="{{ old('bank_name', isset($bank->bank_name) ? $bank->bank_name : '') }}"
                                                     type="text" id="bank_name">
                                                 <div class="error" id='error_bank_name'></div>
                                             </div>
@@ -203,7 +203,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Account Name</label>
                                                     <input class="form-control" name="account_name"
-                                                        value="{{ old('account_name', isset($row->account_name) ? $row->account_name : '') }}"
+                                                        value="{{ old('account_name', isset($bank->account_name) ? $bank->account_name : '') }}"
                                                         type="text" id="account_name">
                                                     <div class="error" id='error_account_name'></div>
                                             </div>
@@ -211,7 +211,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Account Number</label>
                                                 <input class="form-control" name="account_no"
-                                                    value="{{ old('account_no', isset($row->account_no) ? $row->account_no : '') }}"
+                                                    value="{{ old('account_no', isset($bank->account_no) ? $bank->account_no : '') }}"
                                                     type="text" id="account_no">
                                                 <div class="error" id='error_account_no'></div>
                                             </div>
@@ -219,7 +219,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label">IBAN</label>
                                                 <input class="form-control" name="iban"
-                                                    value="{{ old('iban', isset($row->iban) ? $row->iban : '') }}"
+                                                    value="{{ old('iban', isset($bank->iban) ? $bank->iban : '') }}"
                                                     type="text" id="iban">
                                                 <div class="error" id='error_iban'></div>
                                             </div>
@@ -232,15 +232,27 @@
                                                         <br>
                                                         <input type="file" name="file_bank_image" id="file_bank_image" class="d-none" onchange="bankImageBrowser(this)">
                                                         <label type="button" for="file_bank_image" class="btn btn-secondary">Choose File</label>
-                                                        <input name="bank_image" type="hidden" id="bank_image" value=""/>
+                                                        <input name="bank_image" type="hidden" id="bank_image"  value="{{ old('bank_image', isset($bank->image) ? $bank->image : '') }}"/>
                                                         <div>
-                                                            <div style="margin:5px 0 0 0;"> 
-                                                                <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayBankImage" class="file-image-preview">
-                                                            </div>
-                                                            <div style="margin:5px 0 0 0;" class="d-none" id='btn_bank_image_delete'>
+                                                            @if ($bank && @$bank->image)
+                                                                <div style="margin:5px 0 0 0;">
+                                                                    <img src="{{ asset('/storage/vendor/' . @$bank->image) }}"
+                                                                        id="displayBankImage" class="file-image-preview">
+                                                                </div>
+                                                            @else
+                                                                <div style="margin:5px 0 0 0;">
+                                                                    <img src="{{ asset('/assets/admin/images/browser.png') }}"
+                                                                        id="displayBankImage" class="file-image-preview">
+                                                                </div>
+                                                            @endif
+
+                                                            {{-- <div style="margin:5px 0 0 0;"
+                                                                class="{{ $bank && @$bank->image ? 'd-block' : 'd-none' }}"
+                                                                id='btn_bank_image_delete'>
                                                                 <button type="button" class="btn btn-xs btn-danger"
-                                                                    Onclick="confirmDelete('bank_image', '', 'displayBankImage', 'btn_bank_image_delete')">Remove Image</button>
-                                                            </div>
+                                                                    Onclick="confirmDelete('bank_image', '{{ @$bank->image }}', 'displayBankImage', 'btn_bank_image_delete')">Remove
+                                                                    Image</button>
+                                                            </div> --}}
                                                         </div>
                                                         <div class="error" id='error_bank_image'></div>
                                                     </div>

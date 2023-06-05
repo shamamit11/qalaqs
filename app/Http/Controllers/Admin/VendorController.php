@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\VendorRequest;
+use App\Models\Bank;
 use App\Models\VendorReview;
 use App\Services\Admin\VendorService;
 use Illuminate\Http\Request;
@@ -61,6 +62,7 @@ class VendorController extends Controller
         $data['title'] = $page_title = ($id == 0) ? "Add Vendor" : "Edit Vendor";
         $data['action'] = route('admin-vendor-addaction');
         $data['row'] = Vendor::where('id', $id)->first();
+        $data['bank'] = Bank::where('vendor_id', $id)->first();
         return view('admin.vendors.add', compact('nav', 'sub_nav', 'page_title'), $data);
     }
 
