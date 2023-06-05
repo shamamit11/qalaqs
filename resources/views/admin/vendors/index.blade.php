@@ -54,10 +54,10 @@
                                                                 data-off="Pending"></span> <span
                                                                 class="switch-handle"></span> </label></td>
                                                     <td style="text-align:center">
-                                                        <a href="{{ route('admin-vendor-view', ['id=' . $vendor->id]) }}"
+                                                        <a href="{{ route('admin-vendor-add', ['id=' . $vendor->id]) }}"
                                                             class="btn btn-sm btn-warning rounded-pill"
                                                             data-id="{{ $vendor->id }}"><span class="icon"><i
-                                                                    class='fas fa-eye'></i></span></a>
+                                                                    class='fas fa-pen'></i></span></a>
                                                         @if (checkIfUserIsSuperAdmin())
                                                             <button type="button"
                                                                 class="btn btn-sm btn-danger rounded-pill delete-row-btn"
