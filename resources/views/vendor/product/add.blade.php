@@ -17,12 +17,12 @@
                                         value="{{ isset($row->id) ? $row->id : 0 }}">
 
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-7">
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Category Name</label>
+                                                    <label class="form-label">Category Name</label><br>
                                                     <select name="category_id" id="category_id"
-                                                        class="select2 form-control">
+                                                        class="form-control select2">
                                                         @if ($categories->count() > 0)
                                                             <option value="">Select</option>
                                                             @foreach ($categories as $category)
@@ -36,7 +36,7 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Subcategory</label>
+                                                    <label class="form-label">Subcategory</label><br>
                                                     <select name="subcategory_id" id="subcategory_id"
                                                         class="select2 form-control">
                                                         @if ($subcategories->count() > 0)
@@ -66,7 +66,7 @@
 
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Make</label>
+                                                    <label class="form-label">Make</label><br>
                                                     <select name="make_id" id="make_id" class="select2 form-control">
                                                         @if ($makes->count() > 0)
                                                             <option value="">Select</option>
@@ -80,7 +80,7 @@
                                                     <div class="error" id='error_make_id'></div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label class="form-label"> Model Name</label>
+                                                    <label class="form-label"> Model Name</label><br>
                                                     <select name="model_id" id="model_id" class="select2 form-control">
                                                         @if ($models->count() > 0)
                                                             <option value="">Select</option>
@@ -97,12 +97,19 @@
                                             </div>
 
                                             <div class="row mb-3">
+
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Part Number</label>
-                                                    <input type="text" class="form-control" name="part_number"
-                                                        id="part_number"
-                                                        value="{{ isset($row->part_number) ? $row->part_number : '' }}">
-                                                    <div class="error" id='error_part_number'></div>
+                                                    <label class="form-label">Year</label><br>
+                                                    <select name="year_id" id="year_id" class="select2 form-control">
+                                                        @if ($years->count() > 0)
+                                                            @foreach ($years as $year)
+                                                                <option value="{{ $year->id }}"
+                                                                    @if (@$row->year_id == $year->id) selected @endif>
+                                                                    {{ $year->name }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                    <div class="error" id='error_year_id'></div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label"> Brand</label>
@@ -122,21 +129,15 @@
 
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Year</label>
-                                                    <select name="year_id" id="year_id" class="select2 form-control">
-                                                        @if ($years->count() > 0)
-                                                            @foreach ($years as $year)
-                                                                <option value="{{ $year->id }}"
-                                                                    @if (@$row->year_id == $year->id) selected @endif>
-                                                                    {{ $year->name }}</option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    <div class="error" id='error_year_id'></div>
+                                                    <label class="form-label">Part Number</label>
+                                                    <input type="text" class="form-control" name="part_number"
+                                                        id="part_number"
+                                                        value="{{ isset($row->part_number) ? $row->part_number : '' }}">
+                                                    <div class="error" id='error_part_number'></div>
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Origin</label>
+                                                    <label class="form-label">Origin</label><br>
                                                     <select name="origin" id="origin" class="select2 form-control">
                                                         <option value="Bahrain"
                                                             @if (@$row->origin == 'Bahrain') selected @endif>Bahrain
