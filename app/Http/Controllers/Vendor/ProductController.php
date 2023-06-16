@@ -106,4 +106,8 @@ class ProductController extends Controller
     {
         return $this->product->deleteMatch($request);
     }
+
+    public function getSubcategoryById(Request $request) {
+        return $this->product->getSubcategoryById($request);
+    }
 }

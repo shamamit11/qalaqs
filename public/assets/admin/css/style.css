@@ -95,7 +95,11 @@ div.error {
 }
 
 .inputerror {
-    border-color: red;
+    border: 1px solid red !important;
+}
+
+.select2.form-control.select2-hidden-accessible.inputerror {
+    border: 1px solid red !important;
 }
 
 a.text-muted:hover {

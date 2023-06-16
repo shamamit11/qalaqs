@@ -57,10 +57,10 @@ class Product extends Model
         return $this->belongsTo(Engine::class, 'engine_id', 'id');
     }
 
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class, 'product_id', 'id');
-    }
+    // public function images()
+    // {
+    //     return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    // }
 
     public function specifications()
     {

@@ -97,6 +97,13 @@
                     </a>
                 </li>
 
+                <li class="{{ $nav == 'productImage' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-product-images') }}" class="{{ $nav == 'productImage' ? 'active' : '' }}">
+                        <i class="mdi mdi-alpha-e-circle"></i>
+                        <span> Product Images </span>
+                    </a>
+                </li>
+
                 <li class="menu-title mt-2">Vendor</li>
 
                 <li class="{{ $nav == 'vendor' ? 'menuitem-active' : '' }}">

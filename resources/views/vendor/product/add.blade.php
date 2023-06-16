@@ -15,15 +15,9 @@
                                     @csrf
                                     <input type="hidden" class="form-control" name="id" id="id"
                                         value="{{ isset($row->id) ? $row->id : 0 }}">
-                                    <div class="mb-3">
-                                        <label class="form-label"> Title</label>
-                                        <input type="text" class="form-control" name="title" id="title"
-                                            value="{{ isset($row->title) ? $row->title : '' }}">
-                                        <div class="error" id='error_title'></div>
-                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-6">
-
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">Category Name</label>
@@ -50,7 +44,7 @@
                                                             @foreach ($subcategories as $subcategory)
                                                                 <option value="{{ $subcategory->id }}"
                                                                     data-chained="{{ $subcategory->category_id }}"
-                                                                    @if (@$row->sub_category_id == $subcategory->id) selected @endif>
+                                                                    @if (@$row->subcategory_id == $subcategory->id) selected @endif>
                                                                     {{ $subcategory->name }}
                                                                 </option>
                                                             @endforeach
@@ -60,7 +54,16 @@
                                                 </div>
                                             </div>
 
-                                            
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <label class="form-label"> Title</label>
+                                                    <input type="text" class="form-control" name="title" id="title"
+                                                        value="{{ isset($row->title) ? $row->title : '' }}">
+                                                    <div class="error" id='error_title'></div>
+                                                </div>
+                                            </div>
+
+
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">Make</label>
@@ -93,68 +96,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label"> Part Type</label>
-                                                    <select name="part_type" id="part_type"
-                                                        class="selectize form-control">
-                                                        <option value="Used"
-                                                            @if (@$row->part_type == 'Used') selected @endif>Used
-                                                        </option>
-                                                        <option value="New"
-                                                            @if (@$row->part_type == 'New') selected @endif>New</option>
-                                                    </select>
-                                                    <div class="error" id='error_part_type'></div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label"> Market</label>
-                                                    <select name="market" id="market" class="selectize form-control">
-                                                        <option value="Genuine"
-                                                            @if (@$row->market == 'Genuine') selected @endif>Genuine
-                                                        </option>
-                                                        <option value="Exported"
-                                                            @if (@$row->market == 'Exported') selected @endif>Exported</option>
-                                                    </select>
-                                                    <div class="error" id='error_market'></div>
-                                                </div>
-                                            </div>
-
-                                            
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label text-danger"> Price (AED)</label>
-                                                    <input type="text" class="form-control" name="price" id="price"
-                                                        value="{{ old('price', isset($row->price) ? $row->price : '') }}">
-                                                    <div class="error" id='error_price'></div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label text-info"> Discount</label>
-                                                    <select name="discount" id="discount" class="selectize form-control">
-                                                        <option value="0"
-                                                            @if (@$row->discount == 0) selected @endif>0%</option>
-                                                        <option value="5"
-                                                            @if (@$row->discount == 5) selected @endif>5%</option>
-                                                        <option value="10"
-                                                            @if (@$row->discount == 10) selected @endif>10%</option>
-                                                        <option value="15"
-                                                            @if (@$row->discount == 15) selected @endif>15%</option>
-                                                        <option value="20"
-                                                            @if (@$row->discount == 20) selected @endif>20%</option>
-                                                        <option value="25"
-                                                            @if (@$row->discount == 25) selected @endif>25%</option>
-                                                        <option value="30"
-                                                            @if (@$row->discount == 30) selected @endif>30%</option>
-                                                        <option value="35"
-                                                            @if (@$row->discount == 35) selected @endif>35%</option>
-                                                        <option value="50"
-                                                            @if (@$row->discount == 50) selected @endif>50%</option>
-                                                    </select>
-                                                    <div class="error" id='error_discount'></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">Part Number</label>
@@ -197,26 +138,127 @@
                                                 <div class="col-md-6">
                                                     <label class="form-label">Origin</label>
                                                     <select name="origin" id="origin" class="select2 form-control">
-                                                        <option value="Bahrain" @if (@$row->origin == 'Bahrain') selected @endif>Bahrain</option>
-                                                        <option value="China" @if (@$row->origin == 'China') selected @endif>China</option>
-                                                        <option value="France" @if (@$row->origin == 'France') selected @endif>France</option>
-                                                        <option value="Germany" @if (@$row->origin == 'Germany') selected @endif>Germany</option>
-                                                        <option value="India" @if (@$row->origin == 'India') selected @endif>India</option>
-                                                        <option value="Japan" @if (@$row->origin == 'Japan') selected @endif>Japan</option>
-                                                        <option value="Kuwait" @if (@$row->origin == 'Kuwait') selected @endif>Kuwait</option>
-                                                        <option value="Malayasia" @if (@$row->origin == 'Malayasia') selected @endif>Malayasia</option>
-                                                        <option value="Oman" @if (@$row->origin == 'Oman') selected @endif>Oman</option>
-                                                        <option value="Qatar" @if (@$row->origin == 'Qatar') selected @endif>Qatar</option>
-                                                        <option value="Russia" @if (@$row->origin == 'Russia') selected @endif>Russia</option>
-                                                        <option value="Saudi Arabia" @if (@$row->origin == 'Saudi Arabia') selected @endif>Saudi Arabia</option>
-                                                        <option value="Singapore" @if (@$row->origin == 'Singapore') selected @endif>Singapore</option>
-                                                        <option value="South Korea" @if (@$row->origin == 'South Korea') selected @endif>South Korea</option>
-                                                        <option value="Sweden" @if (@$row->origin == 'Sweden') selected @endif>Sweden</option>
-                                                        <option value="United Arab Emirates" @if (@$row->origin == 'United Arab Emirates') selected @endif>United Arab Emirates</option>
-                                                        <option value="United Kingdom" @if (@$row->origin == 'United Kingdom') selected @endif>United Kingdom</option>
-                                                        <option value="United States" @if (@$row->origin == 'United States') selected @endif>United States</option>
+                                                        <option value="Bahrain"
+                                                            @if (@$row->origin == 'Bahrain') selected @endif>Bahrain
+                                                        </option>
+                                                        <option value="China"
+                                                            @if (@$row->origin == 'China') selected @endif>China
+                                                        </option>
+                                                        <option value="France"
+                                                            @if (@$row->origin == 'France') selected @endif>France
+                                                        </option>
+                                                        <option value="Germany"
+                                                            @if (@$row->origin == 'Germany') selected @endif>Germany
+                                                        </option>
+                                                        <option value="India"
+                                                            @if (@$row->origin == 'India') selected @endif>India
+                                                        </option>
+                                                        <option value="Japan"
+                                                            @if (@$row->origin == 'Japan') selected @endif>Japan
+                                                        </option>
+                                                        <option value="Kuwait"
+                                                            @if (@$row->origin == 'Kuwait') selected @endif>Kuwait
+                                                        </option>
+                                                        <option value="Malayasia"
+                                                            @if (@$row->origin == 'Malayasia') selected @endif>Malayasia
+                                                        </option>
+                                                        <option value="Oman"
+                                                            @if (@$row->origin == 'Oman') selected @endif>Oman
+                                                        </option>
+                                                        <option value="Qatar"
+                                                            @if (@$row->origin == 'Qatar') selected @endif>Qatar
+                                                        </option>
+                                                        <option value="Russia"
+                                                            @if (@$row->origin == 'Russia') selected @endif>Russia
+                                                        </option>
+                                                        <option value="Saudi Arabia"
+                                                            @if (@$row->origin == 'Saudi Arabia') selected @endif>Saudi Arabia
+                                                        </option>
+                                                        <option value="Singapore"
+                                                            @if (@$row->origin == 'Singapore') selected @endif>Singapore
+                                                        </option>
+                                                        <option value="South Korea"
+                                                            @if (@$row->origin == 'South Korea') selected @endif>South Korea
+                                                        </option>
+                                                        <option value="Sweden"
+                                                            @if (@$row->origin == 'Sweden') selected @endif>Sweden
+                                                        </option>
+                                                        <option value="United Arab Emirates"
+                                                            @if (@$row->origin == 'United Arab Emirates') selected @endif>United Arab
+                                                            Emirates</option>
+                                                        <option value="United Kingdom"
+                                                            @if (@$row->origin == 'United Kingdom') selected @endif>United
+                                                            Kingdom</option>
+                                                        <option value="United States"
+                                                            @if (@$row->origin == 'United States') selected @endif>United
+                                                            States</option>
                                                     </select>
                                                     <div class="error" id='error_origin'></div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label"> Part Type</label>
+                                                    <select name="part_type" id="part_type"
+                                                        class="selectize form-control">
+                                                        <option value="Used"
+                                                            @if (@$row->part_type == 'Used') selected @endif>Used
+                                                        </option>
+                                                        <option value="New"
+                                                            @if (@$row->part_type == 'New') selected @endif>New</option>
+                                                    </select>
+                                                    <div class="error" id='error_part_type'></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label"> Market</label>
+                                                    <select name="market" id="market" class="selectize form-control">
+                                                        <option value="Genuine"
+                                                            @if (@$row->market == 'Genuine') selected @endif>Genuine
+                                                        </option>
+                                                        <option value="Exported"
+                                                            @if (@$row->market == 'Exported') selected @endif>Exported
+                                                        </option>
+                                                    </select>
+                                                    <div class="error" id='error_market'></div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label text-danger"> Price (AED)</label>
+                                                    <input type="text" class="form-control" name="price"
+                                                        id="price"
+                                                        value="{{ old('price', isset($row->price) ? $row->price : '') }}">
+                                                    <div class="error" id='error_price'></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label text-info"> Discount</label>
+                                                    <select name="discount" id="discount"
+                                                        class="selectize form-control">
+                                                        <option value="0"
+                                                            @if (@$row->discount == 0) selected @endif>0%</option>
+                                                        <option value="5"
+                                                            @if (@$row->discount == 5) selected @endif>5%</option>
+                                                        <option value="10"
+                                                            @if (@$row->discount == 10) selected @endif>10%</option>
+                                                        <option value="15"
+                                                            @if (@$row->discount == 15) selected @endif>15%</option>
+                                                        <option value="20"
+                                                            @if (@$row->discount == 20) selected @endif>20%</option>
+                                                        <option value="25"
+                                                            @if (@$row->discount == 25) selected @endif>25%</option>
+                                                        <option value="30"
+                                                            @if (@$row->discount == 30) selected @endif>30%</option>
+                                                        <option value="35"
+                                                            @if (@$row->discount == 35) selected @endif>35%</option>
+                                                        <option value="50"
+                                                            @if (@$row->discount == 50) selected @endif>50%</option>
+                                                    </select>
+                                                    <div class="error" id='error_discount'></div>
                                                 </div>
                                             </div>
 
@@ -254,37 +296,58 @@
                                                     <div class="error" id='error_stock'></div>
                                                 </div>
                                             </div>
+
+                                            <hr>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label"> Weight (g)</label>
+                                                    <input type="text" class="form-control" name="weight"
+                                                        id="weight"
+                                                        value="{{ old('weight', isset($row->weight) ? $row->weight : '') }}">
+                                                    <div class="error" id='error_weight'></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label"> Length (cm)</label>
+                                                    <input type="text" class="form-control" name="length"
+                                                        id="length"
+                                                        value="{{ old('length', isset($row->length) ? $row->length : '') }}">
+                                                    <div class="error" id='error_length'></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label"> Width (cm)</label>
+                                                    <input type="text" class="form-control" name="width"
+                                                        id="width"
+                                                        value="{{ old('width', isset($row->width) ? $row->width : '') }}">
+                                                    <div class="error" id='error_width'></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label"> Height (cm)</label>
+                                                    <input type="text" class="form-control" name="height"
+                                                        id="height"
+                                                        value="{{ old('height', isset($row->height) ? $row->height : '') }}">
+                                                    <div class="error" id='error_height'></div>
+                                                </div>
+                                            </div>
+
+
                                         </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row mb-3">
-                                        <div class="col-md-3">
-                                            <label class="form-label"> Weight (g)</label>
-                                            <input type="text" class="form-control" name="weight" id="weight"
-                                                value="{{ old('weight', isset($row->weight) ? $row->weight : '') }}">
-                                            <div class="error" id='error_weight'></div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label"> Length (cm)</label>
-                                            <input type="text" class="form-control" name="length" id="length"
-                                                value="{{ old('length', isset($row->length) ? $row->length : '') }}">
-                                            <div class="error" id='error_length'></div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label"> Width (cm)</label>
-                                            <input type="text" class="form-control" name="width" id="width"
-                                                value="{{ old('width', isset($row->width) ? $row->width : '') }}">
-                                            <div class="error" id='error_width'></div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label"> Height (cm)</label>
-                                            <input type="text" class="form-control" name="height" id="height"
-                                                value="{{ old('height', isset($row->height) ? $row->height : '') }}">
-                                            <div class="error" id='error_height'></div>
+
+                                        <div class="col-md-6">
+
+
+
+
+
                                         </div>
                                     </div>
 
-                                    <div class="row mt-3">
+
+
+
+                                    <div class="row mt-3" style="display: none">
                                         <hr>
                                         <h4 class="mb-3 header-title">Product Images</h4>
                                         <hr>
@@ -292,24 +355,30 @@
                                             <div class="col-md-3">
                                                 <label class="form-label"> Main Image</label>
                                                 <br>
-                                                <input type="file" name="file_main_image" id="file_main_image" class="d-none" onchange="mainImageBrowser(this)">
-                                                <label type="button" for="file_main_image" class="btn btn-secondary">Choose File</label>
-                                                <input name="main_image" type="hidden" id="main_image" value="{{ old('main_image', isset($row->main_image) ? $row->main_image : '') }}"/>
+                                                <input type="file" name="file_main_image" id="file_main_image"
+                                                    class="d-none" onchange="mainImageBrowser(this)">
+                                                <label type="button" for="file_main_image"
+                                                    class="btn btn-secondary">Choose File</label>
+                                                <input name="main_image" type="hidden" id="main_image"
+                                                    value="{{ old('main_image', isset($row->main_image) ? $row->main_image : '') }}" />
                                                 <div>
-                                                    @if(@$row->main_image)
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/storage/product/'.@$row->main_image)}}" id="displayMainImage" class="file-image-preview">
+                                                    @if (@$row->main_image)
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/storage/product/' . @$row->main_image) }}"
+                                                                id="displayMainImage" class="file-image-preview">
                                                         </div>
                                                     @else
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayMainImage" class="file-image-preview">
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/assets/admin/images/browser.png') }}"
+                                                                id="displayMainImage" class="file-image-preview">
                                                         </div>
                                                     @endif
                                                     <div style="margin:5px 0 0 0;"
-                                                        class="{{ (@$row->main_image) ? 'd-block' : 'd-none' }}"
+                                                        class="{{ @$row->main_image ? 'd-block' : 'd-none' }}"
                                                         id='btn_main_image_delete'>
                                                         <button type="button" class="btn btn-xs btn-danger"
-                                                            Onclick="confirmDelete('main_image', '{{@$row->main_image}}', 'displayMainImage', 'btn_main_image_delete')">Remove Image</button>
+                                                            Onclick="confirmDelete('main_image', '{{ @$row->main_image }}', 'displayMainImage', 'btn_main_image_delete')">Remove
+                                                            Image</button>
                                                     </div>
                                                 </div>
                                                 <div class="error" id='error_main_image'></div>
@@ -317,24 +386,30 @@
                                             <div class="col-md-3">
                                                 <label class="form-label"> Image 01</label>
                                                 <br>
-                                                <input type="file" name="file_image_01" id="file_image_01" class="d-none" onchange="image01ImageBrowser(this)">
-                                                <label type="button" for="file_image_01" class="btn btn-secondary">Choose File</label>
-                                                <input name="image_01" type="hidden" id="image_01" value="{{ old('image_01', isset($row->image_01) ? $row->image_01 : '') }}"/>
+                                                <input type="file" name="file_image_01" id="file_image_01"
+                                                    class="d-none" onchange="image01ImageBrowser(this)">
+                                                <label type="button" for="file_image_01"
+                                                    class="btn btn-secondary">Choose File</label>
+                                                <input name="image_01" type="hidden" id="image_01"
+                                                    value="{{ old('image_01', isset($row->image_01) ? $row->image_01 : '') }}" />
                                                 <div>
-                                                    @if(@$row->image_01)
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/storage/product/'.@$row->image_01)}}" id="displayImage01" class="file-image-preview">
+                                                    @if (@$row->image_01)
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/storage/product/' . @$row->image_01) }}"
+                                                                id="displayImage01" class="file-image-preview">
                                                         </div>
                                                     @else
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayImage01" class="file-image-preview">
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/assets/admin/images/browser.png') }}"
+                                                                id="displayImage01" class="file-image-preview">
                                                         </div>
                                                     @endif
                                                     <div style="margin:5px 0 0 0;"
-                                                        class="{{ (@$row->image_01) ? 'd-block' : 'd-none' }}"
+                                                        class="{{ @$row->image_01 ? 'd-block' : 'd-none' }}"
                                                         id='btn_image_01_delete'>
                                                         <button type="button" class="btn btn-xs btn-danger"
-                                                            Onclick="confirmDelete('image_01', '{{@$row->image_01}}', 'displayImage01', 'btn_image_01_delete')">Remove Image</button>
+                                                            Onclick="confirmDelete('image_01', '{{ @$row->image_01 }}', 'displayImage01', 'btn_image_01_delete')">Remove
+                                                            Image</button>
                                                     </div>
                                                 </div>
                                                 <div class="error" id='error_image_01'></div>
@@ -342,24 +417,30 @@
                                             <div class="col-md-3">
                                                 <label class="form-label"> Image 02</label>
                                                 <br>
-                                                <input type="file" name="file_image_02" id="file_image_02" class="d-none" onchange="image02ImageBrowser(this)">
-                                                <label type="button" for="file_image_02" class="btn btn-secondary">Choose File</label>
-                                                <input name="image_02" type="hidden" id="image_02" value="{{ old('image_02', isset($row->image_02) ? $row->image_02 : '') }}"/>
+                                                <input type="file" name="file_image_02" id="file_image_02"
+                                                    class="d-none" onchange="image02ImageBrowser(this)">
+                                                <label type="button" for="file_image_02"
+                                                    class="btn btn-secondary">Choose File</label>
+                                                <input name="image_02" type="hidden" id="image_02"
+                                                    value="{{ old('image_02', isset($row->image_02) ? $row->image_02 : '') }}" />
                                                 <div>
-                                                    @if(@$row->image_02)
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/storage/product/'.@$row->image_02)}}" id="displayImage02" class="file-image-preview">
+                                                    @if (@$row->image_02)
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/storage/product/' . @$row->image_02) }}"
+                                                                id="displayImage02" class="file-image-preview">
                                                         </div>
                                                     @else
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayImage02" class="file-image-preview">
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/assets/admin/images/browser.png') }}"
+                                                                id="displayImage02" class="file-image-preview">
                                                         </div>
                                                     @endif
                                                     <div style="margin:5px 0 0 0;"
-                                                        class="{{ (@$row->image_02) ? 'd-block' : 'd-none' }}"
+                                                        class="{{ @$row->image_02 ? 'd-block' : 'd-none' }}"
                                                         id='btn_image_02_delete'>
                                                         <button type="button" class="btn btn-xs btn-danger"
-                                                            Onclick="confirmDelete('image_02', '{{@$row->image_02}}', 'displayImage02', 'btn_image_02_delete')">Remove Image</button>
+                                                            Onclick="confirmDelete('image_02', '{{ @$row->image_02 }}', 'displayImage02', 'btn_image_02_delete')">Remove
+                                                            Image</button>
                                                     </div>
                                                 </div>
                                                 <div class="error" id='error_image_02'></div>
@@ -367,24 +448,30 @@
                                             <div class="col-md-3">
                                                 <label class="form-label"> Image 03</label>
                                                 <br>
-                                                <input type="file" name="file_image_03" id="file_image_03" class="d-none" onchange="image03ImageBrowser(this)">
-                                                <label type="button" for="file_image_03" class="btn btn-secondary">Choose File</label>
-                                                <input name="image_03" type="hidden" id="image_03" value="{{ old('image_03', isset($row->image_03) ? $row->image_03 : '') }}"/>
+                                                <input type="file" name="file_image_03" id="file_image_03"
+                                                    class="d-none" onchange="image03ImageBrowser(this)">
+                                                <label type="button" for="file_image_03"
+                                                    class="btn btn-secondary">Choose File</label>
+                                                <input name="image_03" type="hidden" id="image_03"
+                                                    value="{{ old('image_03', isset($row->image_03) ? $row->image_03 : '') }}" />
                                                 <div>
-                                                    @if(@$row->image_03)
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/storage/product/'.@$row->image_03)}}" id="displayImage03" class="file-image-preview">
+                                                    @if (@$row->image_03)
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/storage/product/' . @$row->image_03) }}"
+                                                                id="displayImage03" class="file-image-preview">
                                                         </div>
                                                     @else
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayImage03" class="file-image-preview">
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/assets/admin/images/browser.png') }}"
+                                                                id="displayImage03" class="file-image-preview">
                                                         </div>
                                                     @endif
                                                     <div style="margin:5px 0 0 0;"
-                                                        class="{{ (@$row->image_03) ? 'd-block' : 'd-none' }}"
+                                                        class="{{ @$row->image_03 ? 'd-block' : 'd-none' }}"
                                                         id='btn_image_03_delete'>
                                                         <button type="button" class="btn btn-xs btn-danger"
-                                                            Onclick="confirmDelete('image_03', '{{@$row->image_03}}', 'displayImage03', 'btn_image_03_delete')">Remove Image</button>
+                                                            Onclick="confirmDelete('image_03', '{{ @$row->image_03 }}', 'displayImage03', 'btn_image_03_delete')">Remove
+                                                            Image</button>
                                                     </div>
                                                 </div>
                                                 <div class="error" id='error_image_03'></div>
@@ -392,70 +479,83 @@
                                             <div class="col-md-3 mt-3">
                                                 <label class="form-label"> Image 04</label>
                                                 <br>
-                                                <input type="file" name="file_image_04" id="file_image_04" class="d-none" onchange="image04ImageBrowser(this)">
-                                                <label type="button" for="file_image_04" class="btn btn-secondary">Choose File</label>
-                                                <input name="image_04" type="hidden" id="image_04" value="{{ old('image_04', isset($row->image_04) ? $row->image_04 : '') }}"/>
+                                                <input type="file" name="file_image_04" id="file_image_04"
+                                                    class="d-none" onchange="image04ImageBrowser(this)">
+                                                <label type="button" for="file_image_04"
+                                                    class="btn btn-secondary">Choose File</label>
+                                                <input name="image_04" type="hidden" id="image_04"
+                                                    value="{{ old('image_04', isset($row->image_04) ? $row->image_04 : '') }}" />
                                                 <div>
-                                                    @if(@$row->image_04)
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/storage/product/'.@$row->image_04)}}" id="displayImage04" class="file-image-preview">
+                                                    @if (@$row->image_04)
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/storage/product/' . @$row->image_04) }}"
+                                                                id="displayImage04" class="file-image-preview">
                                                         </div>
                                                     @else
-                                                        <div style="margin:5px 0 0 0;"> 
-                                                            <img src="{{ asset('/assets/admin/images/browser.png')}}" id="displayImage04" class="file-image-preview">
+                                                        <div style="margin:5px 0 0 0;">
+                                                            <img src="{{ asset('/assets/admin/images/browser.png') }}"
+                                                                id="displayImage04" class="file-image-preview">
                                                         </div>
                                                     @endif
                                                     <div style="margin:5px 0 0 0;"
-                                                        class="{{ (@$row->image_04) ? 'd-block' : 'd-none' }}"
+                                                        class="{{ @$row->image_04 ? 'd-block' : 'd-none' }}"
                                                         id='btn_image_04_delete'>
                                                         <button type="button" class="btn btn-xs btn-danger"
-                                                            Onclick="confirmDelete('image_04', '{{@$row->image_03}}', 'displayImage04', 'btn_image_04_delete')">Remove Image</button>
+                                                            Onclick="confirmDelete('image_04', '{{ @$row->image_03 }}', 'displayImage04', 'btn_image_04_delete')">Remove
+                                                            Image</button>
                                                     </div>
                                                 </div>
                                                 <div class="error" id='error_image_04'></div>
                                             </div>
                                         </div>
                                     </div>
-                                   
-                                    @if(@$row->id)
-                                        <div class="row mt-3">
+
+                                    @if (@$row->id)
+                                        <div class="row mt-3" style="display: none">
                                             <hr>
                                             <div class="mb-3 d-flex justify-content-between align-items-center">
                                                 <h4 class=" header-title">Suitable For</h4>
-                                                <a href="{{ route('vendor-product-addmatch', ['id=' . $row->id]) }}" class="btn btn-secondary my-2 my-sm-0 ms-1">
+                                                <a href="{{ route('vendor-product-addmatch', ['id=' . $row->id]) }}"
+                                                    class="btn btn-secondary my-2 my-sm-0 ms-1">
                                                     +</a>
                                             </div>
-                                            @if(count($matches) > 0)
-                                            <hr>
-                                            <div class="table-responsive table-bordered ">
-                                                <table class="table table-striped mb-0 ">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Make</th>
-                                                            <th>Model</th>
-                                                            <th>Year</th>
-                                                            <th>Engine</th>
-                                                            <th style="text-align:center" width="100">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($matches as $val)
-                                                            <tr id="tr{{ $val->id }}" style="vertical-align: middle">
-                                                                <td>{{ isset($val->make_id) ? $val->make->name : '' }}</td>
-                                                                <td>{{ isset($val->model_id) ? $val->model->name : '' }}</td>
-                                                                <td>{{ isset($val->year_id) ? $val->year->name : '' }}</td>
-                                                                <td>{{ isset($val->engine_id) ? $val->engine->name : '' }}</td>
-                                                                <td style="text-align:center">
-                                                                    <button type="button"
-                                                                        class="btn btn-sm btn-danger rounded-pill delete-match-btn"
-                                                                        data-id="{{ $val->id }}"><span class="icon"><i
-                                                                    class='fas fa-trash'></i></span></button>
-                                                                </td>
+                                            @if (count($matches) > 0)
+                                                <hr>
+                                                <div class="table-responsive table-bordered ">
+                                                    <table class="table table-striped mb-0 ">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Make</th>
+                                                                <th>Model</th>
+                                                                <th>Year</th>
+                                                                <th>Engine</th>
+                                                                <th style="text-align:center" width="100">Action</th>
                                                             </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($matches as $val)
+                                                                <tr id="tr{{ $val->id }}"
+                                                                    style="vertical-align: middle">
+                                                                    <td>{{ isset($val->make_id) ? $val->make->name : '' }}
+                                                                    </td>
+                                                                    <td>{{ isset($val->model_id) ? $val->model->name : '' }}
+                                                                    </td>
+                                                                    <td>{{ isset($val->year_id) ? $val->year->name : '' }}
+                                                                    </td>
+                                                                    <td>{{ isset($val->engine_id) ? $val->engine->name : '' }}
+                                                                    </td>
+                                                                    <td style="text-align:center">
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-danger rounded-pill delete-match-btn"
+                                                                            data-id="{{ $val->id }}"><span
+                                                                                class="icon"><i
+                                                                                    class='fas fa-trash'></i></span></button>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             @endif
                                         </div>
                                     @endif
@@ -463,11 +563,11 @@
                                     <div class="mt-3 col-3">
                                         <label class="form-label"> Status</label>
                                         <select name="status" id="status" class="selectize form-control selectized">
-                                            <option value="1"
-                                                @if (@$row->status == '1') selected @endif>Active
+                                            <option value="1" @if (@$row->status == '1') selected @endif>
+                                                Active
                                             </option>
-                                            <option value="0"
-                                                @if (@$row->status == '0') selected @endif>Inactive</option>
+                                            <option value="0" @if (@$row->status == '0') selected @endif>
+                                                Inactive</option>
                                         </select>
                                         <div class="error" id='error_status'></div>
                                     </div>

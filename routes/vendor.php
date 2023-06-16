@@ -52,6 +52,8 @@ Route::group(['middleware' => 'vendorauth'], function () {
         Route::get('/product/addmatch', 'addMatch')->name('vendor-product-addmatch');
         Route::post('/product/addmatchaction', 'addMatchAction')->name('vendor-product-addmatchaction');
         Route::post('/product/delete_match', 'deleteMatch')->name('vendor-product-match-delete');
+
+        Route::get('/subcategoryById', 'getSubCategoryById')->name('vendor-subcategory-by-id');
     });
 
     Route::controller('OrderController')->group(function () {
