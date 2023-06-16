@@ -24,11 +24,11 @@ class ProductRequest extends ApiRequest
     {
         return [
             'id' => 'required|integer',
-            'main_image' => 'required',
-            'image_01' => 'required',
-            'image_02' => 'required',
-            'image_03' => 'required',
-            'image_04' => 'required',
+            'main_image' => '',
+            'image_01' => '',
+            'image_02' => '',
+            'image_03' => '',
+            'image_04' => '',
             'title' => 'required',
             'part_number' => '',
             'sku' => '',

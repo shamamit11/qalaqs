@@ -2,6 +2,7 @@
 namespace App\Services\Vendor;
 
 use App\Models\Product;
+use App\Models\Subcategory;
 use App\Models\Suitablefor;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ class ProductService
         try {
             $vendor_id = Auth::guard('vendor')->id();
             $data['q'] = $q;
-            $query = Product::select('*')->with('specifications')->with('images')->with('make')->with('model')->with('year');
+            $query = Product::select('*')->with('specifications')->with('make')->with('model')->with('year');
             if ($q) {
                 $search_key = $q;
                 $query->where(function ($qry) use ($search_key) {
@@ -184,6 +185,19 @@ class ProductService
             Suitablefor::where('id', $id)->delete();
             return "success";
         } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    public function getSubcategoryById($request) {
+        try {
+            $subcategory = Subcategory::select('name')->where('id',  $request->id)->first();
+            $response['data'] = $subcategory;
+            $response['errors'] = false;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        }
+        catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }

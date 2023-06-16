@@ -111,7 +111,24 @@
         //$("#engine_id").chained("#year_id");
         $("#subcategory_id").chained("#category_id");
     });
+
+    $("#subcategory_id").change(function(e) {
+        var subcategory_id = $(this).val();
+
+        $.ajax({
+            url: '{{ route('vendor-subcategory-by-id') }}',
+            type: 'GET',
+            data: {
+                'id': subcategory_id,
+            },
+            success: function(res) {
+                //console.log(res?.data?.name);
+                $("#title").val(res?.data?.name);
+            }
+        });
+    });
 </script>
+
 <script>
     $('.delete-match-btn').click(function() {
             var id = $(this).data("id");

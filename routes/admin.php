@@ -131,6 +131,14 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/product/delete', 'delete')->name('admin-product-delete');
     });
 
+    Route::controller('ProductImageController')->group(function () {
+        Route::get('/product-images', 'index')->name('admin-product-images');
+        Route::post('/product-image/status', 'status')->name('admin-product-image-status');
+        Route::get('/product-image/add', 'addEdit')->name('admin-product-image-add');
+        Route::post('/product-image/addaction', 'addAction')->name('admin-product-image-addaction');
+        Route::post('/product-image/delete', 'delete')->name('admin-product-image-delete');
+    });
+
     Route::controller('OrderController')->group(function () {
         Route::get('/orders', 'index')->name('admin-orders');
         Route::get('/order/view', 'view')->name('admin-order-view');
