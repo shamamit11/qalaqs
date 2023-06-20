@@ -27,10 +27,8 @@ class OrderService
                 $product = Product::where('id', $item->product_id)->first();
                 $item->product_title = $product->title;
 
-                $productSubcategory = Subcategory::where('id', $product->subcategory_id);
-                dd($productSubcategory);
-                
-                $item->product_image =  @$productSubcategory->icon;
+                $productSubcategory = Subcategory::where('id', $product->subcategory_id)->first();
+                $item->product_image =  $productSubcategory->icon;
 
                 //$item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
                 $item->product_price = $product->price;
@@ -65,7 +63,7 @@ class OrderService
             $product = Product::where('id', $orderItem->product_id)->first();
             $orderItem->product_title = $product->title;
 
-            $productSubcategory = Subcategory::where('id', $product->subcategory_id);
+            $productSubcategory = Subcategory::where('id', $product->subcategory_id)->first();
             $orderItem->product_image =  $productSubcategory->icon;
 
             //$orderItem->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
@@ -134,7 +132,7 @@ class OrderService
                 $product = Product::where('id', $item->product_id)->first();
                 $item->product_title = $product->title;
 
-                $productSubcategory = Subcategory::where('id', $product->subcategory_id);
+                $productSubcategory = Subcategory::where('id', $product->subcategory_id)->first();
                 $item->product_image =  $productSubcategory->icon;
 
                 //$item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
@@ -168,7 +166,7 @@ class OrderService
             $product = Product::where('id', $orderReturns->product_id)->first();
             $orderReturns->product_title = $product->title;
 
-            $productSubcategory = Subcategory::where('id', $product->subcategory_id);
+            $productSubcategory = Subcategory::where('id', $product->subcategory_id)->first();
             $orderReturns->product_image =  $productSubcategory->icon;
 
             //$orderReturns->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
