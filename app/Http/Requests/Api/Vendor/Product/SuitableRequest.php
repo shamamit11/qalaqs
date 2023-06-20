@@ -28,7 +28,7 @@ class SuitableRequest extends ApiRequest
             'make_id' => 'required|exists:makes,id',
             'model_id' => 'required|exists:models,id',
             'year_id' => 'required|exists:years,id',
-            'engine_id' => 'required|exists:engines,id'
+            'engine_id' => ''
         ];
     }
 }

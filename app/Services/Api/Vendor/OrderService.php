@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\OrderReturn;
 use App\Models\OrderStatus;
 use App\Models\Product;
+use App\Models\Subcategory;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use ExpoSDK\Expo;
@@ -25,7 +26,10 @@ class OrderService
 
                 $product = Product::where('id', $item->product_id)->first();
                 $item->product_title = $product->title;
-                $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+
+                $productSubcategory = Subcategory::where('id', $product->subcategory_id);
+                $item->product_image =  $productSubcategory->icon;
+                //$item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
                 $item->product_price = $product->price;
                 $item->discount = $product->discount;
 
@@ -57,7 +61,11 @@ class OrderService
 
             $product = Product::where('id', $orderItem->product_id)->first();
             $orderItem->product_title = $product->title;
-            $orderItem->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+
+            $productSubcategory = Subcategory::where('id', $product->subcategory_id);
+            $orderItem->product_image =  $productSubcategory->icon;
+
+            //$orderItem->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
 
             $itemStatus = ItemStatusUpdate::where('order_item_id', $orderItem->id)->orderBy('created_at', 'desc')->first();
             $orderStatus = OrderStatus::where('id', $itemStatus->status_id)->first();
@@ -122,7 +130,11 @@ class OrderService
 
                 $product = Product::where('id', $item->product_id)->first();
                 $item->product_title = $product->title;
-                $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+
+                $productSubcategory = Subcategory::where('id', $product->subcategory_id);
+                $item->product_image =  $productSubcategory->icon;
+
+                //$item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
 
                 $order = OrderItem::where('id', $item->order_item_id)->first();
                 $item->order_placed_on = date("d M Y", strtotime($order->created_at));
@@ -152,7 +164,11 @@ class OrderService
 
             $product = Product::where('id', $orderReturns->product_id)->first();
             $orderReturns->product_title = $product->title;
-            $orderReturns->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+
+            $productSubcategory = Subcategory::where('id', $product->subcategory_id);
+            $orderReturns->product_image =  $productSubcategory->icon;
+
+            //$orderReturns->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
 
             $order = OrderItem::where('id', $orderReturns->order_item_id)->first();
             $orderReturns->order_placed_on = date("d M Y", strtotime($order->created_at));
