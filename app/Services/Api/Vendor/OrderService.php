@@ -28,8 +28,8 @@ class OrderService
                 $item->product_title = $product->title;
 
                 $productSubcategory = Subcategory::where('id', $product->subcategory_id);
-                $item->product_image =  $productSubcategory->icon;
-                
+                $item->product_image =  @$productSubcategory->icon;
+
                 //$item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
                 $item->product_price = $product->price;
                 $item->discount = $product->discount;
