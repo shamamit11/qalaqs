@@ -94,8 +94,11 @@
                                             <tbody>
                                                     <tr>
                                                         <td>
+                                                            @php
+                                                                $productImage = getProductImage($row->product->subcategory_id);
+                                                            @endphp
                                                             <div style="width:120px; padding:10px; background-color: #fff; border-radius: 10px;">
-                                                                <img src="{{ asset('/storage/product/'.$row->product->main_image)}}" width="100">
+                                                                <img src="{{ $productImage }}" width="100">
                                                             </div>
                                                         </td>
                                                         <td>

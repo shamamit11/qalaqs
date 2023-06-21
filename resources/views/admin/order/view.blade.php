@@ -139,9 +139,12 @@
                                                         </tr>
                                                         <tr style="vertical-align: middle">
                                                             <td>
+                                                                @php
+                                                                    $productImage = getProductImage($val->product->subcategory_id);
+                                                                @endphp
                                                                 <div
                                                                     style="width:120px; padding:10px; background-color: #fff; border-radius: 10px;">
-                                                                    <img src="{{ asset('/storage/product/' . $val->product->main_image) }}"
+                                                                    <img src="{{ $productImage }}"
                                                                         width="100">
                                                                 </div>
                                                             </td>

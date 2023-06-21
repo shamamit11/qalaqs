@@ -1,6 +1,7 @@
 <?php
 use App\Models\ItemStatusUpdate;
 use App\Models\Product;
+use App\Models\Subcategory;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -191,6 +192,19 @@ if (!function_exists('checkIfUserIsSuperAdmin')) {
         $user_type = Auth::guard('admin')->user()->user_type;
         if($user_type == 'S') {
             return true;
+        } 
+        else {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('getProductImage')) {
+    function getProductImage($product_subcategory_id)
+    {
+        $subCategory = Subcategory::where('id', $product_subcategory_id)->first();
+        if($subCategory) {
+            return $subCategory->icon;
         } 
         else {
             return false;

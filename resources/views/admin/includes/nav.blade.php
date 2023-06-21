@@ -90,19 +90,19 @@
                         <span> Years </span>
                     </a>
                 </li>
-                <li class="{{ $nav == 'engine' ? 'menuitem-active' : '' }}">
+                {{-- <li class="{{ $nav == 'engine' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('admin-engine') }}" class="{{ $nav == 'engine' ? 'active' : '' }}">
                         <i class="mdi mdi-alpha-e-circle"></i>
                         <span> Engines </span>
                     </a>
-                </li>
+                </li> --}}
 
-                <li class="{{ $nav == 'productImage' ? 'menuitem-active' : '' }}">
+                {{-- <li class="{{ $nav == 'productImage' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('admin-product-images') }}" class="{{ $nav == 'productImage' ? 'active' : '' }}">
                         <i class="mdi mdi-alpha-e-circle"></i>
                         <span> Product Images </span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="menu-title mt-2">Vendor</li>
 

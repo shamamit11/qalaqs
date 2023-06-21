@@ -11,7 +11,7 @@ class ProductService
     function list($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = Product::select('*')->with('specifications')->with('images')->with('make')->with('model')->with('year');
+            $query = Product::select('*')->with('specifications')->with('make')->with('model')->with('year');
             if ($q) {
                 $search_key = $q;
                 $query->where(function ($qry) use ($search_key) {

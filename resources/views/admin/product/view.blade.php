@@ -158,7 +158,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
+                                {{-- <div class="row mt-3">
                                     <h4 class="mb-2 header-title text-muted">Product Images</h4>
                                     <div class="table-responsive table-bordered ">
                                         <table class="table table-striped mb-0 ">
@@ -193,7 +193,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div> --}}
                                 @if(count($matches) > 0)
                                     <div class="row mt-3">
                                         <h4 class="mb-2 header-title text-muted">Suitable For</h4>
