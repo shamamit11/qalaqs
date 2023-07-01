@@ -58,11 +58,13 @@
                                                             class="btn btn-sm btn-warning rounded-pill"
                                                             data-id="{{ $product->id }}"><span class="icon"><i
                                                                     class='fas fa-eye'></i></span></a>
-
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-danger rounded-pill delete-row-btn"
-                                                            data-id="{{ $product->id }}"><span class="icon"><i
-                                                                    class='fas fa-trash'></i></span></button>
+                                                        
+                                                        @if (checkIfUserIsSuperAdmin())
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-danger rounded-pill delete-row-btn"
+                                                                data-id="{{ $product->id }}"><span class="icon"><i
+                                                                        class='fas fa-trash'></i></span></button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

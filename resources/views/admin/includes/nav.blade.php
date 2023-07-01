@@ -39,16 +39,16 @@
                             <span> Returns </span>
                         </a>
                     </li>
-
-                    <li class="menu-title mt-2">Products</li>
-                    <li class="{{ $nav == 'product' ? 'menuitem-active' : '' }}">
-                        <a href="{{ route('admin-product') }}" class="{{ $nav == 'product' ? 'active' : '' }}"> <i
-                                class="mdi mdi-cube"></i>
-                            <span class="badge bg-danger rounded-pill float-end">{{ getNewProductsCount() }}</span>
-                            <span> Products </span>
-                        </a>
-                    </li>
                 @endif
+
+                <li class="menu-title mt-2">Products</li>
+                <li class="{{ $nav == 'product' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-product') }}" class="{{ $nav == 'product' ? 'active' : '' }}"> <i
+                            class="mdi mdi-cube"></i>
+                        <span class="badge bg-danger rounded-pill float-end">{{ getNewProductsCount() }}</span>
+                        <span> Products </span>
+                    </a>
+                </li>
 
                 <li class="menu-title mt-2">Product Configuration</li>
                 <li class="{{ $nav == 'category' ? 'menuitem-active' : '' }}">

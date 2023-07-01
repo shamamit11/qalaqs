@@ -25,8 +25,8 @@ class YearRequest extends ApiRequest
         return [
             'id' => 'integer|nullable',
             'name' => 'required|digits:4',
-            'make_id' => 'required|exists:makes,id',
-            'model_id' => 'required|exists:models,id',
+            'make_id' => '',
+            'model_id' => '',
             'status' => 'nullable',
         ];
     }
