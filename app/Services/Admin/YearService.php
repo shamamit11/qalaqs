@@ -67,8 +67,8 @@ class YearService
                 $message = "Data added";
             }
             $year->name = $request['name'];
-            $year->make_id = $request['make_id'];
-            $year->model_id = $request['model_id'];
+            $year->make_id = 2;
+            $year->model_id = 2;
             $year->status = isset($request['status']) ? 1 : 0;
             $year->save();
             $response['message'] = $message;
