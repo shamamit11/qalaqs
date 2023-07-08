@@ -25,6 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('make_id')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
             $table->unsignedBigInteger('year_id')->nullable();
+            $table->unsignedBigInteger('year_id_to')->nullable();
             $table->unsignedBigInteger('engine_id')->nullable();
             $table->string('manufacturer')->nullable();
             $table->string('origin')->nullable();
@@ -52,6 +53,7 @@ return new class extends Migration
             $table->foreign('make_id')->references('id')->on('makes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('model_id')->references('id')->on('models')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('year_id')->references('id')->on('years')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('year_id_to')->references('id')->on('years')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('engine_id')->references('id')->on('engines')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -32,6 +32,7 @@ return new class extends Migration
             $table->boolean('is_deleted')->default(0)->comment('0 = No, 1 = Yes');
             $table->rememberToken();
             $table->string('device_id')->nullable();
+            $table->string('created_by')->nullable();
             $table->timestamps();
         });
     }
