@@ -52,6 +52,11 @@ class Product extends Model
         return $this->belongsTo(Year::class, 'year_id', 'id');
     }
 
+    public function year_to()
+    {
+        return $this->belongsTo(Year::class, 'year_id_to', 'id');
+    }
+
     public function engine()
     {
         return $this->belongsTo(Engine::class, 'engine_id', 'id');
