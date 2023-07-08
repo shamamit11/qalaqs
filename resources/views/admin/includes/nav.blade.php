@@ -113,7 +113,7 @@
                     </a>
                 </li>
                 @if ($isSuperAdmin)
-                    <li> <a href="#"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
+                    <li class="{{ $nav == 'report' ? 'menuitem-active' : '' }}"> <a href="{{ route('admin-report-make') }}"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
                         </a> </li>
                 @endif
 
