@@ -147,7 +147,7 @@ class ProductService
     public function listProducts() {
         try {
             $vendor_id = Auth::guard('vendor-api')->user()->id;
-            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'desc')->get()->makeHidden(['make', 'model', 'year', 'engine', 'category', 'subcategory', 'brand']);
+            $products = Product::where([['vendor_id', $vendor_id], ['admin_approved', 1]])->orderBy('id', 'desc')->get()->makeHidden(['make', 'model', 'year', 'year_to', 'engine', 'category', 'subcategory', 'brand']);
             if($products->count() > 0) {
                 foreach ($products as $product) {
 
