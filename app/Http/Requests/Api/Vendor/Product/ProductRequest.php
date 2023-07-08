@@ -36,6 +36,7 @@ class ProductRequest extends ApiRequest
             'make_id' => 'required',
             'model_id' => 'required',
             'year_id' => 'required',
+            'year_id_to' => '',
             'engine_id' => '',
             'manufacturer' => '',
             'origin' => '',

@@ -12,7 +12,7 @@ class Product extends Model
         'vendor_id', 
         'main_image',
         'image_01', 'image_02', 'image_03', 'image_04', 
-        'title', 'part_number','sku', 'make_id', 'model_id', 'year_id', 'engine_id', 'manufacturer', 'origin', 'brand_id',
+        'title', 'part_number','sku', 'make_id', 'model_id', 'year_id', 'year_id_to', 'engine_id', 'manufacturer', 'origin', 'brand_id',
         'part_type', 'market', 'warranty', 'category_id', 'subcategory_id',
         'price', 'discount', 'stock', 'weight', 'height', 'width', 'length', 'folder', 'status', 'admin_approved', 'is_featured'
     ];
