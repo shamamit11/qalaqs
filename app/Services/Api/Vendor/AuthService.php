@@ -33,6 +33,7 @@ class AuthService
             $vendor->admin_approved = 0;
             $vendor->email_verified = 0;
             $vendor->is_deleted = 0;
+            $vendor->created_by = 'Vendor';
             $vendor->save();
 
             //send verification email

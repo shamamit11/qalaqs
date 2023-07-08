@@ -206,6 +206,7 @@ class ProductService
             if ($request['id']) {
                 $id = $request['id'];
                 $product = Product::findOrFail($id);
+                $product->admin_approved = 0;
                 // $product->main_image = isset($request['main_image']) ? $this->StoreImage($request['main_image'], '/product/') : $product->main_image;
                 // $product->image_01 = isset($request['image_01']) ? $this->StoreImage($request['image_01'], '/product/') : $product->image_01;
                 // $product->image_02 = isset($request['image_02']) ? $this->StoreImage($request['image_02'], '/product/') : $product->image_02;
@@ -310,6 +311,7 @@ class ProductService
             $product->width = isset($request['width']) ? $request['width'] : NULL;
             $product->length = isset($request['length']) ? $request['length'] : NULL;
             $product->save();
+            
             $response['data'] = $product;
             $response['message'] = null;
             $response['errors'] = null;
