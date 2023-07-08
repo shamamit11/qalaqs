@@ -157,4 +157,8 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/courier/imagedelete', 'imageDelete')->name('admin-courier-imagedelete');
     });
 
+    Route::controller('ReportController')->prefix('report')->group(function () {
+        Route::get('/make', 'make')->name('admin-report-make');
+    });
+
 });
