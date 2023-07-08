@@ -19,7 +19,7 @@ class ReportController extends Controller
     {
         $nav = 'report';
         $sub_nav = '';
-        $per_page = 20;
+        $per_page = 200;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Reports of make';

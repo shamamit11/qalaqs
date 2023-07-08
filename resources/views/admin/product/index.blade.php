@@ -27,10 +27,8 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th width="50">#</th>
-                                                <th width="120">SKU</th>
-                                                <th width="120">Part#</th>
                                                 <th>Title</th>
-                                                <th width="300">Vendor</th>
+                                                <th width="450">Vendor</th>
                                                 <th style="text-align:center" width="150">Admin Approval</th>
                                                 <th style="text-align:center" width="120">Action</th>
                                             </tr>
@@ -39,8 +37,6 @@
                                             @foreach ($products as $product)
                                                 <tr id="tr{{ $product->id }}">
                                                     <td>{{ $count++ }}</td>
-                                                    <td>{{ $product->sku }}</td>
-                                                    <td>{{ $product->part_number }}</td>
                                                     <td>{{ $product->title }}</td>
                                                     <td>{{ $product->vendor->business_name }}
                                                         ({{ $product->vendor->vendor_code }})</td>

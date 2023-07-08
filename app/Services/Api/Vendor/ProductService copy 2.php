@@ -245,13 +245,6 @@ class ProductService
                 $product->year_id = isset($request['year_id']) ? $request['year_id'] : NULL;
             }
 
-            if($request['year_id_to'] == 'undefined') {
-                $product->year_id_to = NULL;
-            } 
-            else {
-                $product->year_id_to = isset($request['year_id_to']) ? $request['year_id_to'] : NULL;
-            }
-
             if($request['engine_id'] == 'undefined') {
                 $product->engine_id = NULL;
             } 

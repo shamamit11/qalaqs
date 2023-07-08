@@ -9,11 +9,11 @@ class ReportService
     function make($per_page, $page, $q) {
         try {
             $data['q'] = $q;
-            $query = Vendor::select('*')->with('makes');
+            $query = Vendor::select('*')->with('makes')->with('products');
             if ($q) {
                 $query->where('name', 'LIKE', '%' . $q . '%');
             }
-            $data['reports'] = $query->orderBy('business_name', 'asc')->paginate($per_page);
+            $data['reports'] = $query->orderBy('created_at', 'desc')->paginate($per_page);
             $data['reports']->appends(array('q' => $q));
             if ($page != 1) {
                 $data['total_data'] = $data['reports']->total();
