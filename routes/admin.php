@@ -158,7 +158,7 @@ Route::group(['middleware' => 'adminauth'], function () {
     });
 
     Route::controller('ReportController')->prefix('report')->group(function () {
-        Route::get('/make', 'make')->name('admin-report-make');
+        Route::get('/vendors', 'vendors')->name('admin-report-vendors');
     });
 
 });

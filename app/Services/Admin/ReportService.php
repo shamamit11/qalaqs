@@ -6,7 +6,7 @@ use App\Models\Vendor;
 
 class ReportService
 {
-    function make($per_page, $page, $q) {
+    function vendors($per_page, $page, $q) {
         try {
             $data['q'] = $q;
             $query = Vendor::select('*')->with('makes')->with('products');

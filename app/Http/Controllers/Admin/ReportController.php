@@ -15,15 +15,15 @@ class ReportController extends Controller
         $this->report = $ReportService;
     }
 
-    public function make(Request $request)
+    public function vendors(Request $request)
     {
         $nav = 'report';
         $sub_nav = '';
         $per_page = 200;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
-        $page_title = ' Reports of make';
-        $result = $this->report->make($per_page, $page, $q);
-        return view('admin.report.make', compact('nav', 'sub_nav', 'page_title'), $result);
+        $page_title = 'Vendor Reports';
+        $result = $this->report->vendors($per_page, $page, $q);
+        return view('admin.report.vendors', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 }
