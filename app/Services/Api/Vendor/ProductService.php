@@ -174,7 +174,7 @@ class ProductService
                     $product->year_data = array("label" => $product->year->name, "value" => $product->year->id);
                     //$product->engine_data = array("label" => $product->engine->name, "value" => $product->engine->id);
 
-                    $product->part_number = $product->part_number ? $product->part_number : '';
+                    $product->part_number = $product->part_number ? $product->part_number : null;
 
                     if($product->year_id_to) {
                         $product->year_to_data = array("label" => $product->year_to->name, "value" => $product->year_to->id); 
