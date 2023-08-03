@@ -15,7 +15,7 @@ class CommonService
 
             if($vendor) {
                 $vendor->status = 1;
-                $vendor->admin_approved = 1;
+                $vendor->admin_approved = 0;
                 $vendor->email_verified = 1;
                 $vendor->save();
                 return redirect()->route('account-verified');
