@@ -30,9 +30,12 @@ class ProductService
             
             if ($products->count() > 0) {
                 foreach ($products as $product) {
-                    if ($product->main_image) {
-                        $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
-                    }
+                    $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
+                    $product->main_image = $prodSubcategory->icon;
+
+                    // if ($product->main_image) {
+                    //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
+                    // }
                 }
             }
             $response['data'] = $products;
@@ -92,11 +95,15 @@ class ProductService
             }
 
             if ($product) {
-                $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
-                $product->image_01 = env('APP_URL') . '/storage/product/' . $product->image_01;
-                $product->image_02 = env('APP_URL') . '/storage/product/' . $product->image_02;
-                $product->image_03 = env('APP_URL') . '/storage/product/' . $product->image_03;
-                $product->image_04 = env('APP_URL') . '/storage/product/' . $product->image_04;
+                $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
+                $product->main_image = $prodSubcategory->icon;
+
+                // $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
+                // $product->image_01 = env('APP_URL') . '/storage/product/' . $product->image_01;
+                // $product->image_02 = env('APP_URL') . '/storage/product/' . $product->image_02;
+                // $product->image_03 = env('APP_URL') . '/storage/product/' . $product->image_03;
+                // $product->image_04 = env('APP_URL') . '/storage/product/' . $product->image_04;
+                
                 $product->make_name = isset($product->make_id) ? $product->make->name : "";
                 $product->model_name = isset($product->model_id) ? $product->model->name : "";
                 $product->year_name = isset($product->year_id) ? $product->year->name : "";
