@@ -58,9 +58,12 @@ class ProductService
             
             if ($products->count() > 0) {
                 foreach ($products as $product) {
-                    if ($product->main_image) {
-                        $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
-                    }
+                    $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
+                    $product->main_image = $prodSubcategory->icon;
+
+                    // if ($product->main_image) {
+                    //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
+                    // }
                 }
             }
             $response['data'] = $products;
