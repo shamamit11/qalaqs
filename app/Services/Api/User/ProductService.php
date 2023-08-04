@@ -56,7 +56,8 @@ class ProductService
                 $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
             } 
             else {
-                $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
+                //$products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
+                $products = Product::where($conditions)->orderBy('created_at', 'desc')->paginate($limit);
             }
             
             if ($products->count() > 0) {
