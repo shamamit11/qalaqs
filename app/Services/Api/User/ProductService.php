@@ -48,17 +48,21 @@ class ProductService
         }
     }
 
-    public function featuredProducts($limit)
+    public function featuredProducts($request)
     {
+        $perPage = $request->input('per_page', 10);
+
         try {
             $conditions = [['status', '1'], ['admin_approved', '1']];
-            if($limit == 0) {
-                $products = Product::where($conditions)->orderBy('id', 'desc')->get();
-            } 
-            else {
-                //$products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
-                $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($limit);
-            }
+            $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($perPage);
+
+            // if($limit == 0) {
+            //     $products = Product::where($conditions)->orderBy('id', 'desc')->get();
+            // } 
+            // else {
+            //     //$products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
+            //     $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($limit);
+            // }
             
             if ($products->count() > 0) {
                 foreach ($products as $product) {
