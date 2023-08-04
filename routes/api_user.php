@@ -29,7 +29,7 @@ Route::get('/banner', 'BannerController@list');
 
 Route::controller('ProductController')->group(function () {
     Route::get('/topDeals/{limit}', 'topDeals');
-    Route::get('/featuredProducts/{limit}', 'featuredProducts');
+    Route::get('/featuredProducts', 'featuredProducts');
 
     Route::get('/make', 'getMakes');
     Route::get('/getModels/{make_id}', 'getModels');
