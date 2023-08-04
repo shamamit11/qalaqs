@@ -53,11 +53,11 @@ class ProductService
         try {
             $conditions = [['status', '1'], ['admin_approved', '1']];
             if($limit == 0) {
-                $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
+                $products = Product::where($conditions)->orderBy('id', 'desc')->get();
             } 
             else {
                 //$products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
-                $products = Product::where($conditions)->orderBy('created_at', 'desc')->paginate($limit);
+                $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($limit);
             }
             
             if ($products->count() > 0) {
