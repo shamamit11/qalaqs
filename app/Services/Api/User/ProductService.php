@@ -50,7 +50,7 @@ class ProductService
 
     public function featuredProducts($request)
     {
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->per_page;
 
         try {
             $conditions = [['status', '1'], ['admin_approved', '1']];
