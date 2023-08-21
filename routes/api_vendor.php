@@ -18,8 +18,17 @@ Route::controller('AuthController')->group(function () {
     Route::post('/check-login', 'checkLogin');
     Route::get('/refresh-token', 'refreshToken');
     Route::post('/register-vendor', 'registerVendor');
+    Route::post('/upload-vendor-docs', 'uploadVendorDocs');
+    Route::post('/add-vendor-bankinfo', 'addVendorBankInfo');
+    Route::post('/send-email-to-vendor', 'sendEmailToVendor');
+    Route::post('/add-vendor-make', 'addVendorMakeData');
     Route::post('/forget-password', 'forgetPassword');
     Route::post('/reset-password', 'resetPassword');
+});
+
+Route::controller('ProductController')->group(function () {
+    Route::get('/getMakesData', 'getMakes');
+    Route::get('/getYearsData', 'getYears');
 });
 
 Route::group(['middleware' => ['auth.jwt']], function () {

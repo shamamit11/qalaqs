@@ -28,10 +28,10 @@ class RegisterVendorRequest extends ApiRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'mobile' => 'required',
-            'email' => 'required|email|unique:vendors,email',
+            'email' => 'required|email',
             'password' => 'required',
             'account_type' => 'required',
-            'license_image' => 'required',
+            'license_image' => '',
             'device_id' => 'nullable',
             'city' => 'nullable',
             'address' => 'nullable',
@@ -39,7 +39,9 @@ class RegisterVendorRequest extends ApiRequest
             'account_name' => '',
             'account_no' => '',
             'iban' => '',
-            'bank_image' => ''
+            'bank_image' => '',
+            'discount_type' => 'required',
+            'discount_value' => 'required'
         ];
     }
 }
