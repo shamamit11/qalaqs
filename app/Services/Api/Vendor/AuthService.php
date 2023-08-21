@@ -217,8 +217,8 @@ class AuthService
             else {
                 
                 $notApproved = Vendor::where([
-                    ['email' => $request['email']],
-                    ['admin_approved' => 0]
+                    ['email', $request['email']],
+                    ['admin_approved', 0]
                 ])->first();
 
                 if($notApproved) {
