@@ -214,6 +214,20 @@ class AuthService
                 $response['status_code'] = 200;
                 return response()->json($response, 200);
             } else {
+                
+                $notApproved = Vendor::where([
+                    ['email' => $request['email']],
+                    ['admin_approved' => 0]
+                ])->first();
+
+                if($notApproved) {
+                    $response['data'] = false;
+                    $response['message'] = 'Account is not approved yet !';
+                    $response['errors'] = true;
+                    $response['status_code'] = 422;
+                    return response()->json($response, 422);
+                }
+
                 $response['data'] = false;
                 $response['message'] = 'Invalid username and password';
                 $response['errors'] = true;
