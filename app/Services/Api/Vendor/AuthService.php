@@ -213,7 +213,8 @@ class AuthService
                 $response['errors'] = false;
                 $response['status_code'] = 200;
                 return response()->json($response, 200);
-            } else {
+            } 
+            else {
                 
                 $notApproved = Vendor::where([
                     ['email' => $request['email']],
@@ -226,13 +227,14 @@ class AuthService
                     $response['errors'] = true;
                     $response['status_code'] = 422;
                     return response()->json($response, 422);
+                } 
+                else {
+                    $response['data'] = false;
+                    $response['message'] = 'Invalid username and password';
+                    $response['errors'] = true;
+                    $response['status_code'] = 422;
+                    return response()->json($response, 422);
                 }
-
-                $response['data'] = false;
-                $response['message'] = 'Invalid username and password';
-                $response['errors'] = true;
-                $response['status_code'] = 422;
-                return response()->json($response, 422);
             }
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
