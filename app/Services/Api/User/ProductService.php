@@ -69,7 +69,7 @@ class ProductService
 
         try {
             $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New']];
-            $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($limit)->get();
+            $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($limit);
             //$products = Product::where($conditions)->orderBy('id', 'desc')->take($limit)->get();
 
             if ($products->count() > 0) {
