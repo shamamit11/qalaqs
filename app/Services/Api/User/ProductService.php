@@ -63,13 +63,14 @@ class ProductService
         }
     }
 
-    public function featuredProducts($request)
+    public function featuredProducts($limit)
     {
-        $perPage = $request->per_page;
+        //$perPage = $request->per_page;
 
         try {
             $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New']];
-            $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($perPage);
+            //$products = Product::where($conditions)->orderBy('id', 'desc')->paginate($perPage);
+            $products = Product::where($conditions)->orderBy('id', 'desc')->take($limit)->get();
 
             if ($products->count() > 0) {
                 foreach ($products as $product) {
@@ -77,8 +78,8 @@ class ProductService
                     $product->main_image = $prodSubcategory->icon;
 
                     $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
-                    $discountType = $vendorDiscountObj->type;
-                    $discountValue = $vendorDiscountObj->value;
+                    $discountType = @$vendorDiscountObj->type;
+                    $discountValue = @$vendorDiscountObj->value;
 
                     if ($discountType == 'Topup') {
                         $topupAmount = $product->price * ($discountValue / 100);
