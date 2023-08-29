@@ -68,7 +68,7 @@ class ProductService
         $perPage = $request->per_page;
 
         try {
-            $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New']];
+            $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New'], ['is_featured', 1]];
             //$products = Product::where($conditions)->orderBy('id', 'desc')->paginate($perPage);
             $products = Product::where($conditions)->orderBy('id', 'desc')->take($perPage)->get();
 
@@ -110,9 +110,11 @@ class ProductService
 
             $rate = VendorReview::where('vendor_id', $product->vendor_id)->sum('rating');
             $rate_count = VendorReview::where('vendor_id', $product->vendor_id)->count();
+
             if ($rate_count > 0) {
                 $average_rating = floor($rate / $rate_count);
-            } else {
+            } 
+            else {
                 $average_rating = 0;
             }
 
@@ -151,6 +153,7 @@ class ProductService
                 $product->subcategory_name = isset($product->subcategory_id) ? $product->subcategory->name : "";
                 $product->vendor_name = $product->vendor->business_name;
                 $product->vendor_rating = getRatingStar($average_rating);
+
                 $response['data'] = $product;
                 $response['message'] = null;
                 $response['errors'] = null;
