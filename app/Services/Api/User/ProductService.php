@@ -127,8 +127,8 @@ class ProductService
                 // $product->image_04 = env('APP_URL') . '/storage/product/' . $product->image_04;
 
                 $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
-                $discountType = $vendorDiscountObj->type;
-                $discountValue = $vendorDiscountObj->value;
+                $discountType = @$vendorDiscountObj->type;
+                $discountValue = @$vendorDiscountObj->value;
 
                 if ($discountType == 'Topup') {
                     $topupAmount = $product->price * ($discountValue / 100);
