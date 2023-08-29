@@ -5,7 +5,9 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\Promocode;
+use App\Models\Subcategory;
 use App\Models\Tax;
+use App\Models\VendorDiscount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -27,9 +29,12 @@ class CartService
                 
                 if(count($cart_items) > 0) {
                     foreach($cart_items as $item) {
-                        if($item->main_image) {
-                            $item->main_image = env('APP_URL').'/storage/product/'.$item->main_image;
-                        }
+                        $prod = Product::where('id', $item->product_id)->first();
+                        $prodSubcategory = Subcategory::where('id', $prod->subcategory_id)->first();
+                        $item->main_image = $prodSubcategory->icon;
+                        // if($item->main_image) {
+                        //     $item->main_image = env('APP_URL').'/storage/product/'.$item->main_image;
+                        // }
                     }
                     $cart['cart'] = $cart_data;
                     $cart['cart_items'] = $cart_items;
@@ -79,7 +84,21 @@ class CartService
             $cartItem->item_count = $item_count;
 
             $productData = Product::where('id', $product_id)->first();
-            $prod_price = $productData->price;
+
+            $vendorDiscountObj = VendorDiscount::where('vendor_id', $productData->vendor_id)->first();
+            $discountType = $vendorDiscountObj->type;
+            $discountValue = $vendorDiscountObj->value;
+
+            if ($discountType == 'Topup') {
+                $topupAmount = $productData->price * ($discountValue / 100);
+                $productPrice = $productData->price + $topupAmount;
+            } else if ($discountType == 'Discount') {
+                $productPrice = $productData->price;
+            } else {
+                $productPrice = $productData->price;
+            }
+
+            $prod_price = $productPrice;
             $prod_discount = $productData->discount ? $productData->discount : 0;
             $vendor_id = $productData->vendor_id;
 

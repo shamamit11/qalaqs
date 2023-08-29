@@ -38,8 +38,8 @@ class ProductController extends Controller
         return $this->product->getModels($make_id);
     }
 
-    public function getYears($make_id, $model_id) {
-        return $this->product->getYears($make_id, $model_id);
+    public function getYears() {
+        return $this->product->getYears();
     }
 
     public function getCategories() {

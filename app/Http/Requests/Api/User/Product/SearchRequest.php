@@ -24,7 +24,7 @@ class SearchRequest extends ApiRequest
     public function rules()
     {
         return [
-            'part_type' => 'required',
+            'part_type' => '',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
             'make_id' => 'required|exists:makes,id',

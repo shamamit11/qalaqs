@@ -9,6 +9,7 @@ use App\Models\Models;
 use App\Models\Subcategory;
 use App\Models\Review;
 use App\Models\Suitablefor;
+use App\Models\VendorDiscount;
 use App\Models\VendorReview;
 use App\Models\Year;
 use App\Models\Type;
@@ -21,17 +22,31 @@ class ProductService
     {
         try {
             $conditions = [['discount', '>', '0'], ['admin_approved', '1'], ['status', 1]];
-            if($limit == 0) {
+            if ($limit == 0) {
                 $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
-            } 
-            else {
+            } else {
                 $products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
             }
-            
+
             if ($products->count() > 0) {
                 foreach ($products as $product) {
                     $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
                     $product->main_image = $prodSubcategory->icon;
+
+                    $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                    $discountType = $vendorDiscountObj->type;
+                    $discountValue = $vendorDiscountObj->value;
+
+                    if ($discountType == 'Topup') {
+                        $topupAmount = $product->price * ($discountValue / 100);
+                        $product->price = $product->price + $topupAmount;
+                    } else if ($discountType == 'Discount') {
+                        $productPrice = $product->price;
+                        $product->price = $productPrice;
+                    } else {
+                        $productPrice = $product->price;
+                        $product->price = $productPrice;
+                    }
 
                     // if ($product->main_image) {
                     //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
@@ -53,25 +68,28 @@ class ProductService
         $perPage = $request->per_page;
 
         try {
-            $conditions = [['status', '1'], ['admin_approved', '1']];
+            $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New']];
             $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($perPage);
 
-            // if($limit == 0) {
-            //     $products = Product::where($conditions)->orderBy('id', 'desc')->get();
-            // } 
-            // else {
-            //     //$products = Product::where($conditions)->orderBy('created_at', 'desc')->take($limit)->get();
-            //     $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($limit);
-            // }
-            
             if ($products->count() > 0) {
                 foreach ($products as $product) {
                     $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
                     $product->main_image = $prodSubcategory->icon;
 
-                    // if ($product->main_image) {
-                    //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
-                    // }
+                    $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                    $discountType = $vendorDiscountObj->type;
+                    $discountValue = $vendorDiscountObj->value;
+
+                    if ($discountType == 'Topup') {
+                        $topupAmount = $product->price * ($discountValue / 100);
+                        $product->price = $product->price + $topupAmount;
+                    } else if ($discountType == 'Discount') {
+                        $productPrice = $product->price;
+                        $product->price = $productPrice;
+                    } else {
+                        $productPrice = $product->price;
+                        $product->price = $productPrice;
+                    }
                 }
             }
             $response['data'] = $products;
@@ -79,10 +97,9 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
-        } 
+        }
     }
 
     public function productDetail($id)
@@ -92,10 +109,9 @@ class ProductService
 
             $rate = VendorReview::where('vendor_id', $product->vendor_id)->sum('rating');
             $rate_count = VendorReview::where('vendor_id', $product->vendor_id)->count();
-            if($rate_count > 0) {
+            if ($rate_count > 0) {
                 $average_rating = floor($rate / $rate_count);
-            } 
-            else {
+            } else {
                 $average_rating = 0;
             }
 
@@ -108,7 +124,22 @@ class ProductService
                 // $product->image_02 = env('APP_URL') . '/storage/product/' . $product->image_02;
                 // $product->image_03 = env('APP_URL') . '/storage/product/' . $product->image_03;
                 // $product->image_04 = env('APP_URL') . '/storage/product/' . $product->image_04;
-                
+
+                $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                $discountType = $vendorDiscountObj->type;
+                $discountValue = $vendorDiscountObj->value;
+
+                if ($discountType == 'Topup') {
+                    $topupAmount = $product->price * ($discountValue / 100);
+                    $product->price = $product->price + $topupAmount;
+                } else if ($discountType == 'Discount') {
+                    $productPrice = $product->price;
+                    $product->price = $productPrice;
+                } else {
+                    $productPrice = $product->price;
+                    $product->price = $productPrice;
+                }
+
                 $product->make_name = isset($product->make_id) ? $product->make->name : "";
                 $product->model_name = isset($product->model_id) ? $product->model->name : "";
                 $product->year_name = isset($product->year_id) ? $product->year->name : "";
@@ -116,7 +147,7 @@ class ProductService
                 $product->brand_name = isset($product->brand_id) ? $product->brand->name : "";
                 $product->category_type = $product->category->type;
                 $product->category_name = isset($product->category_id) ? $product->category->name : "";
-                $product->subcategory_name = isset($product->subcategory_id) ? $product->subcategory->name : "";;
+                $product->subcategory_name = isset($product->subcategory_id) ? $product->subcategory->name : "";
                 $product->vendor_name = $product->vendor->business_name;
                 $product->vendor_rating = getRatingStar($average_rating);
                 $response['data'] = $product;
@@ -168,10 +199,9 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
-        } 
+        }
     }
 
     public function getMakes()
@@ -183,12 +213,13 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function getModels($make_id) {
+    public function getModels($make_id)
+    {
         try {
             $models = Models::where([['status', 1], ['make_id', $make_id]])->orderBy('name', 'asc')->get();
             $response['data'] = $models;
@@ -196,18 +227,16 @@ class ProductService
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        }
-        catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function getYears($make_id, $model_id) {
+    public function getYears()
+    {
         try {
             $years = Year::where([
-                ['status', 1], 
-                ['make_id', $make_id],
-                ['model_id', $model_id]
+                ['status', 1]
             ])->orderBy('name', 'asc')->get();
 
             $response['data'] = $years;
@@ -215,8 +244,7 @@ class ProductService
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        }
-        catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -230,7 +258,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -238,18 +266,19 @@ class ProductService
     public function getSubcategories($category_id)
     {
         try {
-            $subcategories = Subcategory::where([['status', 1], ['category_id',$category_id]])->orderBy('order', 'asc')->get();
+            $subcategories = Subcategory::where([['status', 1], ['category_id', $category_id]])->orderBy('order', 'asc')->get();
             $response['data'] = $subcategories;
             $response['message'] = null;
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
-    public function searchResult($request) {
+    public function searchResult($request)
+    {
         try {
             $conditions = array(
                 'category_id' => $request['category_id'],
@@ -257,17 +286,19 @@ class ProductService
                 'make_id' => $request['make_id'],
                 'model_id' => $request['model_id'],
                 'year_id' => $request['year_id'],
-                'part_type' => $request['part_type'],
+                'part_type' => 'Used',
                 'status' => 1,
                 'admin_approved' => 1
             );
             $products = Product::where($conditions)->orderBy('created_at', 'desc')->get();
-            
+
             if ($products->count() > 0) {
                 foreach ($products as $product) {
-                    if ($product->main_image) {
-                        $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
-                    }
+                    $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
+                    $product->main_image = $prodSubcategory->icon;
+                    // if ($product->main_image) {
+                    //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
+                    // }
                 }
             }
             $response['data'] = $products;
@@ -275,8 +306,7 @@ class ProductService
             $response['errors'] = null;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -299,7 +329,7 @@ class ProductService
         }
     }
 
-//     public function product($request)
+    //     public function product($request)
 //     {
 //         try {
 //             $conditions = array(
@@ -333,7 +363,7 @@ class ProductService
 //                         }
 //                         $rating = round(($total_rating / count($product->reviews)), 0);
 
-//                     }
+    //                     }
 //                     $product_data[] = [
 //                         'id' => $product->id,
 //                         'main_image' => env('APP_URL') . '/storage/product/' . $product->main_image,
@@ -367,7 +397,7 @@ class ProductService
 //                         'reviews' => $reviews
 //                     ];
 
-//                 }
+    //                 }
 //             }
 //             $response['data'] = $product_data;
 //             $response['message'] = null;

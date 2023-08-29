@@ -10,6 +10,7 @@ use App\Models\CartItem;
 use App\Models\OrderReturn;
 use App\Models\OrderStatus;
 use App\Models\Product;
+use App\Models\Subcategory;
 use App\Models\Tax;
 use App\Models\User;
 use App\Models\UserAddress;
@@ -135,22 +136,22 @@ class OrderService
                 $response['errors'] = true;
                 $response['status_code'] = 400;
                 return response()->json($response, 400);
-            } 
-            
+            }
+
             if ($xml_array['Result'] == '902') {
                 $response['message'] = $xml_array['ResultExplanation'];
                 $response['errors'] = true;
                 $response['status_code'] = 400;
                 return response()->json($response, 400);
-            } 
-            
+            }
+
             if ($xml_array['Result'] == '200') {
                 $response['message'] = $xml_array['ResultExplanation'];
                 $response['errors'] = true;
                 $response['status_code'] = 400;
                 return response()->json($response, 400);
-            } 
-            
+            }
+
             if ($xml_array['Result'] == '000') {
                 $data = array(
                     "cart_session_id" => $request['cart_session_id'],
@@ -164,150 +165,152 @@ class OrderService
                 return $createOrder;
             }
 
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
 
     public function createOrder($request)
     {
-            $user_id = Auth::guard('user-api')->id();
-            $cart_session_id = $request['cart_session_id'];
-            $shipping_address_id = $request['shipping_address_id'];
-            $shipping_charge = $request['shipping_charge'];
-            $transaction_id = $request['transaction_id'];
-            $payment_method = $request['payment_method'];
+        $user_id = Auth::guard('user-api')->id();
+        $cart_session_id = $request['cart_session_id'];
+        $shipping_address_id = $request['shipping_address_id'];
+        $shipping_charge = $request['shipping_charge'];
+        $transaction_id = $request['transaction_id'];
+        $payment_method = $request['payment_method'];
 
-            $cartData = Cart::where([['user_id', $user_id], ['session_id', $cart_session_id]])->first();
-            $item_count = $cartData->item_count;
-            $promo_code = $cartData->promo_code;
-            $promo_type = $cartData->promo_type;
-            $promo_value = $cartData->promo_value;
-            $sub_total = $cartData->sub_total;
+        $cartData = Cart::where([['user_id', $user_id], ['session_id', $cart_session_id]])->first();
+        $item_count = $cartData->item_count;
+        $promo_code = $cartData->promo_code;
+        $promo_type = $cartData->promo_type;
+        $promo_value = $cartData->promo_value;
+        $sub_total = $cartData->sub_total;
 
-            $promo_discount = 0.00;
+        $promo_discount = 0.00;
 
-            if ($promo_type) {
-                switch ($promo_type) {
-                    case 'P':
-                        $promo_discount = $sub_total * $promo_value / 100;
-                        break;
-                    case 'A':
-                        $promo_discount = $sub_total - $promo_value;
-                        break;
-                    default:
-                        $promo_discount = 0.00;
-                }
+        if ($promo_type) {
+            switch ($promo_type) {
+                case 'P':
+                    $promo_discount = $sub_total * $promo_value / 100;
+                    break;
+                case 'A':
+                    $promo_discount = $sub_total - $promo_value;
+                    break;
+                default:
+                    $promo_discount = 0.00;
             }
+        }
 
-            $tax = Tax::findOrFail(1);
-            $tax_amount = $sub_total * $tax->percentage / 100;
+        $tax = Tax::findOrFail(1);
+        $tax_amount = $sub_total * $tax->percentage / 100;
 
-            $grand_total = $sub_total - $promo_discount + $tax_amount + $shipping_charge;
+        $grand_total = $sub_total - $promo_discount + $tax_amount + $shipping_charge;
 
-            $shippingAddress = UserAddress::where([['id', $shipping_address_id], ['user_id', $user_id]])->first();
+        $shippingAddress = UserAddress::where([['id', $shipping_address_id], ['user_id', $user_id]])->first();
 
-            $order_id = generateOrderID();
+        $order_id = generateOrderID();
 
-            $orderData = new Order;
-            $orderData->order_id = $order_id;
-            $orderData->user_id = $user_id;
-            $orderData->item_count = $item_count;
-            $orderData->vat_percentage = $tax->percentage;
-            $orderData->vat_amount = $tax_amount;
-            $orderData->promo_code = $promo_code;
-            $orderData->promo_type = $promo_type;
-            $orderData->promo_value = $promo_value;
-            $orderData->sub_total = $sub_total;
-            $orderData->tax_total = $tax_amount;
-            $orderData->grand_total = $grand_total;
-            $orderData->delivery_charge = $shipping_charge;
-            $orderData->delivery_name = $shippingAddress->name;
-            $orderData->delivery_address = $shippingAddress->building . ', ' . $shippingAddress->street_name;
-            $orderData->delivery_city = $shippingAddress->city;
-            $orderData->delivery_country = $shippingAddress->country;
-            $orderData->delivery_zip = '00000';
-            $orderData->delivery_phone = $shippingAddress->mobile;
-            $orderData->billing_name = $shippingAddress->name;
-            $orderData->billing_address = $shippingAddress->building . ', ' . $shippingAddress->street_name;
-            $orderData->billing_city = $shippingAddress->city;
-            $orderData->billing_country = $shippingAddress->country;
-            $orderData->billing_zip = '00000';
-            $orderData->billing_phone = $shippingAddress->mobile;
-            $orderData->order_note = '';
-            $orderData->cancel_reason_id = 0;
-            $orderData->cancel_note = '';
-            $orderData->payment_method = isset($payment_method) ? $payment_method : 'CC';
-            $orderData->payment_transaction_id = $transaction_id;
-            $orderData->save();
+        $orderData = new Order;
+        $orderData->order_id = $order_id;
+        $orderData->user_id = $user_id;
+        $orderData->item_count = $item_count;
+        $orderData->vat_percentage = $tax->percentage;
+        $orderData->vat_amount = $tax_amount;
+        $orderData->promo_code = $promo_code;
+        $orderData->promo_type = $promo_type;
+        $orderData->promo_value = $promo_value;
+        $orderData->sub_total = $sub_total;
+        $orderData->tax_total = $tax_amount;
+        $orderData->grand_total = $grand_total;
+        $orderData->delivery_charge = $shipping_charge;
+        $orderData->delivery_name = $shippingAddress->name;
+        $orderData->delivery_address = $shippingAddress->building . ', ' . $shippingAddress->street_name;
+        $orderData->delivery_city = $shippingAddress->city;
+        $orderData->delivery_country = $shippingAddress->country;
+        $orderData->delivery_zip = '00000';
+        $orderData->delivery_phone = $shippingAddress->mobile;
+        $orderData->billing_name = $shippingAddress->name;
+        $orderData->billing_address = $shippingAddress->building . ', ' . $shippingAddress->street_name;
+        $orderData->billing_city = $shippingAddress->city;
+        $orderData->billing_country = $shippingAddress->country;
+        $orderData->billing_zip = '00000';
+        $orderData->billing_phone = $shippingAddress->mobile;
+        $orderData->order_note = '';
+        $orderData->cancel_reason_id = 0;
+        $orderData->cancel_note = '';
+        $orderData->payment_method = isset($payment_method) ? $payment_method : 'CC';
+        $orderData->payment_transaction_id = $transaction_id;
+        $orderData->save();
 
-            $cartItems = CartItem::where('cart_session_id', $cart_session_id)->get();
+        $cartItems = CartItem::where('cart_session_id', $cart_session_id)->get();
 
-            foreach ($cartItems as $item) {
-                $product = Product::where('id', $item->product_id)->first();
-                $orderItem = new OrderItem;
-                $orderItem->order_id = $orderData->id;
-                $orderItem->product_id = $item->product_id;
-                $orderItem->item_count = $item->item_count;
-                $orderItem->amount = $product->price;
-                $orderItem->sub_total = $item->sub_total;
-                $orderItem->delivery_distance = 0.0;
-                $orderItem->delivery_charge = 0.00;
-                $orderItem->cod_charge = 0.00;
-                $orderItem->vendor_id = $item->vendor_id;
-                $orderItem->save();
+        foreach ($cartItems as $item) {
+            $product = Product::where('id', $item->product_id)->first();
+            $orderItem = new OrderItem;
+            $orderItem->order_id = $orderData->id;
+            $orderItem->product_id = $item->product_id;
+            $orderItem->item_count = $item->item_count;
+            $orderItem->amount = $product->price;
+            $orderItem->sub_total = $item->sub_total;
+            $orderItem->delivery_distance = 0.0;
+            $orderItem->delivery_charge = 0.00;
+            $orderItem->cod_charge = 0.00;
+            $orderItem->vendor_id = $item->vendor_id;
+            $orderItem->save();
 
-                //update item_status_updates table
-                $statusUpdates = new ItemStatusUpdate;
-                $statusUpdates->order_id = $orderData->id;
-                $statusUpdates->order_item_id = $orderItem->id;
-                $statusUpdates->user_id = $user_id;
-                $statusUpdates->vendor_id = $item->vendor_id;
-                $statusUpdates->status_id = 1;
-                $statusUpdates->updated_by = 'system';
-                $statusUpdates->save();
+            //update item_status_updates table
+            $statusUpdates = new ItemStatusUpdate;
+            $statusUpdates->order_id = $orderData->id;
+            $statusUpdates->order_item_id = $orderItem->id;
+            $statusUpdates->user_id = $user_id;
+            $statusUpdates->vendor_id = $item->vendor_id;
+            $statusUpdates->status_id = 1;
+            $statusUpdates->updated_by = 'system';
+            $statusUpdates->save();
 
-                //update product stock
-                $new_stock = $product->stock - $item->item_count;
-                $product->stock = $new_stock;
-                $product->save();
+            //update product stock
+            $new_stock = $product->stock - $item->item_count;
+            $product->stock = $new_stock;
+            $product->save();
 
-                //update notification table
-                $vendorData = Vendor::where('id', $item->vendor_id)->first();
-                $notification = new Notification;
-                $notification->date = date("Y-m-d");
-                $notification->device_id = $vendorData->device_id;
-                $notification->receiver_id = $item->vendor_id;
-                $notification->receiver_type = 'V';
-                $notification->title = "New Order Request";
-                $notification->message = "You have received New Order Request for - " . $product->title;
-                $notification->status = 0;
-                $notification->save();
+            //update notification table
+            $vendorData = Vendor::where('id', $item->vendor_id)->first();
+            $notification = new Notification;
+            $notification->date = date("Y-m-d");
+            $notification->device_id = $vendorData->device_id;
+            $notification->receiver_id = $item->vendor_id;
+            $notification->receiver_type = 'V';
+            $notification->title = "New Order Request";
+            $notification->message = "You have received New Order Request for - " . $product->title;
+            $notification->status = 0;
+            $notification->save();
 
-                //send push notification to vendor
-                $messages = (new ExpoMessage([
-                    'title' => 'Qalaqs:',
-                    'body' => "You have received New Order Request for - " . $product->title,
-                ]))
-                    ->setData(['id' => $orderData->id, "_displayInForeground" => true])
-                    ->setChannelId('default')
-                    ->setBadge(0)
-                    ->playSound();
+            //send push notification to vendor
+            // $messages = (new ExpoMessage([
+            //     'title' => 'Qalaqs:',
+            //     'body' => "You have received New Order Request for - " . $product->title,
+            // ]))
+            //     ->setData(['id' => $orderData->id, "_displayInForeground" => true])
+            //     ->setChannelId('default')
+            //     ->setBadge(0)
+            //     ->playSound();
 
-                $defaultRecipients = [$vendorData->device_id];
-                $expo = new Expo();
-                $expo->send($messages)->to($defaultRecipients)->push();
-            }
+            // $defaultRecipients = [$vendorData->device_id];
 
-            //delete items from cart and cart_items
-            Cart::where('session_id', $cart_session_id)->delete();
-            CartItem::where('cart_session_id', $cart_session_id)->delete();
+            // if($defaultRecipients) {
+            //     $expo = new Expo();
+            //     $expo->send($messages)->to($defaultRecipients)->push();
+            // }
+        }
 
-            $response['message'] = 'Order Placed Successfully !!';
-            $response['errors'] = false;
-            $response['status_code'] = 201;
-            return response()->json($response, 201);
+        //delete items from cart and cart_items
+        Cart::where('session_id', $cart_session_id)->delete();
+        CartItem::where('cart_session_id', $cart_session_id)->delete();
+
+        $response['message'] = 'Order Placed Successfully !!';
+        $response['errors'] = false;
+        $response['status_code'] = 201;
+        return response()->json($response, 201);
     }
 
     public function listOrders()
@@ -361,10 +364,14 @@ class OrderService
                 ->get();
 
             foreach ($orderItems as $item) {
-                if ($item->main_image) {
-                    $item->main_image = env('APP_URL') . '/storage/product/' . $item->main_image;
-                    $item->updated_at = date("d M Y", strtotime($item->updated_at));
-                }
+                $prod = Product::where('id', $item->product_id)->first();
+                $prodSubcategory = Subcategory::where('id', $prod->subcategory_id)->first();
+                $item->main_image = $prodSubcategory->icon;
+                $item->updated_at = date("d M Y", strtotime($item->updated_at));
+                // if ($item->main_image) {
+                //     $item->main_image = env('APP_URL') . '/storage/product/' . $item->main_image;
+                //     $item->updated_at = date("d M Y", strtotime($item->updated_at));
+                // }
                 $statusUpdate = ItemStatusUpdate::where('order_item_id', $item->order_item_id)->orderBy('created_at', 'desc')->first();
                 $status = OrderStatus::where('id', $statusUpdate->status_id)->first();
                 $item->order_status_name = $status->name;
@@ -444,18 +451,19 @@ class OrderService
         }
     }
 
-    public function listReturns() {
+    public function listReturns()
+    {
         try {
             $user_id = Auth::guard('user-api')->user()->id;
             $orderReturns = OrderReturn::where([['user_id', $user_id]])->orderBy('created_at', 'desc')->get()->makeHidden(['created_at', 'updated_at']);
-            
-            foreach($orderReturns as $item) {
+
+            foreach ($orderReturns as $item) {
                 $order = Order::where('id', $item->order_id)->first();
                 $item->order_code = $order->order_id;
 
                 $product = Product::where('id', $item->product_id)->first();
                 $item->product_title = $product->title;
-                $item->product_image =  env('APP_URL').'/storage/product/'.$product->main_image;
+                $item->product_image = env('APP_URL') . '/storage/product/' . $product->main_image;
 
                 $order = OrderItem::where('id', $item->order_item_id)->first();
                 $item->order_placed_on = date("d M Y", strtotime($order->created_at));
@@ -470,7 +478,7 @@ class OrderService
             $response['errors'] = false;
             $response['status_code'] = 200;
             return response()->json($response, 200);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
@@ -513,8 +521,8 @@ class OrderService
 
             //send push notification
             $messages = (new ExpoMessage([
-                'title' => 'Qalaqs:',
-                'body' => "You have received Order Returns for - " . $productData->title,
+            'title' => 'Qalaqs:',
+            'body' => "You have received Order Returns for - " . $productData->title,
             ]))
                 ->setData(['id' => $request['order_id'], "_displayInForeground" => true])
                 ->setChannelId('default')
@@ -529,8 +537,7 @@ class OrderService
             $response['errors'] = false;
             $response['status_code'] = 201;
             return response()->json($response, 201);
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }

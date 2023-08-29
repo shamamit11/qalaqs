@@ -27,13 +27,15 @@ Route::controller('AuthController')->group(function () {
 
 Route::get('/banner', 'BannerController@list');
 
+Route::post('/create-special-order', 'SpecialOrderController@createSpecialOrder');
+
 Route::controller('ProductController')->group(function () {
     Route::get('/topDeals/{limit}', 'topDeals');
     Route::get('/featuredProducts', 'featuredProducts');
 
     Route::get('/make', 'getMakes');
     Route::get('/getModels/{make_id}', 'getModels');
-    Route::get('/getYears/{make_id}/{model_id}', 'getYears');
+    Route::get('/getYears', 'getYears');
     Route::get('/category', 'getCategories');
     Route::get('/getSubcategory/{category_id}', 'getSubcategories');
 
