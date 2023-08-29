@@ -27,11 +27,11 @@ Route::controller('AuthController')->group(function () {
 
 Route::get('/banner', 'BannerController@list');
 
-Route::post('/create-special-order', 'SpecialOrderController@createSpecialOrder');
+Route::post('/special-order', 'SpecialOrderController@createSpecialOrder');
 
 Route::controller('ProductController')->group(function () {
     Route::get('/topDeals/{limit}', 'topDeals');
-    Route::get('/featuredProducts/{limit}', 'featuredProducts');
+    Route::get('/featuredProducts', 'featuredProducts');
 
     Route::get('/make', 'getMakes');
     Route::get('/getModels/{make_id}', 'getModels');

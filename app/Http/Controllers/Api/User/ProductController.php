@@ -21,8 +21,8 @@ class ProductController extends Controller
         return $this->product->topDeals($limit);
     }
 
-    public function featuredProducts($limit) {
-        return $this->product->featuredProducts($limit);
+    public function featuredProducts(Request $request) {
+        return $this->product->featuredProducts($request);
     }
     
     public function productDetail($id) {

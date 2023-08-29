@@ -63,13 +63,13 @@ class ProductService
         }
     }
 
-    public function featuredProducts($limit)
+    public function featuredProducts($request)
     {
-        //$perPage = $request->per_page;
+        $perPage = $request->per_page;
 
         try {
             $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New']];
-            $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($limit);
+            $products = Product::where($conditions)->orderBy('id', 'desc')->paginate($perPage);
             //$products = Product::where($conditions)->orderBy('id', 'desc')->take($limit)->get();
 
             if ($products->count() > 0) {
