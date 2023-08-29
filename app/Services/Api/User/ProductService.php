@@ -113,8 +113,7 @@ class ProductService
 
             if ($rate_count > 0) {
                 $average_rating = floor($rate / $rate_count);
-            } 
-            else {
+            } else {
                 $average_rating = 0;
             }
 
@@ -290,7 +289,7 @@ class ProductService
                 'make_id' => $request['make_id'],
                 'model_id' => $request['model_id'],
                 'year_id' => $request['year_id'],
-                'part_type' => 'Used',
+                'part_type' => $request['part_type'],
                 'status' => 1,
                 'admin_approved' => 1
             );
@@ -303,6 +302,21 @@ class ProductService
                     // if ($product->main_image) {
                     //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
                     // }
+
+                    $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                    $discountType = @$vendorDiscountObj->type;
+                    $discountValue = @$vendorDiscountObj->value;
+
+                    if ($discountType == 'Topup') {
+                        $topupAmount = $product->price * ($discountValue / 100);
+                        $product->price = $product->price + $topupAmount;
+                    } else if ($discountType == 'Discount') {
+                        $productPrice = $product->price;
+                        $product->price = $productPrice;
+                    } else {
+                        $productPrice = $product->price;
+                        $product->price = $productPrice;
+                    }
                 }
             }
             $response['data'] = $products;
@@ -323,8 +337,8 @@ class ProductService
             DB::table('product_views')
                 ->where('product_id', $id)
                 ->update([
-                    'views' => $cnt
-                ]);
+                        'views' => $cnt
+                    ]);
         } else {
             DB::table('product_views')->insert([
                 'product_id' => $id,
