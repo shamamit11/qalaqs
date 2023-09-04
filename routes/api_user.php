@@ -27,7 +27,7 @@ Route::controller('AuthController')->group(function () {
 
 Route::get('/banner', 'BannerController@list');
 
-Route::post('/special-order', 'SpecialOrderController@createSpecialOrder');
+Route::post('/create-special-order', 'SpecialOrderController@createSpecialOrder');
 
 Route::controller('ProductController')->group(function () {
     Route::get('/topDeals/{limit}', 'topDeals');
