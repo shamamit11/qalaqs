@@ -68,7 +68,8 @@ class ProductService
         $perPage = $request->per_page;
 
         try {
-            $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New'], ['is_featured', 1]];
+            //$conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New'], ['is_featured', 1]];
+            $conditions = [['status', '1'], ['admin_approved', '1'], ['part_type', 'New']];
             //$products = Product::where($conditions)->orderBy('id', 'desc')->paginate($perPage);
             $products = Product::where($conditions)->orderBy('id', 'desc')->take($perPage)->get();
 
