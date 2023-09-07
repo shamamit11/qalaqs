@@ -33,20 +33,20 @@ class ProductService
                     $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
                     $product->main_image = $prodSubcategory->icon;
 
-                    $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
-                    $discountType = $vendorDiscountObj->type;
-                    $discountValue = $vendorDiscountObj->value;
+                    // $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                    // $discountType = $vendorDiscountObj->type;
+                    // $discountValue = $vendorDiscountObj->value;
 
-                    if ($discountType == 'Topup') {
-                        $topupAmount = $product->price * ($discountValue / 100);
-                        $product->price = $product->price + $topupAmount;
-                    } else if ($discountType == 'Discount') {
-                        $productPrice = $product->price;
-                        $product->price = $productPrice;
-                    } else {
-                        $productPrice = $product->price;
-                        $product->price = $productPrice;
-                    }
+                    // if ($discountType == 'Topup') {
+                    //     $topupAmount = $product->price * ($discountValue / 100);
+                    //     $product->price = $product->price + $topupAmount;
+                    // } else if ($discountType == 'Discount') {
+                    //     $productPrice = $product->price;
+                    //     $product->price = $productPrice;
+                    // } else {
+                    //     $productPrice = $product->price;
+                    //     $product->price = $productPrice;
+                    // }
 
                     // if ($product->main_image) {
                     //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
@@ -78,20 +78,20 @@ class ProductService
                     $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
                     $product->main_image = $prodSubcategory->icon;
 
-                    $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
-                    $discountType = @$vendorDiscountObj->type;
-                    $discountValue = @$vendorDiscountObj->value;
+                    // $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                    // $discountType = @$vendorDiscountObj->type;
+                    // $discountValue = @$vendorDiscountObj->value;
 
-                    if ($discountType == 'Topup') {
-                        $topupAmount = $product->price * ($discountValue / 100);
-                        $product->price = $product->price + $topupAmount;
-                    } else if ($discountType == 'Discount') {
-                        $productPrice = $product->price;
-                        $product->price = $productPrice;
-                    } else {
-                        $productPrice = $product->price;
-                        $product->price = $productPrice;
-                    }
+                    // if ($discountType == 'Topup') {
+                    //     $topupAmount = $product->price * ($discountValue / 100);
+                    //     $product->price = $product->price + $topupAmount;
+                    // } else if ($discountType == 'Discount') {
+                    //     $productPrice = $product->price;
+                    //     $product->price = $productPrice;
+                    // } else {
+                    //     $productPrice = $product->price;
+                    //     $product->price = $productPrice;
+                    // }
                 }
             }
             $response['data'] = $products;
@@ -128,20 +128,20 @@ class ProductService
                 // $product->image_03 = env('APP_URL') . '/storage/product/' . $product->image_03;
                 // $product->image_04 = env('APP_URL') . '/storage/product/' . $product->image_04;
 
-                $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
-                $discountType = @$vendorDiscountObj->type;
-                $discountValue = @$vendorDiscountObj->value;
+                // $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                // $discountType = @$vendorDiscountObj->type;
+                // $discountValue = @$vendorDiscountObj->value;
 
-                if ($discountType == 'Topup') {
-                    $topupAmount = $product->price * ($discountValue / 100);
-                    $product->price = $product->price + $topupAmount;
-                } else if ($discountType == 'Discount') {
-                    $productPrice = $product->price;
-                    $product->price = $productPrice;
-                } else {
-                    $productPrice = $product->price;
-                    $product->price = $productPrice;
-                }
+                // if ($discountType == 'Topup') {
+                //     $topupAmount = $product->price * ($discountValue / 100);
+                //     $product->price = $product->price + $topupAmount;
+                // } else if ($discountType == 'Discount') {
+                //     $productPrice = $product->price;
+                //     $product->price = $productPrice;
+                // } else {
+                //     $productPrice = $product->price;
+                //     $product->price = $productPrice;
+                // }
 
                 $product->make_name = isset($product->make_id) ? $product->make->name : "";
                 $product->model_name = isset($product->model_id) ? $product->model->name : "";
@@ -304,20 +304,20 @@ class ProductService
                     //     $product->main_image = env('APP_URL') . '/storage/product/' . $product->main_image;
                     // }
 
-                    $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
-                    $discountType = @$vendorDiscountObj->type;
-                    $discountValue = @$vendorDiscountObj->value;
+                    // $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
+                    // $discountType = @$vendorDiscountObj->type;
+                    // $discountValue = @$vendorDiscountObj->value;
 
-                    if ($discountType == 'Topup') {
-                        $topupAmount = $product->price * ($discountValue / 100);
-                        $product->price = $product->price + $topupAmount;
-                    } else if ($discountType == 'Discount') {
-                        $productPrice = $product->price;
-                        $product->price = $productPrice;
-                    } else {
-                        $productPrice = $product->price;
-                        $product->price = $productPrice;
-                    }
+                    // if ($discountType == 'Topup') {
+                    //     $topupAmount = $product->price * ($discountValue / 100);
+                    //     $product->price = $product->price + $topupAmount;
+                    // } else if ($discountType == 'Discount') {
+                    //     $productPrice = $product->price;
+                    //     $product->price = $productPrice;
+                    // } else {
+                    //     $productPrice = $product->price;
+                    //     $product->price = $productPrice;
+                    // }
                 }
             }
             $response['data'] = $products;
