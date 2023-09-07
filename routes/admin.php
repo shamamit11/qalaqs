@@ -147,6 +147,11 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::post('/return/status', 'returnStatus')->name('admin-return-status');
     });
 
+    Route::controller('SpecialRequestController')->group(function () {
+        Route::get('/special-requests', 'index')->middleware('role:S')->name('admin-special-requests');
+        Route::get('/special-request/view', 'view')->middleware('role:S')->name('admin-specialrequest-view');
+    });
+
     Route::controller('CourierController')->group(function () {
         Route::get('/couriers', 'index')->name('admin-couriers');
         Route::get('/courier/view', 'view')->name('admin-courier-view');

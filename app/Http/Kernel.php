@@ -94,5 +94,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'vendorauth' => \App\Http\Middleware\VendorAuthenticate::class,
         'courierauth' => \App\Http\Middleware\CourierAuthenticate::class,
+        'role' => \App\Http\Middleware\UserRoleMiddleware::class,
     ];
 }

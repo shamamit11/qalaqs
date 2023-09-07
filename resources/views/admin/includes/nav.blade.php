@@ -26,10 +26,17 @@
 
 
                     <li class="menu-title mt-2">Sales</li>
+                    <li class="{{ $nav == 'specialrequest' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-special-requests') }}" class="{{ $nav == 'specialrequest' ? 'active' : '' }}">
+                            <i class="mdi mdi-cart"></i>
+                            <span> Special Requests </span>
+                        </a>
+                    </li>
+
                     <li class="{{ $nav == 'order' ? 'menuitem-active' : '' }}">
                         <a href="{{ route('admin-orders') }}" class="{{ $nav == 'order' ? 'active' : '' }}">
                             <i class="mdi mdi-cart"></i>
-                            <span> Orders </span>
+                            <span> Sales / Orders </span>
                         </a>
                     </li>
 
@@ -90,6 +97,7 @@
                         <span> Years </span>
                     </a>
                 </li>
+                
                 {{-- <li class="{{ $nav == 'engine' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('admin-engine') }}" class="{{ $nav == 'engine' ? 'active' : '' }}">
                         <i class="mdi mdi-alpha-e-circle"></i>

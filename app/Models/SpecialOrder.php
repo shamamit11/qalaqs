@@ -19,7 +19,7 @@ class SpecialOrder extends Model
 
     public function model()
     {
-        return $this->belongsTo(Year::class, 'model_id', 'id');
+        return $this->belongsTo(Models::class, 'model_id', 'id');
     }
 
     public function year()
