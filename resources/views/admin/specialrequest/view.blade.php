@@ -72,7 +72,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <img src="{{ asset('/storage/specialorders/' . $row->image) }}" width="350">
+                                        <img src="{{ asset('/storage/specialorders/' . $row->image) }}" width="450" style="border-radius: 4px;">
                                     </div>
                                 </div>
                             </div>
