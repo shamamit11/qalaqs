@@ -85,20 +85,20 @@ class CartService
 
             $productData = Product::where('id', $product_id)->first();
 
-            $vendorDiscountObj = VendorDiscount::where('vendor_id', $productData->vendor_id)->first();
-            $discountType = $vendorDiscountObj->type;
-            $discountValue = $vendorDiscountObj->value;
+            // $vendorDiscountObj = VendorDiscount::where('vendor_id', $productData->vendor_id)->first();
+            // $discountType = $vendorDiscountObj->type;
+            // $discountValue = $vendorDiscountObj->value;
 
-            if ($discountType == 'Topup') {
-                $topupAmount = $productData->price * ($discountValue / 100);
-                $productPrice = $productData->price + $topupAmount;
-            } else if ($discountType == 'Discount') {
-                $productPrice = $productData->price;
-            } else {
-                $productPrice = $productData->price;
-            }
+            // if ($discountType == 'Topup') {
+            //     $topupAmount = $productData->price * ($discountValue / 100);
+            //     $productPrice = $productData->price + $topupAmount;
+            // } else if ($discountType == 'Discount') {
+            //     $productPrice = $productData->price;
+            // } else {
+            //     $productPrice = $productData->price;
+            // }
 
-            $prod_price = $productPrice;
+            $prod_price = $productData->price;
             $prod_discount = $productData->discount ? $productData->discount : 0;
             $vendor_id = $productData->vendor_id;
 
