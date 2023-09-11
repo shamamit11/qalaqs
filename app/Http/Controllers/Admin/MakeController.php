@@ -56,8 +56,16 @@ class MakeController extends Controller
         return $this->make->delete($request);
     }
     
-    public function imageDelete(Request $request)
+
+    public function vendors(Request $request)
     {
-        return $this->make->imageDelete($request);
+        $nav = 'make';
+        $sub_nav = '';
+        $per_page = 300;
+        $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
+        $makeObj = Make::where('id', $request->id)->first();
+        $page_title = 'Vendors Dealing with ' . $makeObj->name;
+        $result = $this->make->vendors($per_page, $page, $request->id);
+        return view('admin.make.vendor', compact('nav', 'sub_nav', 'page_title'), $result);
     }
 }

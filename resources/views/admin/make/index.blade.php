@@ -40,7 +40,7 @@
                                                     <td>{{ $make->name }}</td>
                                                     <td style="text-align:center">
                                                         <a
-                                                            href="#"
+                                                            href="{{ route('admin-make-vendors', ['id=' . $make->id]) }}"
                                                             class="btn btn-sm btn-dark rounded-pill">{{ count($make->vendors) }}
                                                         </a>
                                                     </td>

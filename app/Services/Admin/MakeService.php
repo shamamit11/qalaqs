@@ -2,6 +2,7 @@
 namespace App\Services\Admin;
 
 use App\Models\Make;
+use App\Models\VendorMake;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Storage;
 
@@ -79,6 +80,28 @@ class MakeService
             $id = $request->id;
             Make::where('id', $id)->delete();
             return "success";
+        } catch (\Exception$e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
+    function vendors($per_page, $page, $make_id) {
+        try {
+            $query = VendorMake::select('*')->where('make_id', $make_id);
+            $data['vendors'] = $query->orderBy('id', 'desc')->paginate($per_page);
+            if ($page != 1) {
+                $data['total_data'] = $data['vendors']->total();
+                $data['count'] = ($per_page * $page) - $per_page + 1;
+                $data['from_data'] = $data['count'];
+                $to_data = $page * $data['vendors']->count();
+                $data['to_data'] = ($to_data > $data['from_data']) ? $to_data : $data['total_data'];
+            } else {
+                $data['total_data'] = $data['vendors']->total();
+                $data['count'] = 1;
+                $data['from_data'] = 1;
+                $data['to_data'] = $data['vendors']->count();
+            }
+            return $data;
         } catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }

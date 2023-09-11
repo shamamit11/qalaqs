@@ -82,6 +82,7 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::get('/make/add', 'addEdit')->name('admin-make-add');
         Route::post('/make/addaction', 'addAction')->name('admin-make-addaction');
         Route::post('/make/delete', 'delete')->name('admin-make-delete');
+        Route::get('/make/vendors', 'vendors')->name('admin-make-vendors');
     });
 
     Route::controller('ModelsController')->group(function () {
