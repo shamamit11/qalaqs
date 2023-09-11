@@ -8,18 +8,6 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h3>{{$page_title}}</h3>
-                                <nav class="navbar navbar-light">
-                                    <form method="get" class="d-flex">
-                                        <div class="input-group"> @csrf
-                                            <input type="text" name="q" value="{{ @$q }}"
-                                                class="form-control" placeholder="Search">
-                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i
-                                                    class="align-middle" data-feather="search"></i></button>
-                                        </div>
-                                    </form>
-                                    <a href="{{ route('admin-make-add') }}" class="btn btn-primary my-2 my-sm-0 ms-1">
-                                        Add</a>
-                                </nav>
                             </div>
                             <div class="card-body">
                                 @if ($vendors->count() > 0)
@@ -28,6 +16,8 @@
                                             <tr>
                                                 <th width="50">#</th>
                                                 <th>Vendors</th>
+                                                <th width="400">Address</th>
+                                                <th width="250">Mobile</th>
                                                 <th width="250">Part Types</th>
                                                 <th width="250">Market</th>
                                             </tr>
@@ -37,6 +27,8 @@
                                                 <tr id="tr{{ $v->id }}">
                                                     <td>{{ $count++ }}</td>
                                                     <td>{{ $v->vendor->business_name }}</td>
+                                                    <td>{{ $v->vendor->address }}, {{ $v->vendor->city }}</td>
+                                                    <td>{{ $v->vendor->mobile }}</td>
                                                     <td>{{ $v->part_type }}</td>
                                                     <td>{{ $v->market }}</td>
                                                 </tr>
