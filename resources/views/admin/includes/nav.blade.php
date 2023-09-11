@@ -23,11 +23,31 @@
                             <span> File Manager </span>
                         </a>
                     </li>
+                @endif
 
+                <li class="menu-title mt-2">Vendor</li>
+
+                <li class="{{ $nav == 'vendor' ? 'menuitem-active' : '' }}">
+                    <a href="{{ route('admin-vendor') }}" class="{{ $nav == 'vendor' ? 'active' : '' }}">
+                        <i class="mdi mdi-account-group"></i>
+                        <span> Vendors </span>
+                    </a>
+                </li>
+
+                @if ($isSuperAdmin)
+
+
+                    @if ($isSuperAdmin)
+                        <li class="{{ $nav == 'report' ? 'menuitem-active' : '' }}"> <a
+                                href="{{ route('admin-report-vendors') }}"> <i
+                                    class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
+                            </a> </li>
+                    @endif
 
                     <li class="menu-title mt-2">Sales</li>
                     <li class="{{ $nav == 'specialrequest' ? 'menuitem-active' : '' }}">
-                        <a href="{{ route('admin-special-requests') }}" class="{{ $nav == 'specialrequest' ? 'active' : '' }}">
+                        <a href="{{ route('admin-special-requests') }}"
+                            class="{{ $nav == 'specialrequest' ? 'active' : '' }}">
                             <i class="mdi mdi-cart"></i>
                             <span> Special Requests </span>
                         </a>
@@ -97,7 +117,7 @@
                         <span> Years </span>
                     </a>
                 </li>
-                
+
                 {{-- <li class="{{ $nav == 'engine' ? 'menuitem-active' : '' }}">
                     <a href="{{ route('admin-engine') }}" class="{{ $nav == 'engine' ? 'active' : '' }}">
                         <i class="mdi mdi-alpha-e-circle"></i>
@@ -111,19 +131,6 @@
                         <span> Product Images </span>
                     </a>
                 </li> --}}
-
-                <li class="menu-title mt-2">Vendor</li>
-
-                <li class="{{ $nav == 'vendor' ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('admin-vendor') }}" class="{{ $nav == 'vendor' ? 'active' : '' }}">
-                        <i class="mdi mdi-account-group"></i>
-                        <span> Vendors </span>
-                    </a>
-                </li>
-                @if ($isSuperAdmin)
-                    <li class="{{ $nav == 'report' ? 'menuitem-active' : '' }}"> <a href="{{ route('admin-report-vendors') }}"> <i class="mdi mdi-format-list-checkbox"></i> <span> Reports </span>
-                        </a> </li>
-                @endif
 
                 @if ($isSuperAdmin)
                     <li class="menu-title mt-2">Customers</li>

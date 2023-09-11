@@ -22,7 +22,6 @@
                                 </nav>
                             </div>
                             <div class="card-body">
-                                
                                 @if ($vendors->count() > 0)
                                     <table class="table">
                                         <thead class="table-light">
