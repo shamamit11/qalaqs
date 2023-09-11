@@ -28,6 +28,7 @@
                                             <tr>
                                                 <th width="50">#</th>
                                                 <th>Name</th>
+                                                <th style="text-align:center" width="200">Vendors#</th>
                                                 <th style="text-align:center" width="200">Status</th>
                                                 <th style="text-align:center" width="120">Action</th>
                                             </tr>
@@ -37,6 +38,12 @@
                                                 <tr id="tr{{ $make->id }}">
                                                     <td>{{ $count++ }}</td>
                                                     <td>{{ $make->name }}</td>
+                                                    <td style="text-align:center">
+                                                        <a
+                                                            href="#"
+                                                            class="btn btn-sm btn-warning rounded-pill">{{ count($make->vendors) }}
+                                                        </a>
+                                                    </td>
                                                     <td style="text-align:center"><label class="switch"
                                                             style="margin: 0 auto">
                                                             <input class="switch-input switch-status" type="checkbox"

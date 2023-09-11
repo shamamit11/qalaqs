@@ -22,7 +22,7 @@ class MakeController extends Controller
     {
         $nav = 'make';
         $sub_nav = '';
-        $per_page = 100;
+        $per_page = 300;
         $page = ($request->has('page') && !empty($request->page)) ? $request->page : 1;
         $q = ($request->has('q') && !empty($request->q)) ? $request->q : '';
         $page_title = ' Makes';

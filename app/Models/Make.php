@@ -11,4 +11,9 @@ class Make extends Model
 
     protected $fillable = ['make_id', 'model_id', 'year_id', 'name', 'icon', 'status'];
 
+    public function vendors()
+    {
+        return $this->hasMany(VendorMake::class);
+    }
+
 }
