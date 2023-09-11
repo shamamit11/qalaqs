@@ -17,9 +17,9 @@
                                                 <th width="50">#</th>
                                                 <th>Vendors</th>
                                                 <th width="400">Address</th>
-                                                <th width="250">Mobile</th>
-                                                <th width="250">Part Types</th>
-                                                <th width="250">Market</th>
+                                                <th width="150">Mobile</th>
+                                                <th width="150">Part Types</th>
+                                                <th width="150">Market</th>
                                             </tr>
                                         </thead>
                                         <tbody>
