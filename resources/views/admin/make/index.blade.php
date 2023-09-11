@@ -41,7 +41,7 @@
                                                     <td style="text-align:center">
                                                         <a
                                                             href="#"
-                                                            class="btn btn-sm btn-warning rounded-pill">{{ count($make->vendors) }}
+                                                            class="btn btn-sm btn-dark rounded-pill">{{ count($make->vendors) }}
                                                         </a>
                                                     </td>
                                                     <td style="text-align:center"><label class="switch"
