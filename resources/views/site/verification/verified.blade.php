@@ -45,6 +45,10 @@
                                   Please use the link below to login to Vendor Portal <br>
                                   <a href="https://portal.qalaqs.com">https://portal.qalaqs.com</a>
                                 </p> --}}
+
+                                <p style="margin-top: 16px; text-align:center; font-weight:bold">
+                                    Your account is currently undergoing verification. Once this process is complete, we will notify you, and you will gain access to your account.
+                                </p>
                                 
                                 <p style="margin-top: 16px; text-align:center;">Thank You.</p>
                                 <p>&nbsp; <br />

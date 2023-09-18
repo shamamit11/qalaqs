@@ -15,7 +15,7 @@ class AuthService
     {
         try {
             $fieldType = filter_var($request['email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-            $check_data = array($fieldType => $request['email'], 'password' => $request['password']);
+            $check_data = array($fieldType => $request['email'], 'password' => $request['password'], 'status' => 1, 'admin_approved' => 1);
             // $check_data = array('email' => $request['email'], 'password' => $request['password']); 
             $remember_me = isset($request['remember_me']) ? true : false;
             if (Auth::guard('vendor')->attempt($check_data, $remember_me)) {
