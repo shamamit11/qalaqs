@@ -44,28 +44,45 @@
                             </a> </li>
                     @endif
 
-                    <li class="menu-title mt-2">Sales</li>
-                    <li class="{{ $nav == 'specialrequest' ? 'menuitem-active' : '' }}">
+                    <li class="menu-title mt-2">Quotations / Inquiries</li>
+
+                    <li class="{{ $nav == 'quote' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-quote') }}"
+                            class="{{ $nav == 'quote' ? 'active' : '' }}">
+                            <i class="mdi mdi-cart"></i>
+                            <span> Quote Requests </span>
+                        </a>
+                    </li>
+
+                    <li class="{{ $nav == 'inquiry' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-inquiry') }}"
+                            class="{{ $nav == 'inquiry' ? 'active' : '' }}">
+                            <i class="mdi mdi-cart"></i>
+                            <span> Product Inquiries </span>
+                        </a>
+                    </li>
+                    
+                    {{-- <li class="{{ $nav == 'specialrequest' ? 'menuitem-active' : '' }}">
                         <a href="{{ route('admin-special-requests') }}"
                             class="{{ $nav == 'specialrequest' ? 'active' : '' }}">
                             <i class="mdi mdi-cart"></i>
                             <span> Special Requests </span>
                         </a>
-                    </li>
+                    </li> --}}
 
-                    <li class="{{ $nav == 'order' ? 'menuitem-active' : '' }}">
+                    {{-- <li class="{{ $nav == 'order' ? 'menuitem-active' : '' }}">
                         <a href="{{ route('admin-orders') }}" class="{{ $nav == 'order' ? 'active' : '' }}">
                             <i class="mdi mdi-cart"></i>
                             <span> Sales / Orders </span>
                         </a>
-                    </li>
+                    </li> --}}
 
-                    <li class="{{ $nav == 'return' ? 'menuitem-active' : '' }}">
+                    {{-- <li class="{{ $nav == 'return' ? 'menuitem-active' : '' }}">
                         <a href="{{ route('admin-returns') }}" class="{{ $nav == 'return' ? 'active' : '' }}">
                             <i class="mdi mdi-autorenew"></i>
                             <span> Returns </span>
                         </a>
-                    </li>
+                    </li> --}}
                 @endif
 
                 <li class="menu-title mt-2">Products</li>
@@ -155,6 +172,34 @@
                         <a href="{{ route('admin-banner') }}" class="{{ $nav == 'banner' ? 'active' : '' }}">
                             <i class="mdi mdi-collage"></i>
                             <span> App Banners </span>
+                        </a>
+                    </li>
+
+                    <li class="{{ $nav == 'garage' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-garage') }}" class="{{ $nav == 'garage' ? 'active' : '' }}">
+                            <i class="mdi mdi-collage"></i>
+                            <span> Garages </span>
+                        </a>
+                    </li>
+
+                    <li class="{{ $nav == 'recovery' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-recovery') }}" class="{{ $nav == 'recovery' ? 'active' : '' }}">
+                            <i class="mdi mdi-collage"></i>
+                            <span> Recovery Services </span>
+                        </a>
+                    </li>
+
+                    <li class="{{ $nav == 'autoservice' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-autoservice') }}" class="{{ $nav == 'autoservice' ? 'active' : '' }}">
+                            <i class="mdi mdi-collage"></i>
+                            <span> Auto Services </span>
+                        </a>
+                    </li>
+
+                    <li class="{{ $nav == 'auction' ? 'menuitem-active' : '' }}">
+                        <a href="{{ route('admin-auction') }}" class="{{ $nav == 'auction' ? 'active' : '' }}">
+                            <i class="mdi mdi-collage"></i>
+                            <span> Auctions </span>
                         </a>
                     </li>
 

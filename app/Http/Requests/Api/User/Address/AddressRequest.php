@@ -25,13 +25,9 @@ class AddressRequest extends ApiRequest
     {
         return [
             'id' => 'required',
-            'name' => 'required',
-            'building' => 'required',
-            'street_name' => 'required',
+            'address' => 'required',
             'city' => 'required',
-            'country' => 'required',
-            'mobile' => 'required',
-            'is_default' => '',
+            'country' => 'required'
         ];
     }
 }

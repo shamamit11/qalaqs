@@ -2,6 +2,7 @@
 namespace App\Services\Api\User;
 
 use App\Models\User;
+use App\Models\UserAddress;
 use DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class AuthService
             $user = new User();
             $user->user_code = date_timestamp_get($date);
             $user->user_type =  $request['user_type'];
-            $user->business_name = isset($request['business_name']) ? $request['business_name'] : null;;
+            $user->business_name = isset($request['business_name']) ? $request['business_name'] : null;
             $user->first_name = $request['first_name'];
             $user->last_name = $request['last_name'];
             $user->mobile = $request['mobile'];
@@ -30,6 +31,13 @@ class AuthService
             $user->is_deleted = 0;
             $user->email_verified = 0;
             $user->save();
+
+            $userAddress = new UserAddress();
+            $userAddress->user_id = $user->id;
+            $userAddress->address = $request['address'];
+            $userAddress->city = $request['city'];
+            $userAddress->country = $request['country'];
+            $userAddress->save();
 
             //send verification email
             $token = encode_param($user->user_code);

@@ -50,6 +50,10 @@ class ProductController extends Controller
         return $this->product->getSubcategories($category_id);
     }
 
+    public function getAllSubcategories() {
+        return $this->product->getAllSubcategories();
+    }
+
     public function searchResult(SearchRequest $request) {
         return $this->product->searchResult($request->validated());
     }

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BannerRequest;
 use App\Services\Admin\BannerService;
 use Illuminate\Http\Request;
-
 use App\Models\Banner;
 
 class BannerController extends Controller

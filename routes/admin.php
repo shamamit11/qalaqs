@@ -167,4 +167,47 @@ Route::group(['middleware' => 'adminauth'], function () {
         Route::get('/vendors', 'vendors')->name('admin-report-vendors');
     });
 
+    Route::controller('GarageController')->group(function () {
+        Route::get('/garages', 'index')->name('admin-garage');
+        Route::post('/garage/status', 'status')->name('admin-garage-status');
+        Route::get('/garage/add', 'addEdit')->name('admin-garage-add');
+        Route::post('/garage/addaction', 'addAction')->name('admin-garage-addaction');
+        Route::post('/garage/delete', 'delete')->name('admin-garage-delete');
+    });
+
+    Route::controller('RecoveryController')->group(function () {
+        Route::get('/recovery', 'index')->name('admin-recovery');
+        Route::post('/recovery/status', 'status')->name('admin-recovery-status');
+        Route::get('/recovery/add', 'addEdit')->name('admin-recovery-add');
+        Route::post('/recovery/addaction', 'addAction')->name('admin-recovery-addaction');
+        Route::post('/recovery/delete', 'delete')->name('admin-recovery-delete');
+    });
+
+    Route::controller('AuctionController')->group(function () {
+        Route::get('/auction', 'index')->name('admin-auction');
+        Route::post('/auction/status', 'status')->name('admin-auction-status');
+        Route::get('/auction/add', 'addEdit')->name('admin-auction-add');
+        Route::post('/auction/addaction', 'addAction')->name('admin-auction-addaction');
+        Route::post('/auction/delete', 'delete')->name('admin-auction-delete');
+    });
+
+    Route::controller('AutoServiceController')->group(function () {
+        Route::get('/autoservice', 'index')->name('admin-autoservice');
+        Route::post('/autoservice/status', 'status')->name('admin-autoservice-status');
+        Route::get('/autoservice/add', 'addEdit')->name('admin-autoservice-add');
+        Route::post('/autoservice/addaction', 'addAction')->name('admin-autoservice-addaction');
+        Route::post('/autoservice/delete', 'delete')->name('admin-autoservice-delete');
+    });
+
+    Route::controller('QuoteController')->group(function () {
+        Route::get('/quotes', 'index')->name('admin-quote');
+        Route::get('/quote/view', 'view')->name('admin-quote-view');
+        Route::post('/quote/update', 'update')->name('admin-quote-update');
+    });
+
+    Route::controller('ProductInquiryController')->group(function () {
+        Route::get('/product/inquiry', 'index')->name('admin-inquiry');
+        Route::get('/product/inquiry/view', 'view')->name('admin-inquiry-view');
+    });
+
 });

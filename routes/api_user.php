@@ -38,6 +38,7 @@ Route::controller('ProductController')->group(function () {
     Route::get('/getYears', 'getYears');
     Route::get('/category', 'getCategories');
     Route::get('/getSubcategory/{category_id}', 'getSubcategories');
+    Route::get('/subcategories', 'getAllSubcategories');
 
     Route::post('/searchResult', 'searchResult');
     Route::get('/product/{id}', 'productDetail');
@@ -52,6 +53,7 @@ Route::controller('VendorController')->group(function () {
 });
 
 Route::group(['middleware' => ['auth.jwt']], function () {
+
     Route::controller('AccountController')->group(function () {
         Route::get('logout', 'logout');
         Route::get('/profile', 'getProfile');
@@ -62,6 +64,29 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::post('/updateProfileImage', 'updateProfileImage');
         Route::get('/notification', 'notification');
         Route::post('/update-notification', 'updateNotificationStatus');
+    });
+
+    Route::controller('TempQuoteItemController')->group(function () {
+        Route::get('/temp-quote/{quote_session_id}', 'list');
+        Route::post('/temp-quote/addItem', 'addItem');
+        Route::post('/temp-quote/deleteItem', 'deleteItem');
+    });
+
+    Route::controller('QuoteController')->group(function () {
+        Route::post('/quote/createQuote', 'createQuote');
+        Route::get('/quote/list', 'list');
+        Route::get('/quote/detail/{quote_id}', 'getQuoteDetails');
+    });
+
+    Route::controller('ProductInquiryController')->group(function () {
+        Route::post('/product/inquiry', 'inquiry');
+    });
+
+    Route::controller('AutoServiceController')->group(function () {
+        Route::get('/service/garage', 'garage');
+        Route::get('/service/recovery', 'recovery');
+        Route::get('/service/autoservice', 'autoservice');
+        Route::get('/service/auction', 'auction');
     });
 
     Route::controller('AddressController')->group(function () {

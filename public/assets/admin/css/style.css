@@ -334,7 +334,7 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .icon-holder {
-    width: 40px;
+    width: 80px;
     padding: 1px;
     background-color: #fff;
     border-radius: 1px;

@@ -281,6 +281,20 @@ class ProductService
         }
     }
 
+    public function getAllSubcategories()
+    {
+        try {
+            $subcategories = Subcategory::where([['status', 1]])->orderBy('order', 'asc')->get();
+            $response['data'] = $subcategories;
+            $response['message'] = null;
+            $response['errors'] = null;
+            $response['status_code'] = 200;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
+        }
+    }
+
     public function searchResult($request)
     {
         try {
