@@ -20,10 +20,11 @@ class AccountService
             $userAddress = UserAddress::where('user_id', $id)->first();
             if($user->image) {
                 $user->image = env('APP_URL').'/storage/user/'.$user->image;
-                $user->address = $userAddress->address;
-                $user->city = $userAddress->city;
-                $user->country = $userAddress->country;
             }
+            $user->address = $userAddress->address;
+            $user->city = $userAddress->city;
+            $user->country = $userAddress->country;
+            
             $response['data'] = $user;
             $response['errors'] = false;
             $response['status_code'] = 201;
