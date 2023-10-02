@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth.jwt']], function () {
         Route::get('/orders/recentDetail/{id}', 'recentOrderDetail');
         Route::post('/orders/createReturns', 'createOrderReturns');
         Route::get('/orders/listReturns', 'listReturns');
-        Route::get('/orders/returns/{return_id}', 'returnDetail');
+        // Route::get('/orders/returns/{return_id}', 'returnDetail');
     });
 
 });
