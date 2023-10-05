@@ -77,6 +77,9 @@ class ProductService
                 foreach ($products as $product) {
                     $prodSubcategory = Subcategory::where('id', $product->subcategory->id)->first();
                     $product->main_image = $prodSubcategory->icon;
+                    $product->make_name = $product->make->name;
+                    $product->model_name = $product->model->name;
+                    $product->year_name = $product->year->name;
 
                     // $vendorDiscountObj = VendorDiscount::where('vendor_id', $product->vendor_id)->first();
                     // $discountType = @$vendorDiscountObj->type;
@@ -107,7 +110,7 @@ class ProductService
     public function productDetail($id)
     {
         try {
-            $product = Product::find($id);
+            $product = Product::find($id)->makeHidden(['make', 'model', 'year', 'engine', 'category', 'subcategory', 'brand', 'vendor']);
 
             $rate = VendorReview::where('vendor_id', $product->vendor_id)->sum('rating');
             $rate_count = VendorReview::where('vendor_id', $product->vendor_id)->count();
