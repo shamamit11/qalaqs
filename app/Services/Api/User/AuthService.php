@@ -34,9 +34,9 @@ class AuthService
 
             $userAddress = new UserAddress();
             $userAddress->user_id = $user->id;
-            $userAddress->address = $request['address'];
-            $userAddress->city = $request['city'];
-            $userAddress->country = $request['country'];
+            $userAddress->address = isset($request['address']) ? $request['address'] : null;
+            $userAddress->city = isset($request['city']) ? $request['city'] : null;
+            $userAddress->country = isset($request['country']) ? $request['country'] : null;
             $userAddress->save();
 
             //send verification email

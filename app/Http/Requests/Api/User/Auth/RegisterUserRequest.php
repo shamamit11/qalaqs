@@ -29,9 +29,9 @@ class RegisterUserRequest extends ApiRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'mobile' => 'required',
-            'address' => 'required',
-            'city' => 'required',
-            'country' => 'required',
+            'address' => '',
+            'city' => '',
+            'country' => '',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'device_id' => 'nullable'
