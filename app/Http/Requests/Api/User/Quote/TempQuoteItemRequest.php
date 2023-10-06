@@ -28,7 +28,7 @@ class TempQuoteItemRequest extends ApiRequest
             'user_id' => '',
             'part_image' => '',
             'part_name' => 'required',
-            'part_number' => 'required',
+            'part_number' => '',
             'qty' => 'required',
         ];
     }
