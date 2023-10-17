@@ -4,8 +4,10 @@ namespace App\Services\Api\User;
 use App\Models\Quote;
 use App\Models\QuoteItem;
 use App\Models\TempQuoteItem;
+use App\Models\User;
 use App\Traits\StoreImageTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class QuoteService
 {
@@ -41,6 +43,16 @@ class QuoteService
             }
 
             TempQuoteItem::where([['quote_session_id', $request['quote_id']], ['user_id', $user_id]])->delete();
+
+            $emailData = [
+                'user' => User::where('id', $user_id)->first(),
+                'quote_id' => $request['quote_id']
+            ];
+
+            Mail::send('email.admin.quoterequest', $emailData, function ($message) use ($request) {
+                $message->to('info@qalaqs.com');
+                $message->subject('Qalaqs: New Quote Request');
+            });
             
             $response['message'] = 'success';
             $response['errors'] = null;
