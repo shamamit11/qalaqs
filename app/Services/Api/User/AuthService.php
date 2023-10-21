@@ -63,22 +63,46 @@ class AuthService
     public function checkLogin($request)
     {
         try {
-            $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1, 'email_verified' => 1);
-            $token = Auth::guard('user-api')->attempt($credentials);
-            if ($token) {
-                $user = array('id' => Auth::guard('user-api')->user()->id);
-                $accesstoken = Auth::guard('user-api')->claims($user)->attempt($credentials);
-                $response['data'] = array('id' => Auth::guard('user-api')->user()->id, 'first_name' => Auth::guard('user-api')->user()->first_name, 'last_name' => Auth::guard('user-api')->user()->last_name, 'token' => $accesstoken);
-                $response['errors'] = false;
-                $response['status_code'] = 200;
-                return response()->json($response, 200);
-            } else {
-                $response['data'] = false;
-                $response['errors'] = false;
+
+            $user = User::where(['email', $request['email']])->first();
+            if($user->email_verified == 0) {
+                $response['data'] = 'Email Not Verified';
+                $response['errors'] = true;
                 $response['status_code'] = 406;
                 return response()->json($response, 406);
             }
-        } catch (\Exception$e) {
+            else if($user->status == 0) {
+                $response['data'] = 'User is not Active';
+                $response['errors'] = true;
+                $response['status_code'] = 406;
+                return response()->json($response, 406);
+            }
+            else if($user->is_deleted == 1) {
+                $response['data'] = 'User not found !';
+                $response['errors'] = true;
+                $response['status_code'] = 406;
+                return response()->json($response, 406);
+            }
+            else {
+                $credentials = array('email' => $request['email'], 'password' => $request['password'], 'is_deleted' => 0, 'status' => 1, 'email_verified' => 1);
+                $token = Auth::guard('user-api')->attempt($credentials);
+                if ($token) {
+                    $user = array('id' => Auth::guard('user-api')->user()->id);
+                    $accesstoken = Auth::guard('user-api')->claims($user)->attempt($credentials);
+                    $response['data'] = array('id' => Auth::guard('user-api')->user()->id, 'first_name' => Auth::guard('user-api')->user()->first_name, 'last_name' => Auth::guard('user-api')->user()->last_name, 'token' => $accesstoken);
+                    $response['errors'] = false;
+                    $response['status_code'] = 200;
+                    return response()->json($response, 200);
+                } 
+                else {
+                    $response['data'] = false;
+                    $response['errors'] = false;
+                    $response['status_code'] = 406;
+                    return response()->json($response, 406);
+                }
+            }
+        } 
+        catch (\Exception$e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }
     }
