@@ -64,7 +64,7 @@ class AuthService
     {
         try {
 
-            $user = User::where(['email', $request['email']])->first();
+            $user = User::where('email', $request['email'])->first();
             if($user->email_verified == 0) {
                 $response['data'] = 'Email Not Verified';
                 $response['errors'] = true;
